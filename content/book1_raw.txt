@@ -1,0 +1,356 @@
+L0|老師|lǎoshī|N|teacher 
+L0|學生|xuéshēng|N|student 
+L0|你|nǐ|N|you 
+L0|我|wǒ|N|I; me 
+L0|他|tā|N|he; him 
+L0|是|shì|Vst|to be 
+L0|你們|nǐmen|N|you (plural) 
+L0|我們|wǒmen|N|we; us 
+L0|他們|tāmen|N|they; them 
+L0|人|rén|N|person; people 
+L0|先生|xiānshēng|N|Mr.; husband 
+L0|小姐|xiǎojiě|N|Miss 
+L0|太太|tàitai|N|Ms.; wife 
+L1|新|xīn|Vs|new 
+L1|同學|tóngxué|N|classmate 
+L1|她|tā|N|she; her 
+L1|誰|shéi|N|who 
+L1|叫|jiào|Vst|to be called 
+L1|姓|xìng|Vst|to be surnamed 
+L1|很|hěn|Adv|very 
+L1|可愛|kě'ài|Vs|lovely; cute 
+L1|哪|nǎ|Det|which 
+L1|國|guó|N|country 
+L1|妳|nǐ|N|you (female) 
+L1|知道|zhīdào|Vst|to know 
+L1|嗎|ma|Ptc|sentence-final particle for a "Yes / No" question 
+L1|日本|Rìběn|N|Japan 
+L1|臺灣|Táiwān||(N) Taiwan 
+L1|台灣|Táiwān||(N) Taiwan 
+L1|中國|Zhōngguó|N|China 
+L1|美國|Měiguó|N|the USA 
+L1|英國|Yīngguó|N|the UK 
+L1|漂亮|piàoliàng|Vs|pretty; beautiful 
+L1|什麼|shénme|N|what 
+L1|名字|míngzi|N|first name; full name 
+L1|姓名|xìngmíng|N|surname and given name (full name) 
+L1|呢|ne|Ptc|sentence-final particle for a "how about" question 
+L1|印尼|Yìnní|N|Indonesia 
+L1|喜歡|xǐhuān|Vst|to like 
+L1|你好|nǐhǎo||hello 
+L1|妳好|nǐhǎo||hello 
+L1|好|hǎo||fine; good; well; nice; ok 
+L1|請問|qǐngwèn||May I ask...; Excuse me, ... 
+L1|大家|dàjiā|N|everyone 
+L1|朋友|péngyǒu|N|friend 
+L1|愛|ài|Vst|to love 
+L1|吃|chī|V|to eat 
+L1|水果|shuǐguǒ|N|fruit 
+L1|水|shuǐ|N|water 
+L1|喝|hē|V|to drink 
+L1|茶|chá|N|tea 
+L1|謝謝|xièxie|Vst|Thank you. 
+L1|不客氣|bú kèqì|Ph|You are welcome. 
+L1|珍珠奶茶|zhēnzhū nǎichá|N|bubble milk tea 
+L1|奶茶|nǎichá|N|milk tea 
+L1|自我介紹|zìwǒ jièshào|Ph|self-introduction 
+L1|早安|zǎo'ān|Ph|good morning 
+L1|午安|wǔ'ān|Ph|good afternoon 
+L1|晚安|wǎn'ān|Ph|good night 
+L2|幾|jǐ|N|how many 
+L2|點|diǎn|M|o'clock 
+L2|點鐘|diǎnzhōng|M|o'clock 
+L2|現在|xiànzài|N|now 
+L2|去|qù|V|to go 
+L2|學校|xuéxiào|N|school 
+L2|媽媽|māma|N|mom 
+L2|爸爸|bàba|N|dad 
+L2|孩子|háizi|N|child; children 
+L2|今天|jīntiān|N|today 
+L2|星期|xīngqí|N|week; day of week 
+L2|月|yuè|N|month 
+L2|號|hào|M|measure word for numbers and dates 
+L2|日|rì|N|day 
+L2|星期天|Xīngqítiān|N|Sunday 
+L2|早上|zǎoshàng|N|morning 
+L2|有|yǒu|V|to have 
+L2|沒|méi|V|not 
+L2|課|kè|N|class 
+L2|圖書館|túshūguǎn|N|library 
+L2|中午|zhōngwǔ|N|noon 
+L2|回|huí|V|to return 
+L2|家|jiā|N|home; house 
+L2|家人|jiārén|N|family members 
+L2|下午|xiàwǔ|N|afternoon 
+L2|上午|shàngwǔ|N|morning 
+L2|下課|xiàkè|V-sep|class dismissed 
+L2|上課|shàngkè|V-sep|to go to class; to attend class 
+L2|分|fēn|M|minute 
+L2|幾點|jǐdiǎn|Ph|what time? 
+L2|幾點鐘|jǐ diǎnzhōng|Ph|what time? 
+L2|明天|míngtiān|N|tomorrow 
+L2|昨天|zuótiān|N|yesterday 
+L2|週末|zhōumò|N|weekend 
+L2|要|yào|Vaux|to want to verb/ do something 
+L2|來|lái|V|to come 
+L2|啊|ā|Ptc|interjection 
+L2|的|de|Ptc|possessive particle 
+L2|生日|shēngrì|N|birthday 
+L2|快樂|kuàilè|Vs|happy 
+L2|晚上|wǎnshàng|N|evening; night 
+L2|問題|wèntí|N|question; problem 
+L2|沒問題|méi wèntí|Ph|No problem 
+L2|明天見|míngtiān jiàn|Ph|See you tomorrow 
+L2|再見|zàijiàn|Ph|Good-bye. 
+L2|做|zuò|V|to make; to do 
+L2|歲|suì|M|measure word for age 
+L2|起床|qǐchuáng|Vp|to get up 
+L2|午飯|wǔfàn|N|lunch 
+L2|早飯|zǎofàn|N|breakfast 
+L2|晚飯|wǎnfàn|N|dinner 
+L2|飯|fàn|N|cooked rice; meal 
+L2|做飯|zuòfàn|V-sep|to cook 
+L2|睡覺|shuìjiào|V-sep|to sleep; to go to bed 
+L2|忙|máng|Vs|busy 
+L2|累|lèi|Vs|tired 
+L3|買|mǎi|V|to buy 
+L3|禮物|lǐwù|N|gift 
+L3|想|xiǎng||(Vaux) to want to; would like to 
+L3|想要|xiǎngyào||(Vaux) to want to; would like to 
+L3|送|sòng|V|to give as a present 
+L3|個|ge|M|general measure word 
+L3|看|kàn|V|to read; to look; to watch 
+L3|書|shū|N|book; M: 本běn 
+L3|兩|liǎng|N|two (for quantity) 
+L3|本|běn|M|measure word for books 
+L3|中文|Zhōngwén|N|Chinese 
+L3|英文|Yīngwén|N|English 
+L3|一些|yìxiē|Det|some (for quantity) 
+L3|花|huā|N|flower; M: 朵duǒ 
+L3|朵|duǒ|M|measure word for flowers 
+L3|和|hé|Conj|and 
+L3|大|dà|Vs|big 
+L3|小|xiǎo|Vs|small 
+L3|蛋糕|dàngāo|N|cake 
+L3|蛋|dàn|N|egg 
+L3|一起|yìqǐ|Adv|together 
+L3|啊|ā|Ptc|phrase final particle, indicating affirmation 
+L3|這|zhè|Det|this 
+L3|那|nà|Det|that 
+L3|種|zhǒng|M|species; kind; sort 
+L3|鉛筆|qiānbǐ|N|pencil; M: 枝zhī 
+L3|筆|bǐ|N|pen; M: 枝zhī 
+L3|怎麼樣|zěnmeyàng|Vs|How about? 
+L3|東西|dōngxi|N|thing; stuff 
+L3|枝|zhī|M|measure word for pens 
+L3|塊|kuài|M|measure word for money 
+L3|錢|qián|N|money 
+L3|元|yuán|M|unit of money 
+L3|便宜|piányí|Vs|cheap; inexpensive 
+L3|貴|guì|Vs|expensive 
+L3|顏色|yánsè|N|color 
+L3|紅色|hóngsè|N|red color 
+L3|紅|hóng|Vs|red 
+L3|白色|báisè|N|white color 
+L3|白|bái|Vs|white 
+L3|都|dōu|Adv|all; both 
+L3|好看|hǎokàn|Vs|good-looking; beautiful; pretty 
+L3|常常|chángcháng||(Adv) often 
+L3|常|cháng||(Adv) often 
+L3|穿|chuān|V|to wear 
+L3|衣服|yīfu|N|clothes; M: 件jiàn 
+L3|件|jiàn|M|measure word for clothes 
+L3|請|qǐng|V|to invite; to treat 
+L3|玩|wán|V|to play 
+L3|這些|zhèxiē|Det|these 
+L3|那些|nàxiē|Det|those 
+L3|點心|diǎnxīn|N|snack; light refreshments 
+L3|甜點|tiándiǎn|N|dessert 
+L3|甜|tián|Vs|sweet 
+L3|開心|kāixīn|Vs|happy 
+L4|咖啡|kāfēi|N|coffee 
+L4|還是|háishì|Conj|or (for question) 
+L4|天氣|tiānqì|N|weather 
+L4|好|hǎo|Adv|very 
+L4|熱|rè|Vs|hot 
+L4|冷|lěng|Vs|cold 
+L4|飲料|yǐnliào|N|beverage 
+L4|也|yě|Adv|also; too; as well 
+L4|餓|è|Vs|hungry 
+L4|渴|kě|Vs|thirsty 
+L4|一點兒|yìdiǎnr||(Det) a little; a bit 
+L4|一點|yìdiǎn||(Det) a little; a bit 
+L4|點兒|diǎnr||(Det) a little; a bit 
+L4|點|diǎn||(Det) a little; a bit 
+L4|餐廳|cāntīng||(N) restaurant; M: 家 
+L4|飯館|fànguǎn||(N) restaurant; M: 家 
+L4|家|jiā|M|measure word of restaurants 
+L4|太|tài|Adv|too 
+L4|多|duō|Vs-pred|many; much 
+L4|少|shǎo|Vs-pred|less; little 
+L4|麵|miàn|N|noodles 
+L4|好吃|hǎochī|Vs|good to eat / delicious 
+L4|好喝|hǎohē|Vs|good to drink 
+L4|了|le|Ptc|used after a Vs, preceded by 太 
+L4|最|zuì|Adv|most 
+L4|賣|mài|V|to sell 
+L4|牛肉麵|niúròu miàn|N|beef noodles 
+L4|碗|wǎn|N/M|bowl 
+L4|杯|bēi|M|cup of 
+L4|杯子|bēizi|N|cup 
+L4|瓶子|píngzi|N|bottle 
+L4|瓶|píng|M|bottle of 
+L4|女|nǚ|N|female 
+L4|男|nán|N|male 
+L4|位|wèi|M|honorific measure word for people 
+L4|紅茶|hóngchá|N|black tea 
+L4|綠茶|lǜchá|N|green tea 
+L4|綠色|lǜsè|N|red 
+L4|請|qǐng|V|please 
+L4|給|gěi|V|to give 
+L4|一共|yígòng|Adv|altogether; in total 
+L4|多少|duōshǎo|N|how many; how much 
+L4|百|bǎi|N|hundred 
+L4|千|qiān|N|thousand 
+L4|萬|wàn|N|ten thousand 
+L4|零|líng|N|zero 
+L4|找錢|zhǎoqián|V-sep|to give change 
+L4|您|nín|N|You (honorific) 
+L4|夏天|xiàtiān|N|summer 
+L4|春天|chūntiān|N|spring 
+L4|秋天|qiūtiān|N|autumn; fall 
+L4|冬天|dōngtiān|N|winter 
+L4|店|diàn||(N) store; shop; M: 家 
+L4|商店|shāngdiàn||(N) store; shop; M: 家 
+L4|果汁|guǒzhī|N|juice 
+L4|牛奶|niúnǎi|N|milk 
+L4|有的|yǒude|Det|some; some of 
+L4|每|měi|Det|every; each; per 
+L4|天|tiān|N/M|day 
+L5|錢包|qiánbāo|N|wallet; purse 
+L5|在|zài|Vst/Prep|(to be located) at; in; on 
+L5|哪裡|nǎlǐ||(N) where 
+L5|聽|tīng|V|to listen 
+L5|音樂|yīnyuè|N|music 
+L5|下午茶|xiàwǔ chá|N|afternoon tea 
+L5|不錯|búcuò|Vs|not bad 
+L5|咖啡廳|kāfēitīng|N|café 
+L5|那裡|nàlǐ||(N) there 
+L5|這裡|zhèlǐ||(N) here 
+L5|冰淇淋|bīngqílín|N|ice cream 
+L5|巧克力|qiǎokèlì|N|chocolate 
+L5|半|bàn|N|half 
+L5|吧|ba|Ptc|final particle for suggestion 
+L5|有空|yǒukòng|Ph|free; at leisure; available 
+L5|沒有空|méiyǒu kòng||(Ph) unavailable; not free 
+L5|沒空|méi kòng||(Ph) unavailable; not free 
+L5|跟|gēn|Conj|and 
+L5|可是|kěshì|Conj|but 
+L5|房間|fángjiān|N|room; M: 個,間jiān 
+L5|間|jiān|M|measure word for rooms 
+L5|房子|fángzi|N|building; house; M: 棟dòng,個 
+L5|棟|dòng|M|measure word for buildings 
+L5|裡面|lǐmiàn||(N) inside; in 
+L5|裡|lǐ||(N) inside; in 
+L5|外面|wàimiàn||(N) outside 
+L5|外|wài||(N) outside 
+L5|客廳|kètīng|N|living room; M: 間jiān 
+L5|桌子|zhuōzi|N|table; M: 張zhāng 
+L5|椅子|yǐzi|N|chair; M: 張zhāng 
+L5|張|zhāng|M|measure word for tables and chairs 
+L5|上面|shàngmiàn||(N) above; over; on top of; on the surface of 
+L5|上|shàng||(N) above; over; on top of; on the surface of 
+L5|有|yǒu|Vst|there is/are; to exist 
+L5|哥哥|gēge|N|elder brother 
+L5|姐姐|jiějie||(N) elder sister 
+L5|姊姊|jiějie||(N) elder sister 
+L5|弟弟|dìdi|N|younger brother 
+L5|妹妹|mèimei|N|younger sister 
+L5|沙發|shāfā|N|sofa; M: 張zhāng 
+L5|下面|xiàmiàn||(N) below; under; underneath 
+L5|下|xià||(N) below; under; underneath 
+L5|旁邊|pángbiān|N|side; by the side of; next to 
+L5|前面|qiánmiàn||(N) the front; the front side; ahead; in front 
+L5|前|qián||(N) the front; the front side; ahead; in front 
+L5|後面|hòumiàn||(N) at the back; behind 
+L5|後|hòu||(N) at the back; behind 
+L5|幫|bāng|V|to help 
+L5|找|zhǎo|V|to look for 
+L5|廚房|chúfáng|N|kitchen; M: 間jiān 
+L5|再|zài|Adv|again 
+L5|床|chuáng|N|bed; M: 張zhāng 
+L5|家具|jiājù|N|furniture 
+L5|電視|diànshì||(N) TV (television); M: 台 
+L5|電視機|diànshìjī||(N) TV (television); M: 台 
+L5|台|tái|M|measure word for TV sets, computers etc. 
+L5|窗戶|chuānghù|N|window 
+L5|門|mén|N|door 
+L5|貓|māo|N|cat; M: 隻zhī 
+L5|狗|gǒu|N|dog; M: 隻zhī 
+L5|鳥|niǎo|N|bird; M: 隻zhī 
+L5|隻|zhī|M|measure word for animals 
+L5|曬太陽|shài tàiyáng||(Ph) to bask in the sun 
+L5|晒太陽|shài tàiyáng||(Ph) to bask in the sun 
+L5|太陽|tàiyáng|N|the sun 
+L6|打|dǎ|V|to hit; to beat; to play (ball games) 
+L6|網球|wǎngqiú|N|tennis 
+L6|球|qiú|N|ball 
+L6|籃球|lánqiú|N|basketball 
+L6|棒球|bàngqiú|N|baseball 
+L6|足球|zúqiú|N|football; soccer 
+L6|踢|tī|V|to kick 
+L6|海邊|hǎibiān|N|seaside; beach 
+L6|海|hǎi|N|ocean; sea 
+L6|山|shān|N|mountain 
+L6|風景|fēngjǐng|N|scenery; landscapes 
+L6|游泳|yóuyǒng|V-sep|to swim 
+L6|會|huì|Vaux|to be able to; can 
+L6|得|de|Ptc|complement marker 
+L6|跑步|pǎobù|Vi|to run 
+L6|跑|pǎo|Vi|to run 
+L6|慢|màn|Vs|slow; slowly 
+L6|快|kuài|Vs|fast; quick 
+L6|說|shuō|V|to say; to speak; to talk 
+L6|說話|shuōhuà|V-sep|to talk; to speak 
+L6|電影|diànyǐng|N|movie; M: 部bù 
+L6|部|bù|M|measure word for movies 
+L6|電影院|diànyǐngyuàn|N|movie theater; cinema; M: 家 
+L6|有趣|yǒuqù|Vs|interesting 
+L6|覺得|juéde|Vst|to feel; to think 
+L6|有一點|yǒuyìdiǎn||(Adv) a little 
+L6|有點|yǒudiǎn||(Adv) a little 
+L6|有點兒|yǒudiǎnr||(Adv) a little 
+L6|有一點兒|yǒuyìdiǎnr||(Adv) a little 
+L6|休息|xiūxí|Vi|to take a rest 
+L6|上網|shàngwǎng|V-sep|to use /surf the internet 
+L6|電腦|diànnǎo|N|computer; M: 部bù 
+L6|手機|shǒujī|N|cell phone; M: 支zhī 
+L6|支|zhī|M|measure word for cell phone 
+L6|應該|yīnggāi|Vaux|should; ought to 
+L6|運動|yùndòng|Vi|to exercise 
+L6|可以|kěyǐ|Vaux|can, could (suggestion) 
+L6|騎|qí|V|to ride 
+L6|腳踏車|jiǎotàchē||(N) bicycle; bike; M: 部,輛liàng 
+L6|自行車|zìxíngchē||(N) bicycle; bike; M: 部,輛liàng 
+L6|輛|liàng|M|measure word of vehicles 
+L6|只|zhǐ|Adv|only; just 
+L6|後天|hòutiān|N|the day after tomorrow 
+L6|前天|qiántiān|N|the day before yesterday 
+L6|聽說|tīngshuō|Ph|to hear of 
+L6|不要|búyào|Ph|Don't...(used in imperatives) 
+L6|興趣|xìngqù|N|interest; hobby 
+L6|幾|jǐ|N|several; a few 
+L6|學|xué|V|to learn; to study 
+L6|學習|xuéxí|V|to learn; to study 
+L6|唱歌|chànggē|V-sep|to sing (a song) 
+L6|歌|gē|N|song; M: 首shǒu 
+L6|首|shǒu|M|measure word for songs 
+L6|跳舞|tiàowǔ|V-sep|to dance 
+L6|畫畫|huàhuà|V-sep|to draw; to paint 
+L6|畫|huà|N|painting; M: 張 
+L6|平常|píngcháng|N|generally; usually 
+L6|有時候|yǒushíhòu||(Adv) sometimes 
+L6|有的時候|yǒudeshíhòu||(Adv) sometimes 
+L6|比賽|bǐsài|N|competition; race; game 
+L6|真|zhēn|Adv|really 
+L6|高興|gāoxìng|Vs|happy 

@@ -1,0 +1,805 @@
+# key|alts|pinyin|english   (TOCFL Level 1 = lines 1-401, Level 2 = 402-804, in the order of the teacher's vocab table)
+矮||ǎi|short (height)
+愛||ài|to love; to love to (do)
+八||bā|eight
+爸爸|爸|bàba|dad, father
+吧||ba|(particle) …OK?; let's…
+白||bái|white
+百||bǎi|hundred
+半||bàn|half; half past
+包子||bāozi|steamed stuffed bun
+飽||bǎo|full (after eating)
+杯子|杯|bēizi|cup; (MW) a cup of
+本||běn|(MW) for books
+鼻子|鼻|bízi|nose
+比||bǐ|than; to compare
+筆||bǐ|pen
+邊||biān|side
+別||bié|don't
+冰||bīng|ice; iced
+病||bìng|illness; sick
+不||bù|not, no
+不錯||búcuò|pretty good, not bad
+菜||cài|dish (of food); vegetables
+餐廳||cāntīng|restaurant
+茶||chá|tea
+常常|常|chángcháng|often
+長||cháng|long
+唱||chàng|to sing
+唱歌||chànggē|to sing (songs)
+車子|車|chēzi|car, vehicle
+吃||chī|to eat
+吃飯||chīfàn|to eat (a meal)
+出||chū|to go out
+穿||chuān|to wear (clothes, shoes)
+床||chuáng|bed
+從||cóng|from
+錯||cuò|wrong; mistake
+打||dǎ|to hit; to play (ball); to make (a call)
+大||dà|big; old (age)
+大家||dàjiā|everyone
+大學||dàxué|university
+帶||dài|to bring, take along
+蛋||dàn|egg
+到||dào|to arrive; to, until
+得1||de|(links verb to "how well": 說得很好)
+的||de|(particle) 's; describing marker
+得2||děi|must, have to
+等||děng|to wait
+低||dī|low
+弟弟|弟|dìdi|younger brother
+地方||dìfāng|place
+點||diǎn|o'clock; dot; to order (food)
+店||diàn|shop, store
+電話||diànhuà|telephone
+電腦||diànnǎo|computer
+電視||diànshì|television
+電影||diànyǐng|movie
+東西||dōngxi|thing(s), stuff
+懂||dǒng|to understand
+都||dōu|all, both
+讀||dú|to read; to study
+短||duǎn|short (length)
+對||duì|correct, right; toward
+對不起||duìbùqǐ|sorry
+多||duō|many, much
+多久||duōjiǔ|how long (time)
+多少||duōshǎo|how many, how much
+餓||è|hungry
+兒子||érzi|son
+耳朵||ěrduo|ear
+二||èr|two (counting)
+法國||Fǎguó|France
+飯||fàn|rice; meal
+方便||fāngbiàn|convenient
+房間||fángjiān|room
+房子||fángzi|house
+非常||fēicháng|very, extremely
+飛機||fēijī|airplane
+分||fēn|minute; cent; to divide
+分鐘||fēnzhōng|minute (length of time)
+風||fēng|wind
+附近||fùjìn|nearby
+感冒||gǎnmào|to catch a cold; a cold
+高||gāo|tall, high
+告訴||gàosù|to tell
+哥哥|哥|gēge|older brother
+歌||gē|song
+個||ge|(general measure word)
+給||gěi|to give; for
+跟||gēn|with; and
+工作||gōngzuò|to work; job
+公車||gōngchē|bus
+公園||gōngyuán|park
+功課||gōngkè|homework
+夠||gòu|enough
+貴||guì|expensive
+國||guó|country
+國家||guójiā|country, nation
+過||guò|to pass; (have) done before
+還||hái|still; also
+還是||háishì|or (in questions); still
+孩子||háizi|child
+和||hé|and; with
+好||hǎo|good; OK
+號||hào|day of the month; number
+喝||hē|to drink
+黑||hēi|black; dark
+很||hěn|very
+紅||hóng|red
+後||hòu|after; behind
+後年||hòunián|the year after next
+後天||hòutiān|the day after tomorrow
+花|花兒|huā|flower; to spend
+畫||huà|to draw; painting
+話||huà|speech, words
+會||huì|can (learned skill); will
+火車||huǒchē|train
+雞||jī|chicken
+幾||jǐ|how many; a few
+家||jiā|home, family
+家人||jiārén|family member(s)
+件||jiàn|(MW) for clothes, matters
+見||jiàn|to see, meet
+教1||jiāo|to teach
+教室||jiàoshì|classroom
+腳||jiǎo|foot
+叫||jiào|to be called; to call
+覺得||juéde|to feel, think
+計程車||jìchéngchē|taxi
+姊姊|姐姐/姊/姐|jiějie|older sister
+介紹||jièshào|to introduce
+今年||jīnnián|this year
+今天||jīntiān|today
+進||jìn|to enter
+九||jiǔ|nine
+久||jiǔ|long (time)
+酒||jiǔ|alcohol
+就||jiù|then; just, exactly
+舊||jiù|old (not new)
+句子||jùzi|sentence
+咖啡||kāfēi|coffee
+開||kāi|to open; to drive
+開車||kāichē|to drive (a car)
+看||kàn|to look, watch, read
+看病||kànbìng|to see a doctor
+看到||kàndào|to see
+看見||kànjiàn|to see
+考試||kǎoshì|exam; to take an exam
+可能||kěnéng|maybe; possible
+可是||kěshì|but
+可以||kěyǐ|can, may
+課||kè|class, lesson
+空氣||kōngqì|air
+快||kuài|fast; soon
+快樂||kuàilè|happy
+塊||kuài|dollar (spoken); (MW) piece
+筷子|筷|kuàizi|chopsticks
+來||lái|to come
+老||lǎo|old
+老師||lǎoshī|teacher
+累||lèi|tired
+冷||lěng|cold
+裡|裏|lǐ|inside
+裡面|裏面|lǐmiàn|inside
+禮拜天||lǐbàitiān|Sunday
+兩||liǎng|two (before a measure word)
+輛||liàng|(MW) for vehicles
+六||liù|six
+樓||lóu|floor (of a building)
+路||lù|road
+媽媽|媽|māma|mom, mother
+馬上||mǎshàng|right away
+嗎||ma|(yes/no question particle)
+買||mǎi|to buy
+慢||màn|slow
+忙||máng|busy
+沒||méi|not (have); didn't
+沒關係||méiguānxi|it doesn't matter
+沒有||méiyǒu|don't have; there isn't; didn't
+每||měi|every, each
+美||měi|beautiful
+美國||Měiguó|America (USA)
+妹妹|妹|mèimei|younger sister
+門||mén|door
+門口||ménkǒu|doorway, entrance
+們||men|(plural for people)
+麵||miàn|noodles
+麵包||miànbāo|bread
+名字||míngzi|name
+明年||míngnián|next year
+明天||míngtiān|tomorrow
+拿||ná|to take, hold
+哪||nǎ|which
+哪裡|哪兒/哪裏|nǎlǐ|where
+那|那裡/那裏/那兒|nà|that; there
+男||nán|male
+難||nán|difficult
+呢||ne|(particle) how about…?
+能||néng|can, be able to
+你||nǐ|you
+你們||nǐmen|you (plural)
+妳||nǐ|you (female)
+年||nián|year
+念|唸|niàn|to read aloud; to study
+您||nín|you (polite)
+牛||niú|cow, ox
+牛奶||niúnǎi|milk
+女||nǚ|female
+女兒||nǚ'ér|daughter
+怕||pà|to be afraid
+旁邊|旁|pángbiān|beside, next to
+胖||pàng|fat, chubby
+朋友||péngyǒu|friend
+便宜||piányí|cheap
+漂亮||piàoliàng|pretty
+七||qī|seven
+起床||qǐchuáng|to get up (out of bed)
+起來||qǐlái|to get up, rise
+千||qiān|thousand
+前||qián|front; before; ago
+前面||qiánmiàn|in front
+前年||qiánnián|the year before last
+前天||qiántiān|the day before yesterday
+錢||qián|money
+請||qǐng|please; to invite; to treat
+請問||qǐngwèn|excuse me, may I ask…
+球||qiú|ball
+去||qù|to go
+去年||qùnián|last year
+然後||ránhòu|then, after that
+熱||rè|hot
+人||rén|person
+日||rì|day; sun
+日本||Rìběn|Japan
+容易||róngyì|easy
+肉||ròu|meat
+三||sān|three
+山||shān|mountain
+上||shàng|on, above; to go up; last (week)
+上課||shàngkè|to have class
+上午||shàngwǔ|morning (before noon)
+少||shǎo|few, little
+生病||shēngbìng|to get sick
+生日||shēngrì|birthday
+身體||shēntǐ|body; health
+什麼|甚麼|shénme|what
+十||shí|ten
+時候||shíhòu|time (…的時候 = when…)
+時間||shíjiān|time
+事|事兒|shì|matter, thing (to do)
+是||shì|to be (am/is/are); yes
+手||shǒu|hand
+手機||shǒujī|cell phone
+瘦||shòu|thin, slim
+書||shū|book
+舒服||shūfú|comfortable
+誰||shéi|who
+水||shuǐ|water
+水果||shuǐguǒ|fruit
+睡覺||shuìjiào|to sleep
+說||shuō|to say, speak
+說話||shuōhuà|to talk
+四||sì|four
+歲||suì|years old
+所以||suǒyǐ|so, therefore
+他||tā|he, him
+他們||tāmen|they, them
+她||tā|she, her
+它||tā|it
+台灣|臺灣|Táiwān|Taiwan
+臺灣人|台灣人|Táiwānrén|Taiwanese (person)
+太||tài|too (much); very
+太太||tàitai|wife; Mrs.
+湯||tāng|soup
+天||tiān|day; sky
+天氣||tiānqì|weather
+甜||tián|sweet
+跳||tiào|to jump
+跳舞||tiàowǔ|to dance
+聽||tīng|to listen
+聽見||tīngjiàn|to hear
+同學||tóngxué|classmate
+痛||tòng|to hurt; painful
+頭||tóu|head
+外||wài|outside
+外國||wàiguó|foreign country
+外頭||wàitou|outside
+玩||wán|to play, have fun
+晚||wǎn|late; evening
+晚安||wǎn'ān|good night
+晚餐|晚飯|wǎncān|dinner
+晚上||wǎnshàng|evening, night
+碗||wǎn|bowl
+萬||wàn|ten thousand
+位||wèi|(polite MW) for people
+為什麼||wèishénme|why
+問||wèn|to ask
+問題||wèntí|question; problem
+我||wǒ|I, me
+我們||wǒmen|we, us
+五||wǔ|five
+午餐|午飯|wǔcān|lunch
+下||xià|below; to go down; next (week)
+下課||xiàkè|class is over
+下午||xiàwǔ|afternoon
+下雨||xiàyǔ|to rain
+先||xiān|first
+先生||xiānshēng|Mr.; husband
+現在||xiànzài|now
+想||xiǎng|to want to; to think; to miss
+像||xiàng|to look like
+小||xiǎo|small, little
+小吃||xiǎochī|snack, street food
+小孩|小孩子|xiǎohái|child
+小姐||xiǎojiě|Miss; young lady
+小時||xiǎoshí|hour
+鞋子|鞋|xiézi|shoes
+寫||xiě|to write
+謝謝||xièxie|thank you
+喜歡||xǐhuān|to like
+新||xīn|new
+星期||xīngqí|week
+星期天|星期日|xīngqítiān|Sunday
+星期一||xīngqíyī|Monday
+姓||xìng|surname; to be surnamed
+姓名||xìngmíng|full name
+休息||xiūxí|to rest
+學||xué|to learn
+學生||xuéshēng|student
+學校||xuéxiào|school
+眼睛||yǎnjīng|eye
+要||yào|to want; will; to need
+藥||yào|medicine
+也||yě|also, too
+一||yī|one
+一定||yídìng|definitely
+一共|共|yígòng|altogether
+一樣||yíyàng|the same
+一月||yīyuè|January
+一點|一點點/一點兒|yìdiǎn|a little
+一起||yìqǐ|together
+一些||yìxiē|some, a few
+衣服|衣|yīfu|clothes
+醫生|醫師|yīshēng|doctor
+以後||yǐhòu|after; later
+以前||yǐqián|before; ago
+椅子|椅|yǐzi|chair
+意思||yìsi|meaning
+應該|應|yīnggāi|should
+英國||Yīngguó|England, UK
+英文||Yīngwén|English (language)
+因為||yīnwèi|because
+用||yòng|to use
+有||yǒu|to have; there is
+有點|有一點/有點兒|yǒudiǎn|a bit (too) (有點貴)
+有時候|有時|yǒushíhòu|sometimes
+又||yòu|again
+右||yòu|right (side)
+右邊||yòubiān|right side
+魚||yú|fish
+雨||yǔ|rain
+元||yuán|dollar (NT$, written)
+月||yuè|month; moon
+運動||yùndòng|to exercise; sports
+在||zài|at, in; to be at; (doing) now
+再||zài|again (next time)
+再見||zàijiàn|goodbye
+早||zǎo|early; good morning
+早安||zǎo'ān|good morning
+早餐|早飯|zǎocān|breakfast
+早上||zǎoshàng|morning
+怎麼||zěnme|how
+怎麼樣||zěnmeyàng|how is it? how about…?
+站||zhàn|to stand; station
+張||zhāng|(MW) for flat things (tables, paper)
+找||zhǎo|to look for
+這|這裡/這裏/這兒|zhè|this; here
+真||zhēn|really
+真的||zhēnde|really, truly
+枝||zhī|(MW) for pens, flowers
+知道||zhīdào|to know (a fact)
+只||zhǐ|only
+紙||zhǐ|paper
+中||zhōng|middle
+中國||Zhōngguó|China
+中文||Zhōngwén|Chinese (language)
+中午||zhōngwǔ|noon
+鐘頭||zhōngtóu|hour
+週末|周末|zhōumò|weekend
+豬||zhū|pig
+住||zhù|to live (reside)
+桌子|桌|zhuōzi|table, desk
+字||zì|character, word
+自己||zìjǐ|oneself
+走||zǒu|to walk; to leave
+走路||zǒulù|to walk
+嘴巴|嘴|zuǐba|mouth
+最||zuì|most
+昨天||zuótiān|yesterday
+左||zuǒ|left
+做||zuò|to do, make
+坐||zuò|to sit; to ride (bus, train)
+啊||a|(exclamation) ah!
+阿姨||āyí|auntie
+把||bǎ|(MW) for chairs, umbrellas
+白天||báitiān|daytime
+百貨公司||bǎihuò gōngsī|department store
+搬||bān|to move (something)
+搬家||bānjiā|to move house
+班||bān|class (group of students)
+辦法||bànfǎ|way, method
+辦公室||bàngōngshì|office
+幫||bāng|to help
+幫忙||bāngmáng|to help
+幫助||bāngzhù|to help; help
+棒||bàng|awesome, great
+棒球||bàngqiú|baseball
+包||bāo|to wrap; bag
+報紙||bàozhǐ|newspaper
+巴士||bāshì|bus
+背包||bēibāo|backpack
+北||běi|north
+北部||běibù|northern part
+被||bèi|(passive) by
+本來||běnlái|originally
+本子||běnzi|notebook
+笨||bèn|stupid, clumsy
+變||biàn|to change, become
+便利商店||biànlì shāngdiàn|convenience store
+別的||biéde|other
+別人||biérén|other people
+比方說|比方|bǐfāng shuō|for example
+比較|較|bǐjiào|comparatively; to compare
+比賽||bǐsài|competition, match
+冰塊||bīngkuài|ice cube
+冰淇淋||bīngqílín|ice cream
+冰箱||bīngxiāng|refrigerator
+病人||bìngrén|patient (sick person)
+伯伯|伯|bóbo|uncle (dad's older brother)
+部||bù|(MW) for movies, cars
+部分|部份|bùfèn|part
+不過||búguò|but, however
+不見了||bújiànle|gone, missing
+不客氣||búkèqì|you're welcome
+不好意思||bùhǎoyìsi|sorry; excuse me
+才||cái|only then; only
+菜單||càidān|menu
+餐||cān|meal
+參加||cānjiā|to take part, join
+草||cǎo|grass
+差不多||chàbùduō|almost; about the same
+叉子|叉|chāzi|fork
+茶館||cháguǎn|teahouse
+場||chǎng|(MW) for games, shows
+超商||chāoshāng|convenience store
+超市|超級市場|chāoshì|supermarket
+炒||chǎo|to stir-fry
+成績||chéngjī|grades, results
+車站||chēzhàn|station
+臭||chòu|smelly
+窗|窗戶/窗子|chuāng|window
+春天|春|chūntiān|spring
+次||cì|time(s) (how often)
+聰明||cōngmíng|smart, clever
+從前||cóngqián|in the past
+戴||dài|to wear (hat, glasses, watch)
+袋||dài|bag; (MW) a bag of
+袋子||dàizi|bag
+打算||dǎsuàn|to plan to
+大樓||dàlóu|(tall) building
+大門||dàmén|main gate
+大人||dàrén|adult
+大衣||dàyī|overcoat
+當1||dāng|to work as, be
+當然||dāngrán|of course
+蛋糕||dàngāo|cake
+但是||dànshì|but
+刀子|刀|dāozi|knife
+道1||dào|(MW) for dishes, questions
+德國||Déguó|Germany
+德文||Déwén|German (language)
+地2||de|(adverb marker) -ly
+燈||dēng|light, lamp
+地1||dì|ground, floor
+點心||diǎnxīn|snack, dim sum
+電||diàn|electricity
+電梯||diàntī|elevator
+掉||diào|to drop, fall
+地圖||dìtú|map
+地址||dìzhǐ|address
+第一||dìyī|first (No. 1)
+東||dōng|east
+冬天|冬|dōngtiān|winter
+對面||duìmiàn|opposite, across from
+肚子|肚|dùzi|belly
+飯店||fàndiàn|hotel
+飯廳||fàntīng|dining room
+方法||fāngfǎ|method
+房租||fángzū|rent
+房東||fángdōng|landlord
+放||fàng|to put
+發現||fāxiàn|to discover, find
+法文||Fǎwén|French (language)
+飛||fēi|to fly
+份||fèn|(MW) portion, copy
+風景||fēngjǐng|scenery
+付||fù|to pay
+乾淨||gānjìng|clean
+敢||gǎn|to dare
+剛剛|剛|gānggāng|just now
+高興||gāoxìng|happy, glad
+高中||gāozhōng|senior high school
+各||gè|each, every
+更1||gèng|even more
+公共汽車||gōnggòng qìchē|bus
+公司||gōngsī|company
+狗||gǒu|dog
+掛||guà|to hang
+關||guān|to close; to turn off
+罐||guàn|can, jar; (MW) a can of
+果汁||guǒzhī|fruit juice
+過年||guònián|to celebrate New Year
+故事||gùshì|story
+海||hǎi|sea
+漢堡||hànbǎo|hamburger
+行2||háng|(MW) line, row
+好像||hǎoxiàng|to seem like
+號碼||hàomǎ|number
+河||hé|river
+盒子|盒|hézi|box
+紅茶||hóngchá|black tea
+後來||hòulái|afterwards, later
+壞||huài|bad; broken
+歡迎||huānyíng|welcome
+還2||huán|to give back, return
+黃||huáng|yellow
+回||huí|to return, go back
+回到||huídào|to get back to
+活動||huódòng|activity
+火||huǒ|fire
+火腿||huǒtuǐ|ham
+或是||huòshì|or (in statements)
+護士||hùshì|nurse
+寄||jì|to mail, send
+加||jiā|to add
+加油||jiāyóu|Go for it!; to get gas
+家庭||jiātíng|family, household
+間1||jiān|(MW) for rooms
+簡單||jiǎndān|simple
+健康||jiànkāng|healthy; health
+見面||jiànmiàn|to meet
+講||jiǎng|to speak, tell
+交||jiāo|to hand in; to make (friends)
+腳踏車||jiǎotàchē|bicycle
+餃子|餃|jiǎozi|dumplings
+機場||jīchǎng|airport
+機會||jīhuì|chance, opportunity
+記得||jìde|to remember
+計畫|計劃|jìhuà|plan
+接||jiē|to pick up; to answer (phone)
+街||jiē|street
+借||jiè|to borrow, lend
+緊張||jǐnzhāng|nervous
+近||jìn|near
+進步||jìnbù|to improve; progress
+經驗||jīngyàn|experience
+經過||jīngguò|to pass by
+句||jù|(MW) for sentences
+決定||juédìng|to decide
+開始||kāishǐ|to begin
+開學||kāixué|school starts
+烤||kǎo|to roast, bake
+考||kǎo|to take a test
+渴||kě|thirsty
+可愛||kě'ài|cute, lovely
+可樂||kělè|cola
+課本||kèběn|textbook
+客氣||kèqì|polite
+客人||kèrén|guest, customer
+客廳||kètīng|living room
+空1||kòng|free time (有空)
+哭||kū|to cry
+苦||kǔ|bitter; hard
+褲子|褲|kùzi|pants
+拉||lā|to pull
+辣||là|spicy
+啦||la|(particle) = 了 + 啊
+藍||lán|blue
+籃球||lánqiú|basketball
+老闆|老板|lǎobǎn|boss, shop owner
+老人||lǎorén|old person
+冷氣||lěngqì|air conditioning
+離||lí|(distance) from
+離開||líkāi|to leave
+禮拜||lǐbài|week
+臉||liǎn|face
+練習||liànxí|to practice
+聊天|聊|liáotiān|to chat
+零||líng|zero
+樓上||lóushàng|upstairs
+樓梯||lóutī|stairs
+樓下||lóuxià|downstairs
+旅館||lǚguǎn|hotel, inn
+旅行||lǚxíng|to travel
+綠||lǜ|green
+路口||lùkǒu|intersection
+麻煩||máfán|trouble; to bother
+馬||mǎ|horse
+馬路||mǎlù|road, street
+賣||mài|to sell
+饅頭||mántou|steamed bun (plain)
+慢跑||mànpǎo|to jog
+貓||māo|cat
+帽子|帽|màozi|hat
+門票||ménpiào|entrance ticket
+名||míng|name; (MW) place, rank
+那麼||nàme|so (much); then
+哪2||na|(particle) = 啊 after -n
+奶茶||nǎichá|milk tea
+奶奶||nǎinai|grandma (dad's mom)
+南||nán|south
+難過||nánguò|sad
+男生||nánshēng|boy, guy
+能力||nénglì|ability
+年級||niánjí|grade (in school)
+年輕||niánqīng|young
+唸書|念書|niànshū|to study
+鳥||niǎo|bird
+努力||nǔlì|to work hard
+女生||nǚshēng|girl
+盤子|盤|pánzi|plate
+跑||pǎo|to run
+跑步||pǎobù|to run, jog
+片||piàn|slice; (MW) piece
+票||piào|ticket
+皮包||píbāo|purse, wallet
+啤酒||píjiǔ|beer
+平常||píngcháng|usually
+蘋果||píngguǒ|apple
+瓶子|瓶|píngzi|bottle
+騎||qí|to ride (bike, scooter)
+奇怪||qíguài|strange
+其他|其它|qítā|other
+汽車||qìchē|car
+汽水||qìshuǐ|soda
+錢包||qiánbāo|wallet
+輕||qīng|light (weight)
+青菜||qīngcài|vegetables
+清楚||qīngchǔ|clear
+秋天|秋|qiūtiān|autumn
+全||quán|whole, all
+全部||quánbù|all, entire
+裙子|裙|qúnzi|skirt
+讓||ràng|to let, make (someone)
+熱狗||règǒu|hot dog
+認識||rènshì|to know (a person)
+認為||rènwéi|to think (opinion)
+日文||Rìwén|Japanese (language)
+日語||Rìyǔ|Japanese (spoken)
+如果||rúguǒ|if
+三明治||sānmíngzhì|sandwich
+色||sè|color
+商店||shāngdiàn|store
+上班||shàngbān|to go to work
+上網||shàngwǎng|to go online
+上學||shàngxué|to go to school
+生氣||shēngqì|angry
+聲音|聲1|shēngyīn|sound, voice
+聲2||shēng|(MW) for sounds
+十字路口||shízì lùkǒu|crossroads
+試||shì|to try
+市||shì|city
+市場||shìchǎng|market
+世界||shìjiè|world
+事情||shìqíng|thing, matter
+室友||shìyǒu|roommate
+手錶|手表/錶/表|shǒubiǎo|wristwatch
+雙||shuāng|(MW) pair
+書包||shūbāo|school bag
+書店||shūdiàn|bookstore
+書房||shūfáng|study (room)
+叔叔|叔|shúshu|uncle (dad's younger brother)
+樹||shù|tree
+司機||sījī|driver
+送||sòng|to give (a gift); to deliver
+酸||suān|sour
+算||suàn|to count, calculate
+雖然|雖|suīrán|although
+所||suǒ|(MW) for schools
+所有||suǒyǒu|all
+宿舍||sùshè|dormitory
+台|臺|tái|(MW) for machines, computers
+湯匙||tāngchí|spoon
+糖||táng|sugar; candy
+特別||tèbié|special
+踢||tī|to kick
+替||tì|for, on behalf of
+甜點||tiándiǎn|dessert
+條||tiáo|(MW) for long things (pants, fish)
+聽到||tīngdào|to hear
+聽說||tīngshuō|to hear (that)
+頭髮|髮|tóufǎ|hair
+圖||tú|picture, drawing
+圖書館||túshūguǎn|library
+脫||tuō|to take off
+外套||wàitào|jacket
+往||wǎng|toward
+網路||wǎnglù|internet
+網球||wǎngqiú|tennis
+網站||wǎngzhàn|website
+忘||wàng|to forget
+喂||wéi|hello (on the phone)
+味道|味|wèidào|taste, smell
+文化||wénhuà|culture
+屋子|屋|wūzi|room, house
+西||xī|west
+西瓜||xīguā|watermelon
+希望||xīwàng|to hope
+習慣||xíguàn|habit; to be used to
+洗||xǐ|to wash
+洗手間||xǐshǒujiān|restroom
+洗澡||xǐzǎo|to take a bath/shower
+下班||xiàbān|to get off work
+下雪||xiàxuě|to snow
+夏天|夏|xiàtiān|summer
+鹹||xián|salty
+香||xiāng|fragrant, smells good
+香蕉||xiāngjiāo|banana
+相信||xiāngxìn|to believe
+想法||xiǎngfǎ|idea, opinion
+相片|照片|xiàngpiàn|photo
+向||xiàng|toward
+小時候||xiǎoshíhòu|in childhood
+小心||xiǎoxīn|be careful
+小學||xiǎoxué|elementary school
+小朋友||xiǎopéngyǒu|kid(s)
+笑||xiào|to laugh, smile
+心||xīn|heart
+辛苦||xīnkǔ|hard, tiring
+新年||xīnnián|New Year
+信||xìn|letter
+信用卡||xìnyòngkǎ|credit card
+行1||xíng|OK, will do
+學習||xuéxí|to learn, study
+雪||xuě|snow
+需要|需|xūyào|to need
+呀||ya|(particle) = 啊
+樣子||yàngzi|appearance
+顏色||yánsè|color
+眼鏡||yǎnjìng|glasses
+要是||yàoshì|if
+爺爺||yéye|grandpa (dad's dad)
+野餐||yěcān|picnic
+夜市||yèshì|night market
+一半||yíbàn|half
+一會|一會兒|yìhuǐ|a moment
+一塊|一塊兒|yíkuài|together
+一下子|一下|yíxiàzi|a moment; (do) a bit
+一直||yìzhí|all along; straight
+醫院||yīyuàn|hospital
+已經||yǐjīng|already
+以為||yǐwéi|to (mistakenly) think
+英語||Yīngyǔ|English (spoken)
+音樂||yīnyuè|music
+銀行||yínháng|bank
+用功||yònggōng|studious, hard-working
+游||yóu|to swim
+游泳||yóuyǒng|to swim
+游泳池||yóuyǒngchí|swimming pool
+郵票||yóupiào|stamp
+郵局||yóujú|post office
+有的||yǒude|some
+有空||yǒukòng|to have free time
+有錢||yǒuqián|rich
+有名||yǒumíng|famous
+有意思||yǒuyìsi|interesting
+有用||yǒuyòng|useful
+遠||yuǎn|far
+願意||yuànyì|to be willing
+語言|語|yǔyán|language
+怎麼辦||zěnmebàn|What should I do?
+炸1||zhá|to deep-fry
+長2||zhǎng|to grow
+找到||zhǎodào|to find
+照相||zhàoxiàng|to take photos
+這麼||zhème|so, this (much)
+支||zhī|(MW) for pens (long thin things)
+隻||zhī|(MW) for animals
+中間||zhōngjiān|middle, between
+種1||zhǒng|kind, type
+重1||zhòng|heavy
+重要||zhòngyào|important
+週日||zhōurì|Sunday
+週一||zhōuyī|Monday
+祝||zhù|to wish
+注意||zhùyì|to pay attention
+轉1||zhuǎn|to turn
+準備||zhǔnbèi|to prepare
+字典||zìdiǎn|dictionary
+總是|總|zǒngshì|always
+租||zū|to rent
+最後||zuìhòu|finally, last
+最近||zuìjìn|recently
+作業||zuòyè|homework
+足球||zúqiú|soccer

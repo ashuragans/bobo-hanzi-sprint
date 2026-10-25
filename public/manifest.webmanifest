@@ -1,0 +1,15 @@
+{
+  "name": "Bobo Hanzi Sprint",
+  "short_name": "Bobo 中文",
+  "description": "Learn Traditional Chinese with Bobo: 時代華語 1 Lessons 1–6, TOCFL words, writing, listening and teacher-style tests.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#F3F6F1",
+  "theme_color": "#2C7655",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" },
+    { "src": "favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

@@ -1,0 +1,27 @@
+<title>Bobo Hanzi Sprint</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,650;12..96,700;12..96,800&family=LXGW+WenKai+TC:wght@400;700&family=Source+Sans+3:wght@400;500;600;700&display=swap">
+<style>/*CSS*/</style>
+<header class="topbar"><div class="topbar-in">
+  <button class="brand" id="brandBtn" aria-label="Go to the learning path"><span class="brand-m" aria-hidden="true" id="brandM"></span><span class="brand-t"><b>波波中文</b><span>Hanzi Sprint</span></span></button>
+  <div class="hud">
+    <span class="pill streak" title="Day streak"><span class="pi" id="streakIc"></span><span id="streakN" class="nums">0</span></span>
+    <span class="pill pearl" id="pearlPill" title="Pearls — spend them in the wardrobe"><span class="pi" id="pearlIc"></span><span id="pearlN" class="nums">0</span></span>
+    <button class="pill lvl" id="xpPill" title="Your level" data-go="me"><span class="lv-ring" id="lvRing"></span><span class="lv-t"><b id="lvN" class="nums">1</b><span id="xpN" class="nums tiny">0</span></span></button>
+    <span class="pill days" title="Days until your test"><span id="daysN" class="nums">3</span><span class="han">天</span></span>
+    <button class="iconbtn" id="settingsBtn" aria-label="Settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg></button>
+  </div></div></header>
+<div class="shell">
+  <nav class="rail" id="rail" aria-label="Sections"></nav>
+  <main><div id="view" class="view"></div></main>
+</div>
+<nav class="tabbar" id="tabbar" aria-label="Sections"></nav>
+<button class="fab" id="fab" hidden aria-label="Ask the tutor"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a8 8 0 0 1-11.6 7.1L4 20l1-4A8 8 0 1 1 20 12z"/></svg><span>問老師</span></button>
+<div id="stamp" aria-hidden="true"><div class="sq">優</div></div>
+<canvas id="confetti" aria-hidden="true"></canvas>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="rough"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="3"/><feDisplacementMap in="SourceGraphic" scale="4"/></filter></svg>
+<script src="https://cdn.jsdelivr.net/npm/hanzi-writer@3.7.2/dist/hanzi-writer.min.js"></script>
+<script>/*DATA*/</script>
+<script>/*APP*/</script>
