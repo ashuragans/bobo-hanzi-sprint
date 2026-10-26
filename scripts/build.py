@@ -16,7 +16,8 @@ HERE = os.path.join(ROOT, "content")
 sys.path.insert(0, HERE)
 import content2  # adds Lessons 4–6 to the shared lists
 import content3
-from content import LESSONS, PEOPLE, GRAMMAR, DRILLS, READING, ROUTINE, MNEMO
+from content import LESSONS, PEOPLE, GRAMMAR, DRILLS, READING, ROUTINE
+MNEMO = content2.MNEMO  # a string: content2's `MNEMO += ...` makes a new one, so take it from there (not from content)
 from pypinyin import pinyin as _py, Style
 
 STROKE_DIR = os.environ.get("HWD_DIR") or os.path.join(ROOT, "node_modules", "hanzi-writer-data")
@@ -244,6 +245,7 @@ for d in DRILLS:
 
 mn = {}
 for line in MNEMO.strip().splitlines():
+    if not line.strip(): continue
     c, parts, story = line.split("|")
     if c in mn: continue
     mn[c] = [parts, story]

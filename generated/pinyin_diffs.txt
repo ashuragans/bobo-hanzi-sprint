@@ -69,3 +69,4 @@ tone	星期五	xīngqíwǔ	xīngqīwǔ
 tone	星期六	xīngqíliù	xīngqīliù
 tone	星期幾	xīngqí jǐ	xīngqījǐ
 tone	沒空	méi kòng	méikōng
+tone	愛好	àihào	àihǎo

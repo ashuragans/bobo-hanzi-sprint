@@ -94,7 +94,7 @@ function runQuiz(cfg) {
     : `<div class="combo-pill nums" id="combo">${R.combo >= 2 ? FLAME + R.combo : ''}</div>`);
 
   function record(q, ok, yours, quiet, o = {}) {
-    R.log.push({ q, ok, yours });
+    R.log.push({ q, ok, yours }); R.ansAt = R.i;
     if (q.after) q.after(ok);
     if (q.cat) catAnswer(q.cat, ok);
     const ms = o.ms ?? (R.qt0 ? performance.now() - R.qt0 : null);
@@ -199,7 +199,7 @@ function runQuiz(cfg) {
   function renderMC(q) {
     const body = $('#qbody', el);
     const twoCol = q.opts.every(o => String(o).length <= 14);
-    const KL = q.abc ? 'ABCD' : '1234';
+    const KL = q.abc ? 'ABCDEFGHIJKLMNOP' : '123456789';
     body.innerHTML = q.optHTML
       ? `<div class="opts pics">${q.optHTML.map((h, i) => `<button class="opt picopt" data-i="${i}" aria-label="${KL[i]}"><span class="k">${KL[i]}</span><span class="pbox">${h}</span></button>`).join('')}</div>`
       : `<div class="opts ${twoCol ? 'two' : ''} ${q.han && q.opts.some(o => String(o).length > 8) ? 'long' : ''}">${q.opts.map((o, i) => `<button class="opt" data-i="${i}"><span class="k">${KL[i]}</span><span class="ot ${q.han ? 'han' : ''}">${esc(o)}</span></button>`).join('')}</div>`;
@@ -226,7 +226,7 @@ function runQuiz(cfg) {
     ctaEl().onclick = check;
     KEYH = e => {
       if (e.target.closest('input,textarea')) return;
-      let n = +e.key; if (q.abc && /^[abcd]$/i.test(e.key)) n = 'abcd'.indexOf(e.key.toLowerCase()) + 1;
+      let n = +e.key; if (q.abc && /^[a-p]$/i.test(e.key)) n = 'abcdefghijklmnop'.indexOf(e.key.toLowerCase()) + 1;
       if (n >= 1 && n <= q.opts.length && !answered) { e.preventDefault(); choose(n - 1); }
       else if (e.key === 'Enter' && !answered && sel >= 0) { e.preventDefault(); check(); }
     };
@@ -352,7 +352,7 @@ function runQuiz(cfg) {
         const ok = f >= 0 && q.ans[k].includes(q.bank[f]);
         if (ok) right++;
         const aw = q.ans[k][0], ak = H2W[aw] && H2W[aw].k, ai = q.bank.indexOf(aw);
-        gain += record({ kind: 'mc', cat: q.cat, label: q.label, opts: q.bank, han: true, ans: q.ans[k].map(w => q.bank.indexOf(w)), prompt: context(k), explain: '', after: q.after, k: ak, sk: 'u', noDial: true },
+        gain += record({ kind: 'mc', cat: q.cat, label: q.label, opts: q.bank, han: true, abc: true, ans: q.ans[k].map(w => q.bank.indexOf(w)), prompt: context(k), explain: '', after: q.after, k: ak, sk: 'u', noDial: true },
           ok, f >= 0 ? q.bank[f] : '(blank)', true, { assist: helped.has(ai) || R.assist, conf: f >= 0 && H2W[q.bank[f]] ? H2W[q.bank[f]].k : null, noRetry: true });
         rows.push([k, ok, aw, f]);
       });
@@ -433,8 +433,11 @@ function runQuiz(cfg) {
   function finish() {
     if (RUN !== R) return;
     clearInterval(R.timer); KEYH = null;
-    const n = R.log.length, pct = n ? Math.round(R.right / n * 100) : 0, secs = Math.round((Date.now() - R.t0) / 1000);
-    const perfect = n >= 4 && R.right === n;
+    // a test that ends early (time is up, or "End and see results") scores the questions it never reached as wrong
+    const reached = R.ansAt === R.i ? R.i + 1 : R.i, early = reached < Math.max(qs.length, cfg.gen ? R.total : 0);
+    const skipped = cfg.exam || cfg.mock ? qs.slice(reached).reduce((a, q) => a + (q.kind === 'bank' ? q.ans.length : q.kind === 'teach' ? 0 : 1), 0) : 0;
+    const n = R.log.length + skipped, pct = n ? Math.round(R.right / n * 100) : 0, secs = Math.round((Date.now() - R.t0) / 1000);
+    const perfect = n >= 4 && R.right === n && !early;
     const lvl0 = levelOf(S.xp);
     const bonus = 5 + (perfect ? 5 : 0) + (pct >= 80 ? 2 : 0);
     if (cfg.exam) addXP(R.xp + bonus); else addXP(bonus);
@@ -464,6 +467,7 @@ function runQuiz(cfg) {
         <div class="fstat sky"><span>${cfg.exam || cfg.mock ? 'Grade' : 'Time'}</span><b class="nums ${title ? 'han' : ''}">${title || fmtT(secs)}</b></div>
       </div>
       <div class="fin-pearls">${PEARL}<b>+${pearls}</b> pearls${R.best >= 5 ? ` · ${FLAME} best combo ${R.best}` : ''}</div>
+      ${skipped ? `<p class="note" style="max-width:520px">${skipped} question${skipped > 1 ? 's were' : ' was'} not answered, so ${skipped > 1 ? 'they count' : 'it counts'} as wrong.</p>` : ''}
       ${stageSummaryHTML(R)}${peekSummaryHTML(R)}
       ${cfg.adaptive ? `<div class="fin-dial"><span class="dbars">${[1, 2, 3].map(i => `<i class="${i <= d ? 'on' : ''}"></i>`).join('')}</span><span><b>Difficulty: ${DIAL_N[d][1]}</b> · <span class="muted">${DIAL_N[d][2]}</span></span></div>` : ''}
       ${weakest && weakest[1][0] / weakest[1][1] < .8 ? `<p class="note" style="max-width:520px">Focus next on <b>${esc(CAT[weakest[0]] || weakest[0])}</b> — ${weakest[1][0]}/${weakest[1][1]} right.</p>` : ''}

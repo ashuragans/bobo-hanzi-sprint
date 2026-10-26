@@ -20,6 +20,9 @@ const SYN = [['二','兩'],['他','她','它'],['常常','時常','經常'],['�
   ['大家','所有'],['不錯','還可以'],['生日禮物','禮物'],['電腦','手機'],['女孩','女生'],['男孩','男生'],['週末','周末'],['號','日'],['每','各'],['再見','明天見'],['要','想']];
 const SYNMAP = {}; SYN.forEach((g, i) => g.forEach(x => (SYNMAP[x] = SYNMAP[x] || []).push(i)));
 const isSyn = (a, b) => (SYNMAP[a] || []).some(i => (SYNMAP[b] || []).includes(i));
+/* words whose English glosses overlap (跑 "to run" / 跑步 "to run, jog") can't be told apart from the English, so they are never each other's wrong choices */
+const glosses = e => String(e || '').toLowerCase().replace(/\([^)]*\)/g, ' ').split(/[;,/]/).map(s => s.replace(/^\s*(to|a|an|the)\s+/, '').replace(/\s+/g, ' ').trim()).filter(s => s.length > 1);
+const sameMeaning = (a, b) => { const B = new Set(glosses(b.e)); return glosses(a.e).some(x => B.has(x)); };
 
 /* ============================================================ utils */
 const $ = (s, r = document) => r.querySelector(s);

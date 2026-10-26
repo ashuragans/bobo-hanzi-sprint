@@ -86,7 +86,7 @@ function smartDist(w, pool, n, dir, lvl) {
   cand.push(...distractors(w, pool, 12, meaning ? 'h2e' : dir === 'hearH' ? 'listen' : dir));
   const out = [], seenT = new Set([meaning ? w.e : w.h]);
   for (const o of cand) {
-    if (!o || o.k === w.k || o.h === w.h || o.e === w.e || isSyn(o.h, w.h)) continue;
+    if (!o || o.k === w.k || o.h === w.h || o.e === w.e || isSyn(o.h, w.h) || sameMeaning(o, w)) continue;
     if (dir === 'hearH' && plainPy(o.p) === plainPy(w.p)) continue;
     const t = meaning ? o.e : o.h; if (seenT.has(t)) continue;
     seenT.add(t); out.push(o); if (out.length >= n) break;
@@ -239,7 +239,7 @@ function smartWords(n = 10) {
 }
 function confPairs(n = 5) {
   const out = [];
-  Object.entries(S.conf).forEach(([k, m]) => Object.entries(m).forEach(([k2, c]) => { if (W[k] && W[k2]) out.push([W[k], W[k2], c]); }));
+  Object.entries(S.conf).forEach(([k, m]) => Object.entries(m).forEach(([k2, c]) => { if (W[k] && W[k2] && W[k].h !== W[k2].h && !sameMeaning(W[k], W[k2])) out.push([W[k], W[k2], c]); }));
   return out.sort((a, b) => b[2] - a[2]).slice(0, n);
 }
 function qContrast(a, b) {

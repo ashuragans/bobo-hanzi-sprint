@@ -106,7 +106,7 @@ function vLessons(el, p) {
     $$('.line .en', T).forEach(e => e.onclick = () => e.classList.toggle('peek'));
   } else if (tab === 'words') {
     const ws = L.words.map(k => W[k]);
-    T.innerHTML = `<p class="small muted" style="margin-bottom:12px">${ws.length} words from ${/^L[0-3]$/.test(lid) ? 'your class slides and the book\'s word list' : 'the book\'s word list for this lesson'}. Dot color: <span class="dot s1"></span> learning <span class="dot s2"></span> known <span class="dot s3"></span> solid. Tap a word to hear it.</p>
+    T.innerHTML = `<p class="small muted" style="margin-bottom:12px">${ws.length} words from ${/^L[01236]$/.test(lid) ? 'your class slides and the book\'s word list' : 'the book\'s word list for this lesson'}. Dot color: <span class="dot s1"></span> learning <span class="dot s2"></span> known <span class="dot s3"></span> solid. Tap a word to hear it.</p>
       <div class="wordgrid">${ws.map(w => `<button class="wtile" data-w="${esc(w.k)}">${w.em ? `<span class="em">${w.em}</span>` : ''}<span class="wh">${esc(w.h)}</span><span class="wp">${esc(phon(w.p))}</span><span class="we">${esc(w.e)}</span>${statusDot(w.k).replace('class="dot', 'style="display:block" class="dot')}</button>`).join('')}</div>`;
     $$('.wtile', T).forEach(b => b.onclick = e => { e.stopPropagation(); wordPop(W[b.dataset.w].h, b); });
   } else if (tab === 'grammar') {
@@ -245,8 +245,10 @@ function exampleFor(w) {
   const all = [];
   LES.forEach(L => L.texts.forEach(t => t.lines.forEach(l => all.push([l[1], l[2]]))));
   Object.values(G).forEach(g => g.ex.forEach(e => all.push(e)));
-  const hit = all.filter(([toks]) => plainZh(toks).includes(w.h)).sort((a, b) => plainZh(a[0]).length - plainZh(b[0]).length);
-  return hit[0] || null;
+  SENTS.forEach(s => { if (s.src === 'ex') all.push([s.toks, s.en]); });
+  const hit = all.filter(([toks]) => plainZh(toks).includes(w.h));
+  const whole = hit.filter(([toks]) => toks.some(t => t[0] === w.h)); // the word itself, not part of a longer word
+  return (whole.length ? whole : hit).sort((a, b) => plainZh(a[0]).length - plainZh(b[0]).length)[0] || null;
 }
 function mnemoHTML(h) {
   const cs = uniq([...h].filter(c => HAN.test(c)));

@@ -278,7 +278,7 @@ function sessGrammar(L) {
   return qs.filter(Boolean);
 }
 function sessStory(L, nid) {
-  const LL = LMAP[L], ti = nodeCount(nid) % LL.texts.length, tx = LL.texts[ti];
+  const LL = LMAP[L], n = nodeCount(nid), ti = n < 3 ? n % LL.texts.length : Math.random() * LL.texts.length | 0, tx = LL.texts[ti]; // after level 3, any of the lesson's texts
   const qs = [storyTeach(tx)];
   DATA.reading.filter(r => r.text === `${L}-${ti}`).slice(0, 3).forEach(r => qs.push(qReading(r)));
   const lines = SENTS.filter(x => x.id.startsWith(`${L}-${ti}-`));
@@ -515,7 +515,7 @@ function vPractice(el) {
   const sc = smartCounts();
   const tiles = [['smart', {}, '智慧', 'Smart review', sc.seen ? `${sc.due} due · ${sc.weak} weak · ${sc.conf} mix-ups` : 'Built from your mistakes', 'pink'], ['cards', { deck: 'LALL', mode: 'flip' }, '翻卡', 'Flashcards', dueN ? dueN + ' due now' : 'Spaced repetition', 'jade'], ['cards', { deck: 'T1', mode: 'speed' }, '快選', 'Speed sweep', 'Race through the vocab table', 'gold'],
     ['cards', { deck: 'weak', mode: 'flip' }, '錯題', 'Weak words', weakN + ' to fix', 'seal'], ['lessons', {}, '課文', 'Dialogues', 'Read and listen to every lesson', 'sky'],
-    ['grammar', {}, '語法', 'Grammar library', 'All 75 points with examples', 'taro'], ['write', { mode: 'dict' }, '聽寫', 'Dictation', 'Hear it, write it', 'tea']];
+    ['grammar', {}, '語法', 'Grammar library', `All ${Object.keys(G).length} points with examples`, 'taro'], ['write', { mode: 'dict' }, '聽寫', 'Dictation', 'Hear it, write it', 'tea']];
   el.innerHTML = `<div class="stack"><div class="sec-head"><div><span class="eyebrow">練習 · Practice</span><h1>Practice anything, anytime</h1></div></div>
     <div class="hub">${tiles.map(([v, p, zh, en, d, c]) => `<button class="hubtile u-${c}" ${v === 'smart' ? 'id="hubSmart"' : `data-go="${v}" data-p='${JSON.stringify(p)}'`}><span class="ht-zh han">${zh}</span><b>${en}</b><span>${d}</span></button>`).join('')}<button class="hubtile u-gold tutor-entry" data-tutor><span class="ht-zh han">問老師</span><b>Ask the tutor</b><span>Check a sentence, ask about grammar</span></button></div>
     <div id="drillsHere"></div></div>`;

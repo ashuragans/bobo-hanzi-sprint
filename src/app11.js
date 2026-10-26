@@ -226,6 +226,28 @@ const EXAMPLES = [
   ['我每天刷兩次牙。', 'I brush my teeth twice a day.'],
   ['請用「喜歡」造句。', 'Please make a sentence with 喜歡.'],
   ['你是哪國人？', 'Which country are you from?'],
+  // ---- Lesson 6 slides
+  ['我的右邊是中明，左邊是友美。', 'Zhongming is on my right and Youmei is on my left.'],
+  ['我們常常去河邊騎腳踏車。', 'We often go ride bikes by the river.'],
+  ['湖邊的風景很漂亮。', 'The view by the lake is beautiful.'],
+  ['他的機車在路邊。', 'His scooter is at the side of the road.'],
+  ['在游泳池游泳要穿泳衣。', 'You have to wear a swimsuit in the swimming pool.'],
+  ['弟弟每天晚上都在打電腦。', 'My younger brother is on the computer every evening.'],
+  ['我晚上打電話給媽媽。', 'I call my mom in the evening.'],
+  ['不要打人！', 'Don\'t hit people!'],
+  ['他寫字寫得很好看。', 'His handwriting is really nice.'],
+  ['我每天寫十個漢字。', 'I write ten Chinese characters every day.'],
+  ['這本書很有意思。', 'This book is very interesting.'],
+  ['這部電影不好看，很無趣。', 'This movie isn\'t good — it\'s boring.'],
+  ['我們晚上去電影院看電影。', 'We\'re going to the movie theater tonight to see a movie.'],
+  ['學校的網路很快。', 'The school\'s internet is fast.'],
+  ['請給我這家餐廳的網址。', 'Please give me this restaurant\'s website address.'],
+  ['我哥哥會騎摩托車。', 'My older brother can ride a motorcycle.'],
+  ['你會騎馬嗎？', 'Can you ride a horse?'],
+  ['姊姊的愛好是畫畫。', 'My older sister\'s hobby is drawing.'],
+  ['我昨天看了一場足球比賽。', 'Yesterday I watched a soccer game.'],
+  ['我喜歡去山上拍照。', 'I like going up the mountain to take photos.'],
+  ['弟弟很喜歡玩遊戲。', 'My younger brother loves playing games.'],
 ];
 const PUN = /[，。？！、：；「」（）]/;
 function tokenizeZh(str) {
