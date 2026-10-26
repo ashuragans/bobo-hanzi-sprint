@@ -63,7 +63,7 @@ src/                 app code, concatenated in numeric order (app1 … app11) in
   app11.js           EXAMPLES: hand-written example sentences for verbs and lesson words; 字{pinyin} overrides a reading
 content/
   content.py         Lessons 1–3 (from the class slides), GRAMMAR, DRILLS, READING, ROUTINE, MNEMO
-  content2.py        Lessons 4–6 (book word lists; practice dialogues written for this site), more grammar and drills
+  content2.py        Lessons 4–6 (book word lists; L4–5 practice dialogues written for this site; L6 dialogues, words and exercises from the class slides), more grammar and drills
   content3.py        teacher-style tests: LAST_* = the real class test (do not change), BANKS, CLOZE, OPPOSITES, ORDERS, NEW_PICS, PIC
   vocab_tocfl.txt    the teacher's vocab table, `key|alts|pinyin|english`, exactly 804 lines of entries
   vocab_extra.txt    words from slides/book that are not in the table (same format)

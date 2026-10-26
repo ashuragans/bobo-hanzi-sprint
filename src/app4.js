@@ -3,7 +3,7 @@ const CAT = { vocab: '詞彙 Vocabulary', listen: '聽力 Listening', pinyin: '�
 const wordLine = w => `<div><span class="han" style="font-size:1.5rem">${esc(w.h)}</span> <b style="color:var(--jade)">${esc(phon(w.p))}</b> — ${esc(w.e)}</div>`;
 function canonPy(p) { return parsePy(p).map(c => c.map(([s, t, bad]) => bad ? s : markSyl(s, t)).join('')).join(' '); }
 function distractors(w, pool, n, dir) {
-  const cand = pool.filter(o => o.k !== w.k && o.h !== w.h && o.e !== w.e && !isSyn(o.h, w.h) && !(dir === 'listen' && plainPy(o.p) === plainPy(w.p)));
+  const cand = pool.filter(o => o.k !== w.k && o.h !== w.h && o.e !== w.e && !isSyn(o.h, w.h) && !sameMeaning(o, w) && !(dir === 'listen' && plainPy(o.p) === plainPy(w.p)));
   const scored = cand.map(o => {
     let s = Math.random() * 2;
     if (dir !== 'h2e') { if (o.h.length === w.h.length) s += 2; if ([...o.h].some(c => w.h.includes(c))) s += 1.5; }
@@ -108,10 +108,11 @@ function qPrice() {
   const opts = [...set].slice(0, 4);
   return mcq({ kind: 'mc', cat: 'money', label: `${nm}多少錢？ How much?`, prompt: `<div style="font-size:3rem">${em}</div><div class="pricetag nums">NT$ ${n}</div>`, opts, han: true, ans: [0], explain: `<div class="han" style="font-size:1.3rem">${right}（錢）／ ${priceZh(n)}元</div><div class="small">Spoken: 塊 (or 塊錢). Written prices: 元. 2 dollars = 兩塊.</div>` });
 }
-const MWN = [['書', '本'], ['課本', '本'], ['中文書', '本'], ['人', '個'], ['兒子', '個'], ['孩子', '個'], ['學生', '個'], ['朋友', '個'], ['蛋糕', '個'], ['禮物', '個'], ['桌子', '張'], ['椅子', '張'], ['紙', '張'],
-  ['電腦', '台/部'], ['筆', '枝/支'], ['鉛筆', '枝/支'], ['花', '朵'], ['衣服', '件'], ['外套', '件'], ['咖啡', '杯'], ['奶茶', '杯'], ['茶', '杯'], ['牛奶', '杯'], ['狗', '隻'], ['貓', '隻'], ['鳥', '隻'], ['車子', '輛'], ['腳踏車', '輛/部'], ['褲子', '條'], ['魚', '條'], ['鞋子', '雙'], ['老師', '位/個'], ['水果', '種'],
-  ['房間', '間/個'], ['房子', '棟/個'], ['沙發', '張'], ['床', '張'], ['電視機', '台'], ['牛肉麵', '碗'], ['果汁', '杯/瓶'], ['飲料', '瓶/杯'], ['餐廳', '家'], ['咖啡廳', '家'], ['電影', '部'], ['歌', '首'], ['手機', '支/枝/台']];
-const MWS = ['本', '個', '張', '台', '枝', '朵', '件', '杯', '隻', '輛', '條', '雙', '位', '種', '間', '棟', '碗', '瓶', '家', '部', '首', '支'];
+// first measure word = the one the course teaches; the others are also correct (Taiwan usage), so they never show up as wrong choices
+const MWN = [['書', '本'], ['課本', '本'], ['中文書', '本'], ['人', '個'], ['兒子', '個'], ['孩子', '個'], ['學生', '個/位'], ['朋友', '個/位'], ['蛋糕', '個'], ['禮物', '個'], ['桌子', '張'], ['椅子', '張'], ['紙', '張'],
+  ['電腦', '台/部'], ['筆', '枝/支'], ['鉛筆', '枝/支'], ['花', '朵'], ['衣服', '件'], ['外套', '件'], ['咖啡', '杯/瓶'], ['奶茶', '杯/瓶'], ['茶', '杯/瓶'], ['牛奶', '杯/瓶'], ['狗', '隻/條'], ['貓', '隻'], ['鳥', '隻'], ['車子', '輛/台'], ['腳踏車', '輛/部/台'], ['褲子', '條'], ['魚', '條/隻'], ['鞋子', '雙'], ['老師', '位/個'], ['水果', '種'],
+  ['房間', '間/個'], ['房子', '棟/個/間'], ['沙發', '張'], ['床', '張'], ['電視機', '台'], ['牛肉麵', '碗'], ['果汁', '杯/瓶'], ['飲料', '瓶/杯'], ['餐廳', '家/間'], ['咖啡廳', '家/間'], ['電影', '部'], ['歌', '首'], ['手機', '支/枝/台/部'], ['比賽', '場']];
+const MWS = ['本', '個', '張', '台', '枝', '朵', '件', '杯', '隻', '輛', '條', '雙', '位', '種', '間', '棟', '碗', '瓶', '家', '部', '首', '支', '場'];
 function qMW() {
   const [noun, mw] = pick(MWN); const ok = mw.split('/');
   const n = pick([1, 2, 3, 5]);
@@ -235,8 +236,8 @@ function mockQuiz(withTable) {
 /* ============================================================ DRILLS & TEST */
 const DRILL_SETS = [
   { id: 'order', zh: '排句子', en: 'Sentence builder', d: 'Tap words into the right order. Trains word order: time before verb, 也/都 placement…', make: () => sampleN(DRILLS.filter(d => d.k === 'order' && !G[d.g].later), 10).map(qFromDrill) },
-  { id: 'choose', zh: '填空', en: 'Grammar fill-in', d: 'Pick the word that fits: 不/沒, 呢/嗎, 和/跟, measure words…', make: () => sampleN(DRILLS.filter(d => d.k === 'choose'), 12).map(qFromDrill) },
-  { id: 'fix', zh: '找錯', en: 'Spot the correct sentence', d: 'Three sentences, one is right. The classic test question.', make: () => shuffle(DRILLS.filter(d => d.k === 'fix')).slice(0, 12).map(qFromDrill) },
+  { id: 'choose', zh: '填空', en: 'Grammar fill-in', d: 'Pick the word that fits: 不/沒, 呢/嗎, 和/跟, measure words…', make: () => sampleN(DRILLS.filter(d => d.k === 'choose' && !G[d.g].later), 12).map(qFromDrill) },
+  { id: 'fix', zh: '找錯', en: 'Spot the correct sentence', d: 'Three sentences, one is right. The classic test question.', make: () => shuffle(DRILLS.filter(d => d.k === 'fix' && !G[d.g].later)).slice(0, 12).map(qFromDrill) },
   { id: 'clock', zh: '幾點', en: 'Telling time', d: 'Read the clock, say the time. Includes 兩點 and 半.', make: () => Array.from({ length: 10 }, qClock) },
   { id: 'date', zh: '日期', en: 'Dates & time order', d: 'Month, day, weekday, and big → small time order.', make: () => shuffle([...Array.from({ length: 6 }, qDate), ...sampleN(DRILLS.filter(d => d.g === 'g_time_order'), 4).map(qFromDrill)]) },
   { id: 'money', zh: '多少錢', en: 'Prices', d: 'Read price tags out in Chinese: 塊, 元, 兩塊.', make: () => Array.from({ length: 10 }, qPrice) },

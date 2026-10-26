@@ -47,28 +47,29 @@ const ACT = {
   打籃球: { h: ['打', '籃球'], v: 'play', vs: 'plays', vg: 'playing', o: 'basketball', V: '打', O: '籃球', mn: ['好', '不錯'], skill: 1, go: 1 },
   打網球: { h: ['打', '網球'], v: 'play', vs: 'plays', vg: 'playing', o: 'tennis', V: '打', O: '網球', mn: ['好', '不錯'], skill: 1, go: 1 },
   踢足球: { h: ['踢', '足球'], v: 'play', vs: 'plays', vg: 'playing', o: 'soccer', V: '踢', O: '足球', mn: ['好', '不錯'], skill: 1, go: 1 },
-  游泳: { h: ['游泳'], v: 'swim', vs: 'swims', vg: 'swimming', o: '', V: '游', O: '泳', VO: '游泳', mn: ['好', '快', '不錯'], skill: 1, go: 1 },
+  游泳: { h: ['游泳'], v: 'swim', vs: 'swims', vg: 'swimming', o: '', V: '游', O: '泳', VO: '游泳', mn: ['好', '快', '慢', '不錯'], skill: 1, go: 1 },
   唱歌: { h: ['唱歌'], v: 'sing', vs: 'sings', vg: 'singing', o: '', V: '唱', O: '歌', VO: '唱歌', mn: ['好', '不錯'], skill: 1, go: 1 },
   跳舞: { h: ['跳舞'], v: 'dance', vs: 'dances', vg: 'dancing', o: '', V: '跳', O: '舞', VO: '跳舞', mn: ['好', '漂亮', '不錯'], skill: 1, go: 1 },
   學中文: { h: ['學', '中文'], v: 'study', vs: 'studies', vg: 'studying', o: 'Chinese' },
-  說中文: { h: ['說', '中文'], v: 'speak', vs: 'speaks', vg: 'speaking', o: 'Chinese', V: '說', O: '中文', mn: ['好', '不錯'], skill: 1 },
+  說中文: { h: ['說', '中文'], v: 'speak', vs: 'speaks', vg: 'speaking', o: 'Chinese', V: '說', O: '中文', mn: ['好', '不錯', '快', '慢'], skill: 1 },
   做功課: { h: ['做', '功課'], v: 'do', vs: 'does', vg: 'doing', o: 'homework' },
   買東西: { h: ['買', '東西'], v: 'shop', vs: 'shops', vg: 'shopping', o: '', go: 1 },
   做飯: { h: ['做飯'], v: 'cook', vs: 'cooks', vg: 'cooking', o: '', V: '做', O: '飯', VO: '做飯', mn: ['好', '不錯'], skill: 1 },
-  跑步: { h: ['跑步'], v: 'run', vs: 'runs', vg: 'running', o: '', V: '跑', O: '步', VO: '跑步', mn: ['快'], skill: 0, go: 1 },
-  騎腳踏車: { h: ['騎', '腳踏車'], v: 'ride', vs: 'rides', vg: 'riding', o: 'a bike', V: '騎', O: '腳踏車', mn: ['快'], skill: 1, go: 1 },
+  跑步: { h: ['跑步'], v: 'run', vs: 'runs', vg: 'running', o: '', V: '跑', O: '步', VO: '跑步', mn: ['快', '慢'], skill: 0, go: 1 },
+  騎腳踏車: { h: ['騎', '腳踏車'], v: 'ride', vs: 'rides', vg: 'riding', o: 'a bike', V: '騎', O: '腳踏車', mn: ['快', '慢'], skill: 1, go: 1 },
+  運動: { h: ['運動'], v: 'exercise', vs: 'exercises', vg: 'exercising', o: '', go: 1 },
   上網: { h: ['上網'], v: 'go online', vs: 'goes online', vg: 'going online', o: '' },
   畫畫: { h: ['畫畫'], v: 'draw', vs: 'draws', vg: 'drawing', o: '', skill: 1 },
   上課: { h: ['上課'], v: 'have class', vs: 'has class', vg: 'having class', o: '', noLike: 1 },
 };
 Object.entries(ACT).forEach(([id, a]) => { a.id = id; });
 const ACTS = Object.values(ACT);
-const MN_EN = { 好: 'very well', 快: 'very fast', 漂亮: 'very beautifully', 不錯: 'pretty well' };
+const MN_EN = { 好: 'very well', 快: 'very fast', 慢: 'very slowly', 漂亮: 'very beautifully', 不錯: 'pretty well' };
 const PLACE = [
   { h: ['學校'], en: 'school', to: 'to school', acts: ['上課', '學中文', '打籃球'] },
   { h: ['圖書館'], en: 'the library', acts: ['看書', '做功課', '學中文'] },
   { h: ['電影院'], en: 'the movie theater', acts: ['看電影'] },
-  { h: ['公園'], en: 'the park', acts: ['跑步', '打籃球', '騎腳踏車', '踢足球'] },
+  { h: ['公園'], en: 'the park', acts: ['跑步', '打籃球', '騎腳踏車', '踢足球', '運動'] },
   { h: ['餐廳'], en: 'a restaurant', acts: ['吃飯'] },
   { h: ['咖啡廳'], en: 'the café', acts: ['喝咖啡', '看書'] },
   { h: ['商店'], en: 'the store', acts: ['買東西'] },
@@ -86,11 +87,11 @@ const ITEM = [
   { h: ['椅子'], mw: '張', sg: 'chair', pl: 'chairs', buy: 1, size: 1 }, { h: ['蛋糕'], mw: '個', sg: 'cake', pl: 'cakes', g: 1, buy: 1, food: 1, sweet: 1, yum: 1, loc: 1 },
   { h: ['鞋子'], mw: '雙', sg: 'pair of shoes', pl: 'pairs of shoes', buy: 1, size: 1 }, { h: ['杯子'], mw: '個', sg: 'cup', pl: 'cups', g: 1, buy: 1, size: 1, loc: 1 },
   { h: ['錢包'], mw: '個', sg: 'wallet', pl: 'wallets', g: 1, buy: 1 }, { h: ['書包'], mw: '個', sg: 'backpack', pl: 'backpacks', g: 1, buy: 1, size: 1 },
-  { h: ['咖啡'], mw: '杯', sg: 'cup of coffee', pl: 'cups of coffee', buy: 1, drink: 1, tasty: 1, order: 1 },
-  { h: ['奶茶'], mw: '杯', sg: 'cup of milk tea', pl: 'cups of milk tea', buy: 1, drink: 1, sweet: 1, tasty: 1, order: 1 },
-  { h: ['果汁'], mw: '杯', sg: 'glass of juice', pl: 'glasses of juice', buy: 1, drink: 1, sweet: 1, order: 1 },
-  { h: ['水'], mw: '瓶', sg: 'bottle of water', pl: 'bottles of water', buy: 1, drink: 1, order: 1 },
-  { h: ['汽水'], mw: '瓶', sg: 'bottle of soda', pl: 'bottles of soda', buy: 1, drink: 1, sweet: 1, order: 1 },
+  { h: ['咖啡'], mw: '杯', mw2: ['瓶'], sg: 'cup of coffee', pl: 'cups of coffee', buy: 1, drink: 1, tasty: 1, order: 1 },
+  { h: ['奶茶'], mw: '杯', mw2: ['瓶'], sg: 'cup of milk tea', pl: 'cups of milk tea', buy: 1, drink: 1, sweet: 1, tasty: 1, order: 1 },
+  { h: ['果汁'], mw: '杯', mw2: ['瓶'], sg: 'glass of juice', pl: 'glasses of juice', buy: 1, drink: 1, sweet: 1, order: 1 },
+  { h: ['水'], mw: '瓶', mw2: ['杯'], sg: 'bottle of water', pl: 'bottles of water', buy: 1, drink: 1, order: 1 },
+  { h: ['汽水'], mw: '瓶', mw2: ['杯'], sg: 'bottle of soda', pl: 'bottles of soda', buy: 1, drink: 1, sweet: 1, order: 1 },
   { h: ['牛肉麵'], mw: '碗', sg: 'bowl of beef noodles', pl: 'bowls of beef noodles', buy: 1, food: 1, yum: 1, order: 1 },
   { h: ['貓'], mw: '隻', sg: 'cat', pl: 'cats', animal: 1, loc: 1 }, { h: ['狗'], mw: '隻', sg: 'dog', pl: 'dogs', animal: 1, loc: 1 }];
 const NUM = [{ n: 1, h: '一' }, { n: 2, h: '兩' }, { n: 3, h: '三' }, { n: 4, h: '四' }, { n: 5, h: '五' }];
@@ -121,7 +122,7 @@ const ROUT = [
   { h: ['洗澡'], v: 'take a shower', vs: 'takes a shower', t: [8, 9], p: '晚上' }, { h: ['睡覺'], v: 'go to bed', vs: 'goes to bed', t: [10, 11], p: '晚上' }];
 const TOPIC = [{ h: ['中文'], en: 'Chinese', adj: [['難', 'difficult'], ['容易', 'easy'], ['有意思', 'interesting']] },
   { h: ['這', '本', '書'], en: 'this book', adj: [['有意思', 'interesting'], ['好看', 'good']] },
-  { h: ['這', '部', '電影'], en: 'this movie', adj: [['有意思', 'interesting'], ['好看', 'good']] },
+  { h: ['這', '部', '電影'], en: 'this movie', adj: [['有趣', 'interesting'], ['好看', 'good']] },
   { h: ['這', '杯', '奶茶'], en: 'this milk tea', adj: [['好喝', 'tasty'], ['甜', 'sweet']] },
   { h: ['牛肉麵'], en: 'beef noodles', pl: 1, adj: [['好吃', 'delicious']] }];
 const OPINION = TOPIC.flatMap(t => t.adj.map(([a, en]) => ({ h: [a], en, top: t.h.join('') })));
@@ -196,11 +197,18 @@ const TPL = [
     en: v => `${cap(v.s.en)} ${v.adv.en} ${v.s.p3 ? 'goes' : 'go'} ${v.pl.to} to ${v.a.v} ${v.a.o1 || v.a.o}.`, bad: [v => [v.s.h, ['去'], v.pl.h, v.adv.h, v.a.h]] },
   { id: 'juede', bk: [['fw', '覺得', ['覺得', '想'], ['喜歡', '會', '在', '有']]], L: 'L6', g: 'g_juede', sl: ['s', 'top', 'op'], ok: v => v.op.top === v.top.h.join(''), zh: v => [v.s.h, ['覺得'], v.top.h, ['很'], v.op.h], end: '。',
     en: v => `${cap(v.s.en)} ${v.s.p3 ? 'thinks' : 'think'} ${v.top.en} ${v.top.pl ? 'are' : 'is'} very ${v.op.en}.`, bad: [v => [v.s.h, v.top.h, ['覺得'], ['很'], v.op.h]] },
+  { id: 'yinggai', bk: [['fw', '應該', ['應該', '也', '都', '會', '還', '得', '要', '想', '可以', '喜歡'], ['的', '嗎', '吧', '和']]], L: 'L6', g: 'g_yinggai_keyi', sl: ['s', 'a'],
+    ok: v => v.s.en !== 'I' && ['打籃球', '打網球', '踢足球', '游泳', '跑步', '騎腳踏車', '學中文', '運動'].includes(v.a.id), zh: v => [v.s.h, ['應該'], ['常常'], v.a.h], end: '。',
+    en: v => `${cap(v.s.en)} should ${v.a.v} ${v.a.o} often.`, bad: [v => [v.s.h, ['應該'], v.a.h, ['常常']], v => [['應該'], v.s.h, ['常常'], v.a.h]] },
+  { id: 'zhi', bk: [['fw', '只', ['只', '也', '都', '很', '會', '還', '是', '得'], ['的', '嗎', '吧', '和']]], L: 'L6', g: 'g_zhi', sl: ['s', 'a'], ok: v => !v.a.noLike, zh: v => [v.s.h, ['只'], ['想'], v.a.h], end: '。',
+    en: v => `${cap(v.s.en)} only ${v.s.p3 ? 'wants' : 'want'} to ${v.a.v} ${v.a.o}.`, bad: [v => [['只'], v.s.h, ['想'], v.a.h], v => [v.s.h, ['想'], v.a.h, ['只']]] },
   { id: 'order', bk: [['mw'], ['it']], L: 'L4', g: 'g_order', sl: ['open', 'it'], ok: v => v.it.order, zh: v => [v.open.h, ['一', v.it.mw], v.it.h], end: '。',
     en: v => `${v.open.en} ${art(v.it.sg)}.`, bad: [v => [v.open.h, ['一'], v.it.h, [v.it.mw]]] },
 ];
 const TMAP = Object.fromEntries(TPL.map(t => [t.id, t]));
-function wrongMW(it) { return pick(MWS_ALL.filter(m => m !== it.mw && m !== '個')); }
+/* measure words that also fit a noun (一瓶果汁 as well as 一杯果汁) are never shown as mistakes */
+const mwsOf = it => [it.mw].concat(it.mw2 || []);
+function wrongMW(it) { return pick(MWS_ALL.filter(m => !mwsOf(it).includes(m) && m !== '個')); }
 const HOURS = []; [4, 5, 6, 7, 8, 9, 10, 11].forEach(n => { HOURS.push({ n, half: 0, h: [hourZh(n) + '點'] }); HOURS.push({ n, half: 1, h: [hourZh(n) + '點', '半'] }); });
 const PRICES = () => { const lo = [5, 8, 10, 12, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95], hi = [100, 120, 150, 180, 200, 250, 300, 350, 400, 450, 500, 600, 800, 1000, 1200, 1500, 2000], top = [12000, 15000, 20000, 25000, 30000];
   return lo.concat(hi, top).map(n => ({ n, h: [n < 100 ? priceZh(n) : numZh(n)] })); };
@@ -208,7 +216,7 @@ const PRICE_RANGE = { 書: [100, 600], 筆: [10, 95], 衣服: [150, 2000], 花: 
   杯子: [50, 300], 錢包: [200, 1500], 書包: [300, 1500], 咖啡: [35, 95], 奶茶: [30, 75], 果汁: [30, 80], 水: [10, 25], 汽水: [20, 40], 牛肉麵: [60, 95] };
 const priceOK = (it, n) => { const r = PRICE_RANGE[it.h[0]]; return !r || (n >= r[0] && n <= r[1]); };
 const PR = PRICES();
-const MNP = [{ h: ['好'] }, { h: ['快'] }, { h: ['漂亮'] }, { h: ['不錯'] }];
+const MNP = [{ h: ['好'] }, { h: ['快'] }, { h: ['慢'] }, { h: ['漂亮'] }, { h: ['不錯'] }];
 const poolOf = (name) => name === 'hr' ? HOURS : name === 'pr' ? PR : name === 'mn' ? MNP : POOLS[name];
 
 /* ---- lesson level of a word: words a learner has met are always allowed */
@@ -265,7 +273,7 @@ function genAny(o = {}) {
 const SLOT_IDX = {};
 TPL.forEach(t => t.sl.forEach(sl => (poolOf(sl) || []).forEach(e => entryWords(e).forEach(h => (SLOT_IDX[h] = SLOT_IDX[h] || []).push([t.id, sl, e])))));
 ['本', '枝', '件', '朵', '台', '張', '個', '雙', '杯', '瓶', '碗', '隻'].forEach(m => ITEM.filter(it => it.mw === m).forEach(it => ['buy', 'price', 'song', 'order', 'you', 'tai'].forEach(tid => { if (TMAP[tid].sl.includes('it')) (SLOT_IDX[m] = SLOT_IDX[m] || []).push([tid, 'it', it]); })));
-const FW = ['想', '喜歡', '也', '都', '很', '會', '去', '最', '在', '有', '送', '覺得', '太', '了', '還是', '要', '每天', '買', '請', '給', '多少', '錢', '這', '有一點', '塊', '吧', '嗎', '不', '得', '每'];
+const FW = ['想', '喜歡', '也', '都', '很', '會', '去', '最', '在', '有', '送', '覺得', '太', '了', '還是', '要', '每天', '買', '請', '給', '多少', '錢', '這', '有一點', '塊', '吧', '嗎', '不', '得', '每', '應該', '只', '常常'];
 TPL.forEach(t => { const v = fillTpl(t); if (!v) return; const words = new Set(t.zh(v).flat()); FW.forEach(h => { if (words.has(h)) (SLOT_IDX[h] = SLOT_IDX[h] || []).push([t.id, null, null]); }); });
 function genFor(h, o = {}) {
   const opts = shuffle(SLOT_IDX[h] || []);
@@ -324,8 +332,9 @@ const isGen = s => !!s.t;
 const sentHTML = (toks, blankAt) => toks.map(([w, p], i) => i === blankAt ? '<span class="sblank">＿＿</span>' : p ? `<ruby class="tok" data-w="${esc(w)}">${esc(w)}<rt>${esc(phon(p))}</rt></ruby>` : `<span class="punct">${esc(w)}</span>`).join('');
 const keysExcept = (s, k) => (s.keys || []).filter(x => x !== k);
 function enDistractors(s, n) {
-  if (isGen(s)) { const vs = variants(s, n).map(v => v.en); if (vs.length >= n) return vs; return vs.concat(sampleN(SENTS.filter(x => x.en !== s.en), n - vs.length).map(x => x.en)); }
-  const pool = SENTS.filter(x => x.en !== s.en && x.zh !== s.zh);
+  // the same sentence can be in the corpus twice (a lesson line that is also a grammar example), so keep each English once
+  const seenEn = new Set([s.en]), pool = SENTS.filter(x => x.zh !== s.zh && !seenEn.has(x.en) && seenEn.add(x.en));
+  if (isGen(s)) { const vs = variants(s, n).map(v => v.en); if (vs.length >= n) return vs; return vs.concat(sampleN(pool.filter(x => !vs.includes(x.en)), n - vs.length).map(x => x.en)); }
   const near = pool.filter(x => x.L === s.L && Math.abs(x.en.length - s.en.length) < 25);
   return sampleN(near.length >= n ? near : pool, n).map(x => x.en);
 }
@@ -376,11 +385,11 @@ function qSentBuild(s, o = {}) {
 }
 /* a "crisp" blank: exactly which words are correct there, and words that are clearly wrong */
 function bkInfo(s, b) {
-  if (b[0] === 'mw') { const m = s.v.it.mw; return { h: m, type: 'mw', acc: x => x === m, wrong: MWS_ALL.filter(x => x !== m && x !== '個') }; }
+  if (b[0] === 'mw') { const m = s.v.it.mw, ok = mwsOf(s.v.it); return { h: m, type: 'mw', acc: x => ok.includes(x), wrong: MWS_ALL.filter(x => !ok.includes(x) && x !== '個') }; }
   if (b[0] === 'it') {
     const it = s.v.it;
-    const acc = x => { const e = ITEM.find(i => i.h[0] === x); if (!e || e.mw !== it.mw) return false; try { return !!s.t.ok(Object.assign({}, s.v, { it: e })); } catch (z) { return false; } };
-    return { h: it.h[0], type: 'it', acc, wrong: ITEM.filter(i => i.mw !== it.mw).map(i => i.h[0]) };
+    const acc = x => { const e = ITEM.find(i => i.h[0] === x); if (!e || !mwsOf(e).includes(it.mw)) return false; try { return !!s.t.ok(Object.assign({}, s.v, { it: e })); } catch (z) { return false; } };
+    return { h: it.h[0], type: 'it', acc, wrong: ITEM.filter(i => !mwsOf(i).includes(it.mw)).map(i => i.h[0]) };
   }
   if (b[0] === 'adj') return { h: s.v.adj.h[0], type: 'adj', acc: x => ADJP.some(e => e.h[0] === x), wrong: ['書', '杯', '去', '咖啡', '學校', '本', '在'] };
   return { h: b[1], type: 'fw', acc: x => b[2].includes(x), wrong: b[3] || [] };
@@ -402,7 +411,7 @@ function qSentCloze(s, h, o = {}) {
   const showEn = o.showEn !== false || !crisp || wrong.length < 3;
   if (wrong.length < 3) {
     const w0 = H2W[h]; const L0 = w0 && w0.ls[0];
-    const extra = WL.filter(w => w.h !== h && HAN.test(w.h) && w.h.length === h.length && !isSyn(w.h, h) && (!L0 || w.ls.includes(L0)) && !s.zh.includes(w.h));
+    const extra = WL.filter(w => w.h !== h && HAN.test(w.h) && w.h.length === h.length && !isSyn(w.h, h) && !(w0 && sameMeaning(w, w0)) && (!L0 || w.ls.includes(L0)) && !s.zh.includes(w.h));
     wrong = wrong.concat(sampleN(extra, 6).map(w => w.h));
   }
   const ds = sampleN(uniq(wrong), 3);
