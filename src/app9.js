@@ -42,7 +42,7 @@ function learn(k, sk, ok, o = {}) {
   if (!ok && o.conf && o.conf !== k && W[o.conf]) { const c = S.conf[k] || (S.conf[k] = {}); c[o.conf] = Math.min(9, (c[o.conf] || 0) + 1); }
   if (ok && !o.assist && wt >= .5 && S.pk[k]) { const p = S.pk[k]; const f = sk === 's' ? 0 : 1; if (sk === 's' || sk === 'r' || sk === 'l') p[0] = Math.floor(p[0] * .6 * 10) / 10; if (sk === 'm' || sk === 'r' || sk === 'u') p[1] = Math.floor(p[1] * .6 * 10) / 10; if (p[0] + p[1] < .5) delete S.pk[k]; }
   if (ok && !o.assist && S.conf[k] && wt >= .5) { for (const x in S.conf[k]) { S.conf[k][x] -= .5; if (S.conf[k][x] <= 0) delete S.conf[k][x]; } if (!Object.keys(S.conf[k]).length) delete S.conf[k]; }
-  const st = S.sk[sk] || [0, 0]; S.sk[sk] = [st[0] + (ok ? 1 : 0), st[1] + 1];
+  if (!o.noStat) { const st = S.sk[sk] || [0, 0]; S.sk[sk] = [st[0] + (ok ? 1 : 0), st[1] + 1]; }
 }
 /* every peek is a signal: a pinyin peek = you can't read the characters yet; a meaning peek = you don't know what it means yet.
    The word is scheduled again soon and future questions aim at exactly that gap. */
@@ -218,7 +218,8 @@ function wordGen(words, o = {}) {
   const known = () => words.filter(w => seen(w.k));
   return R => {
     if (st.next.length) return st.next.shift();
-    if (o.extra && R.i > 0 && R.i % (o.extraEvery || 4) === 3) { const x = o.extra(R); if (x) return x; }
+    const ev = o.extraEvery || 4;
+    if (o.extra && R.i > 0 && R.i % ev === ev - 1) { const x = o.extra(R); if (x) return x; }
     const wantTeach = teachQ.length && (st.taught === 0 || R.i % 3 === 0 || !known().length);
     if (wantTeach) {
       const w = teachQ.shift(); st.taught++;
@@ -254,7 +255,8 @@ function qContrast(a, b) {
 function weakGrammar(n = 3) {
   const met = new Set(LES.filter(L => UNITS.find(u => u.id === L.id).nodes.some(nd => nodeCount(nd.id))).flatMap(L => L.grammar));
   const pool = (met.size ? [...met] : LES.slice(0, 3).flatMap(L => L.grammar)).filter(g => G[g] && !G[g].later);
-  return pool.map(g => [(S.gd[g] || 0) + Math.random() * .5, g]).sort((a, b) => a[0] - b[0]).slice(0, n).map(x => x[1]);
+  // lowest accuracy first (S.ga: right/total per grammar point); points you have rarely got right count as weak too
+  return pool.map(g => { const a = S.ga[g], acc = a ? (a[0] + 1) / (a[1] + 2) : .55; return [acc + Math.min(1, (S.gd[g] || 0) / 12) * .25 + Math.random() * .15, g]; }).sort((a, b) => a[0] - b[0]).slice(0, n).map(x => x[1]);
 }
 function qGrammarFor(g, o = {}) {
   const hasT = TPL.some(t => t.g === g);
@@ -273,15 +275,16 @@ function startSmart() {
   const pairs = confPairs(3), gs = weakGrammar(3);
   let xi = 0;
   const mix = mixPairs(3).filter(p => S.cc[ccKey(...p)]); // characters you mix up
-  const extras = [...pairs.map(([a, b]) => () => qContrast(a, b)), ...mix.map(([a, b]) => () => pick(pairQs(a, b)) || null), ...gs.map(g => () => qGrammarFor(g))];
-  runAdaptive({ title: '智慧複習', smart: true, len: 15, hearts: 0, back: () => go('learn'),
-    gen: wordGen(words, { teach: 0, pool: WL.filter(x => x.lv !== 9), extra: () => extras.length ? extras[xi++ % extras.length]() : null, extraEvery: 3 }),
+  const miss = missDue().slice(0, 5), wt = weakTypes(2); // questions from your mistake notebook, and the question types you find hardest
+  const extras = [...miss.map(s => () => missQ(s)), ...pairs.map(([a, b]) => () => qContrast(a, b)), ...mix.map(([a, b]) => () => pick(pairQs(a, b)) || null), ...gs.map(g => () => qGrammarFor(g)), ...wt.map(t => () => typeQ(t))];
+  runAdaptive({ title: '智慧複習', smart: true, len: 15 + Math.min(5, miss.length), hearts: 0, back: () => go('learn'),
+    gen: wordGen(words, { teach: 0, pool: WL.filter(x => x.lv !== 9), extra: () => xi < extras.length ? extras[xi++]() : null, extraEvery: extras.length > 5 ? 2 : 3 }),
     onDone: () => ({ chest: 0 }) });
 }
 function currentLesson() { const nd = currentNode(); return nd && nd.unit !== 'FIN' ? nd.unit : 'L6'; }
 function smartCounts() {
   const seenW = WL.filter(w => S.cards[w.k] && w.lv !== 9);
-  return { due: seenW.filter(w => due(w.k)).length, weak: seenW.filter(w => stageOf(w.k) <= 2).length, conf: confPairs(20).length, looked: Object.keys(S.look).length, peeked: Object.keys(S.pk).filter(k => peekScore(k) >= .5).length, seen: seenW.length };
+  return { due: seenW.filter(w => due(w.k)).length, weak: seenW.filter(w => stageOf(w.k) <= 2).length, conf: confPairs(20).length, looked: Object.keys(S.look).length, peeked: Object.keys(S.pk).filter(k => peekScore(k) >= .5).length, seen: seenW.length, miss: missDue().length };
 }
 function smartCardHTML() {
   const c = smartCounts();
@@ -289,7 +292,7 @@ function smartCardHTML() {
   const dl = dialLv();
   return `<button class="smart-card" id="smartGo"><span class="sc-m">${mascotSVG({ mood: 'think', size: 54 })}</span>
     <span class="sc-t"><span class="sc-eyebrow">For you · 智慧複習</span><b>Smart review</b>
-    <span class="sc-chips"><span>${c.due} due</span><span>${c.weak} still weak</span>${c.peeked ? `<span>${c.peeked} peeked</span>` : ''}${c.conf ? `<span>${c.conf} mix-up${c.conf > 1 ? 's' : ''}</span>` : ''}</span></span>
+    <span class="sc-chips"><span>${c.due} due</span><span>${c.weak} still weak</span>${c.peeked ? `<span>${c.peeked} peeked</span>` : ''}${c.conf ? `<span>${c.conf} mix-up${c.conf > 1 ? 's' : ''}</span>` : ''}${c.miss ? `<span>${c.miss} mistake${c.miss > 1 ? 's' : ''} to redo</span>` : ''}</span></span>
     <span class="sc-dial" title="Difficulty: ${DIAL_N[dl][1]}"><span class="dbars">${[1, 2, 3].map(i => `<i class="${i <= dl ? 'on' : ''}"></i>`).join('')}</span><small>${DIAL_N[dl][1]}</small></span></button>`;
 }
 /* word progress shown on the results screen */

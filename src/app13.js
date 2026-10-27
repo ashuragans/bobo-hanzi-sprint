@@ -37,7 +37,7 @@ function genPassage(o = {}) {
 
 /* ---- choose the second half of each sentence: one shared list, one half per sentence */
 function genHalves(n = 8, o = {}) {
-  const chosen = [], skip = o.used || new Set();
+  const chosen = o.with ? [o.with] : [], skip = o.used || new Set();
   for (const h of shuffle(ST.halves)) { if (!skip.has(h[1]) && !chosen.some(c => c[2] === h[2])) chosen.push(h); if (chosen.length >= n) break; }
   chosen.forEach(c => skip.add(c[1]));
   const st = { sec: 'Choose the correct second half of the sentence', opts: shuffle(chosen.map(c => c[1])) };
@@ -45,7 +45,7 @@ function genHalves(n = 8, o = {}) {
 }
 /* ---- complete each dialogue: five dialogues of different kinds, plus two replies that fit none of them */
 function genDialogs(n = 5, extra = 2, o = {}) {
-  const chosen = [], skip = o.used || new Set();
+  const chosen = o.with ? [o.with] : [], skip = o.used || new Set();
   for (const d of shuffle(ST.dialogs)) { if (!skip.has(d[0]) && !chosen.some(c => c[2] === d[2])) chosen.push(d); if (chosen.length >= n + extra) break; }
   chosen.slice(0, n).forEach(c => skip.add(c[0]));
   const st = { sec: 'Choose an appropriate sentence to complete each dialogue', opts: shuffle(chosen.map(c => c[1])) };

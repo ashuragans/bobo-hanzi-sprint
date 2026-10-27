@@ -27,7 +27,7 @@ python scripts/assemble.py                      # src/ + generated/data.js -> pu
 python scripts/assemble.py --artifact           # dist/artifact.html: single-file version for a claude.ai artifact
 
 pip install -r tests/requirements.txt && python -m playwright install chromium   # once, for tests
-python tests/run_all.py --quick                 # game flow + peeking + memory, phone and desktop (a few minutes)
+python tests/run_all.py --quick                 # game flow + peeking + memory + learner record, phone and desktop (~20 min)
 python tests/run_all.py                         # everything, including the layout sweep at 7 widths (~20 min)
 
 python -m http.server -d public 8765            # preview at http://localhost:8765
@@ -47,7 +47,7 @@ tests will serve the local copy. Tests exit non-zero on any page error, console 
 
 ```
 public/              what Vercel serves: index.html (generated), strokes.json (generated), icons, manifest
-src/                 app code, concatenated in numeric order (app1 … app13) into one script — order matters
+src/                 app code, concatenated in numeric order (app1 … app14) into one script — order matters
   shell.html         page skeleton (header, nav, containers); /*CSS*/ /*DATA*/ /*APP*/ are filled by assemble.py
   style.css          all styles; tokens in :root, dark mode under prefers-color-scheme and [data-theme]
   app1.js            data indexes (W words, H2W), state S (defState/normalize/save), cloud sync, spaced repetition (learning steps, then the FSRS-4.5
@@ -68,6 +68,10 @@ src/                 app code, concatenated in numeric order (app1 … app13) in
   app13.js           midterm-style tests: a NEW test in the midterm's format every time (midStyleTest: pictures, two passages with a word
                      bank, dialogues, measure-word bank, second halves), built from the STYLE_* pools; weak words are blanked first.
                      Also the 短文填空 / 後半句 / 量詞填空 drills; teacherTest uses a generated passage or measure-word bank half the time
+  app14.js           learner record: trackAnswer() records EVERY answer by question type (S.qs: right, total, peeked, time, last 20) and
+                     grammar point (S.ga); sentence questions feed their least-known words to the word model; the 錯題本 mistake
+                     notebook (S.miss, rebuilt by missQ from q.sig); peeking at answer choices (拼 → 意) and at any Chinese prompt
+                     (tokPrompt); weakTypes() for Smart review; the coach (coachInsights: where to improve + a button to act on it)
 content/
   content.py         Lessons 1–3 (from the class slides), GRAMMAR, DRILLS, READING, ROUTINE, MNEMO
   content2.py        Lessons 4–6 (book word lists; L4–5 practice dialogues written for this site; L6 dialogues, words and exercises from the class slides), more grammar and drills
@@ -87,8 +91,8 @@ tests/               Playwright tests + run_all.py
 - **Add example sentences:** add `[zh, en]` pairs to `EXAMPLES` in `src/app11.js`. Then run `assemble.py`.
 - **Add a midterm-style passage:** add to `STYLE_PASSAGES` in `content3.py`. Mark 14+ words that may become blanks as `[word]` (`[word|alt]` also accepts `alt`), and names as `{M}` `{M2}` `{F}` `{F2}`. build.py fails if a marked word shows up a second time anywhere in the passage (even inside another word) or inside a name. Only mark words that can't be swapped with another marked word, or list the swap as an `|alt`. Second halves and dialogues carry a group: a set never takes two of one group, so put every pair whose answer could also fit another one in the same group.
 - **Add a teacher-style word bank or cloze set:** add to `BANKS`/`CLOZE` in `content3.py`, using `＿＿` for blanks. `ans` lists one answer, or a list of accepted answers, per blank. Then run `build.py`.
-- **New question type:** write a generator that returns the same shape as its neighbours (`mcq(...)` in app4, or the session item kinds in app7). Register it where it should appear: `LADDER`/`qFor` in app9 for adaptive practice, or a node in `NODES` (app8) for the learning path.
-- **Change difficulty or adaptivity:** see `learn()`, `dialStep()`, `qFor()`, `wordPriority()` in app9. Peeking at pinyin or meaning counts as half-knowing a word and fades over about 3 days (`peekScore`).
+- **New question type:** write a generator that returns the same shape as its neighbours (`mcq(...)` in app4, or the session item kinds in app7). Register it where it should appear: `LADDER`/`qFor` in app9 for adaptive practice, or a node in `NODES` (app8) for the learning path. Give it a `qt` (or `cat`) that `qtypeOf()` maps to an entry in `QTI` (app14) so its answers are recorded and the coach can advise on it; add a `TYPE_Q` generator so Smart review can practise it. If it comes from a fixed pool, set `q.sig` and teach `missQ()` to rebuild it, so misses go into the mistake notebook. Set `noPeek: true` where peeking would give the answer away (choices are already not peekable for listening and pinyin questions).
+- **Change difficulty or adaptivity:** see `learn()`, `dialStep()`, `qFor()`, `wordPriority()` in app9. Peeking at pinyin or meaning counts as half-knowing a word and fades over about 3 days (`peekScore`). Smart review (`startSmart`) mixes in due mistakes (`missDue`), mix-ups, weak grammar (`weakGrammar`, by S.ga accuracy) and the weakest question types (`weakTypes`) every 2nd–3rd question.
 - **Review timing:** `schedule()` in app1 (learning steps `IV`, FSRS weights `FSW`, test-date cap). `wordPriority()` adds the predicted forgetting (`recallNow`).
 - **Look-alikes:** build.py computes `DATA.look` from strokes.json (shape + shared components); app12 adds the student's own mix-ups (`S.cc`, recorded by `noteWordMix`) and the hand-picked `LOOK` sets in app4. Multiple-choice options keep their word keys in `optK`; `mcq()` shuffles both together.
 - **Styling:** add classes in `style.css`, reuse tokens, and check 320 px phones (`tests/test_adaptive.py` sweeps 7 widths).

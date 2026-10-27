@@ -29,7 +29,7 @@ def serve():
 
 def main():
     quick = "--quick" in sys.argv
-    tests = ["test_game.py", "test_peek.py", "test_memory.py"] if quick else ["test_game.py", "test_adaptive.py", "test_peek.py", "test_memory.py"]
+    tests = ["test_game.py", "test_peek.py", "test_memory.py", "test_record.py"] if quick else ["test_game.py", "test_adaptive.py", "test_peek.py", "test_memory.py", "test_record.py"]
     srv = serve()
     env = dict(os.environ, TEST_URL=f"http://127.0.0.1:{PORT}/index.html")
     failed = []
