@@ -986,3 +986,22 @@ ruby.tok.show{background:var(--sky-soft);border-radius:4px}
 .bankbar{row-gap:12px!important;padding-top:6px}
 .pill.pearl.bump{animation:none}
 .pill.pearl.bump .pi{animation:bump .5s cubic-bezier(.3,1.6,.5,1)}
+
+/* ---- look-alike characters (app12): the missing-character box, contrast pairs with the different strokes in red */
+.lkbox{display:inline-grid;place-items:center;width:1.05em;height:1.05em;border:2.5px dashed var(--pen);border-radius:6px;vertical-align:-.12em;color:var(--pen)}
+.mixpair{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:8px}
+.mixc{display:flex;flex-direction:column;align-items:center;gap:2px;text-align:center;min-width:0;flex:0 1 44%}
+.mixsvg{width:72px;height:72px;display:block}
+.mixt{font-size:3.4rem;line-height:1}
+.mixvs{font:700 1.4rem var(--f-disp);color:var(--ink-3);flex:none}
+.mixcards{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%}
+.mixcard{display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 8px;border:1.5px solid var(--outline);border-radius:var(--r);background:var(--page);text-align:center;min-width:0}
+.mixcard .mixsvg{width:min(120px,28vw);height:min(120px,28vw)}
+/* ---- sentence map: who / when / where / what */
+.smap{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}
+.smc{display:inline-flex;flex-direction:column;align-items:center;padding:3px 8px;border-radius:var(--r-s);background:var(--page-2)}
+.smc b{font-size:1.15rem}
+.smc small{font-size:.7rem;color:var(--ink-2);line-height:1.1}
+.smc.r-who{background:var(--pen-soft)} .smc.r-when{background:var(--gold-soft)} .smc.r-where{background:var(--jade-soft)}
+.smc.r-what{background:var(--seal-soft)} .smc.r-towhom{background:var(--taro-soft)} .smc.r-whatthing{background:var(--sky-soft)}
+.qa{display:flex;flex-direction:column;gap:6px;text-align:left;font-size:1.15rem;max-width:100%}

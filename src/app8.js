@@ -131,7 +131,7 @@ const ACH = [
   ['unit', '🏆', 'Unit champion', 'Finish every level in one unit', s => UNITS.some(u => u.nodes.every(nd => (s.path[nd.id] || 0) >= 1)), 30],
   ['chest', '🧰', 'Treasure hunter', 'Open 5 chests', s => (s.totals.chests || 0) >= 5, 20],
   ['last100', '📜', 'Payback', 'Score 100% on your last-test redo', s => s.mocks.some(m => m.type === 'last' && m.pct === 100), 40],
-  ['ready', '🎓', 'Test ready', 'Score 80%+ on a teacher-style test', s => s.mocks.some(m => m.type === 'teacher' && m.pct >= 80), 40],
+  ['ready', '🎓', 'Test ready', 'Score 80%+ on a teacher-style test', s => s.mocks.some(m => (m.type === 'teacher' || m.type === 'midstyle') && m.pct >= 80), 40],
   ['shop', '🛍️', 'Fashionista', 'Buy something for 波波', s => (s.ward.owned || []).length > 2, 10],
   ['level5', '⭐', 'Little teacher', 'Reach level 5', s => levelOf(s.xp) >= 5, 30],
   ['night', '🌙', 'Night owl', 'Study after 10 p.m.', s => (s.totals.night || 0) > 0, 10],
@@ -201,7 +201,8 @@ const UNITS = [
       { t: 'write', title: '寫字', en: 'Writing' }, { t: 'check', title: '單元考', en: 'Checkpoint' }].map((n, j) => Object.assign(n, { id: L.id + '-' + j, unit: L.id })) })),
   { id: 'FIN', idx: LES.length, zh: '衝刺', name: '考前衝刺', en: 'Final sprint before the test', color: 'seal',
     nodes: [{ t: 'test', which: 'last', title: '上次的考卷', en: 'Your last test' }, { t: 'lmix', title: '聽力 A/B/C', en: 'Listening mix' }, { t: 'sweep', deck: 'T1', title: '詞表 1', en: 'Vocab table 1' },
-      { t: 'test', which: 'teacher', title: '老師式考卷', en: 'Teacher-style test' }, { t: 'sweep', deck: 'T2', title: '詞表 2', en: 'Vocab table 2' }, { t: 'test', which: 'mock', title: '模擬考', en: 'Mixed mock test' }]
+      { t: 'test', which: 'teacher', title: '老師式考卷', en: 'Teacher-style test' }, { t: 'sweep', deck: 'T2', title: '詞表 2', en: 'Vocab table 2' }, { t: 'test', which: 'mock', title: '模擬考', en: 'Mixed mock test' },
+      { t: 'test', which: 'mid', title: '期中考', en: 'Your midterm' }, { t: 'test', which: 'midstyle', title: '期中考式', en: 'New midterm-style test' }]
       .map((n, j) => Object.assign(n, { id: 'FIN-' + j, unit: 'FIN' })) }];
 const NODES = UNITS.flatMap(u => u.nodes);
 const nodeCount = id => S.path[id] || 0;
@@ -215,7 +216,7 @@ function nodeDesc(nd) {
     listen: 'Hear a sentence, pick the picture A, B or C — like your teacher\'s listening test.',
     write: 'Watch the stroke order, trace it, then write characters from memory.',
     check: 'Mixed questions in your teacher\'s style. Score 60% to pass and open the chest.',
-    test: { last: 'Every question from the test your teacher gave you.', teacher: 'A full new test in your teacher\'s format.', mock: '40 mixed questions with a 30-minute timer.' }[nd.which],
+    test: { last: 'Every question from the test your teacher gave you.', teacher: 'A full new test in your teacher\'s format.', mock: '40 mixed questions with a 30-minute timer.', mid: 'The reading part of your midterm, exactly as on the paper.', midstyle: 'A new test in your midterm\'s format, different every time.' }[nd.which],
     lmix: '10 listening questions: times, prices, food, places and more.',
     sweep: `Fast 4-choice round through ${nd.deck === 'T1' ? 'Level 1' : 'Level 2'} of the vocab table.` })[nd.t];
 }
@@ -284,6 +285,7 @@ function sessStory(L, nid) {
   const lines = SENTS.filter(x => x.id.startsWith(`${L}-${ti}-`));
   shuffle(lines).slice(0, 3).forEach((x, i) => { const q = i === 1 && ttsOK() ? qSentHear(x, {}) : qSentRead(x, {}); if (q) { q.hidePy = dialLv() >= 2; qs.push(q); } });
   shuffle(lines).filter(x => x.toks.filter(t => t[1]).length <= 7).slice(0, 2).forEach(x => { const q = qSentBuild(x, {}); if (q) qs.push(q); });
+  qs.push(...genChoiceSet(2, { L }), genFrame({ L })); // replies and who / when / where / what
   const inText = uniq(tx.lines.flatMap(l => l[1].map(t => t[0]))).map(h => H2W[h]).filter(w => w && w.h.length >= 2 && HAN.test(w.h));
   sampleN(inText, 3).forEach(w => qs.push(qFor(w, { L, pool: lessonWordsOf(L) })));
   return qs.filter(Boolean);
@@ -307,6 +309,7 @@ function sessCheck(L) {
   if (go_) qs.push(qOrderNum(go_)); else sampleN(DRILLS.filter(d => d.k === 'order' && LL.grammar.includes(d.g)), 1).forEach(d => qs.push(qOrderNum({ t: d.t, a: d.a, en: d.en })));
   const sp = { L0: [qLook], L1: [qLook, () => qReading(pick(DATA.reading.filter(r => r.text.startsWith('L1'))))], L2: [qClock, qDate], L3: [qMW, qPrice], L4: [qBigNum, qMW], L5: [qLocation, qLocation], L6: [qListenPic, () => qReading(pick(DATA.reading.filter(r => r.text.startsWith('L6'))))] }[L] || [];
   sp.forEach(f => { const q = f(); if (q && !(q.cat === 'listen' && !ttsOK())) qs.push(q); });
+  qs.push(genFrame({ L }));
   const met = all.filter(w => seen(w.k));
   sampleN(met.length >= 4 ? met : all, 4).forEach(w => qs.push(qFor(w, { L, pool: all })));
   const out = shuffle(qs.filter(Boolean));
@@ -329,7 +332,7 @@ function startNode(nd) {
   else if (nd.t === 'lmix') { cfg.hearts = 0; cfg.qs = ttsOK() ? shuffle([...Array.from({ length: 6 }, qListenPic), ...Array.from({ length: 4 }, () => { const x = genAny({ prefSeen: true }); return x ? qSentHear(x, {}) : qListenPic(); })]) : shuffle(DATA.reading).slice(0, 8).map(r => qReading(r)); }
   else if (nd.t === 'sweep') { cfg.hearts = 0; const ws = deckWords(nd.deck); cfg.len = 15; cfg.gen = wordGen(buildQueue(ws, 24, 24), { teach: 0, pool: ws }); }
   else if (nd.t === 'test') { cfg.hearts = 0; cfg.adaptive = false; cfg.mock = true; cfg.type = nd.which; cfg.title = nd.title;
-    if (nd.which === 'last') cfg.qs = lastTest(); else if (nd.which === 'teacher') cfg.qs = teacherTest(); else { cfg.qs = mockQuiz(true); cfg.exam = true; cfg.minutes = 30; } }
+    if (nd.which === 'last') cfg.qs = lastTest(); else if (nd.which === 'mid') cfg.qs = midTest(); else if (nd.which === 'midstyle') cfg.qs = midStyleTest(); else if (nd.which === 'teacher') cfg.qs = teacherTest(); else { cfg.qs = mockQuiz(true); cfg.exam = true; cfg.minutes = 30; } }
   cfg.onDone = res => {
     const first = !nodeCount(nd.id);
     const need = nd.t === 'check' ? 60 : 0;
@@ -454,6 +457,7 @@ function vMe(el, p) {
     T.innerHTML = `<div class="grid2">
       <div class="card"><h3>Your skills</h3><p class="small muted" style="margin:2px 0 10px">Averages over the ${met.length} words you've met. Each session aims at your lowest bars.</p>
         <div class="skrows">${SKL.map(sk => bar(SKN[sk], skAvg(sk))).join('')}${bar(['語法', 'Grammar'], gAvg)}</div></div>
+      ${memoryCardHTML()}
       <div class="card"><h3>Difficulty adapts to you</h3><div class="dialbig">${[1, 2, 3].map(i => `<div class="${i === d ? 'on' : i < d ? 'past' : ''}"><b class="han">${DIAL_N[i][0]}</b><span>${DIAL_N[i][1]}</span></div>`).join('')}</div>
         <p class="small" style="margin-top:10px">${esc(DIAL_N[d][2])}</p><p class="small muted" style="margin-top:6px">Quick, correct answers move it up; mistakes move it down, so you stay at about 80% right — hard enough to grow, easy enough to keep going.</p></div>
       <div class="card span2"><h3>Word stages by lesson</h3><div class="stlegend">${STG.map((x, i) => [x, i]).reverse().map(([x, i]) => `<span><i class="s${i}"></i>${x[1]}</span>`).join('')}</div>
@@ -514,13 +518,14 @@ function vPractice(el) {
   const weakN = deckWords('weak').length, dueN = WL.filter(w => due(w.k)).length;
   const sc = smartCounts();
   const tiles = [['smart', {}, '智慧', 'Smart review', sc.seen ? `${sc.due} due · ${sc.weak} weak · ${sc.conf} mix-ups` : 'Built from your mistakes', 'pink'], ['cards', { deck: 'LALL', mode: 'flip' }, '翻卡', 'Flashcards', dueN ? dueN + ' due now' : 'Spaced repetition', 'jade'], ['cards', { deck: 'T1', mode: 'speed' }, '快選', 'Speed sweep', 'Race through the vocab table', 'gold'],
-    ['cards', { deck: 'weak', mode: 'flip' }, '錯題', 'Weak words', weakN + ' to fix', 'seal'], ['lessons', {}, '課文', 'Dialogues', 'Read and listen to every lesson', 'sky'],
+    ['cards', { deck: 'weak', mode: 'flip' }, '錯題', 'Weak words', weakN + ' to fix', 'seal'], ['clinic', {}, '字形', 'Mix-up clinic', mixCount() ? mixCount() + ' look-alike pair' + (mixCount() > 1 ? 's' : '') + ' you mix up' : 'Characters that look alike', 'pink'], ['lessons', {}, '課文', 'Dialogues', 'Read and listen to every lesson', 'sky'],
     ['grammar', {}, '語法', 'Grammar library', `All ${Object.keys(G).length} points with examples`, 'taro'], ['write', { mode: 'dict' }, '聽寫', 'Dictation', 'Hear it, write it', 'tea']];
   el.innerHTML = `<div class="stack"><div class="sec-head"><div><span class="eyebrow">練習 · Practice</span><h1>Practice anything, anytime</h1></div></div>
-    <div class="hub">${tiles.map(([v, p, zh, en, d, c]) => `<button class="hubtile u-${c}" ${v === 'smart' ? 'id="hubSmart"' : `data-go="${v}" data-p='${JSON.stringify(p)}'`}><span class="ht-zh han">${zh}</span><b>${en}</b><span>${d}</span></button>`).join('')}<button class="hubtile u-gold tutor-entry" data-tutor><span class="ht-zh han">問老師</span><b>Ask the tutor</b><span>Check a sentence, ask about grammar</span></button></div>
+    <div class="hub">${tiles.map(([v, p, zh, en, d, c]) => `<button class="hubtile u-${c}" ${v === 'smart' ? 'id="hubSmart"' : v === 'clinic' ? 'id="hubClinic"' : `data-go="${v}" data-p='${JSON.stringify(p)}'`}><span class="ht-zh han">${zh}</span><b>${en}</b><span>${d}</span></button>`).join('')}<button class="hubtile u-gold tutor-entry" data-tutor><span class="ht-zh han">問老師</span><b>Ask the tutor</b><span>Check a sentence, ask about grammar</span></button></div>
     <div id="drillsHere"></div></div>`;
   vDrills($('#drillsHere', el));
   $('#hubSmart', el).onclick = () => startSmart();
+  $('#hubClinic', el).onclick = () => startClinic();
 }
 
 /* ---- welcome, streak pop */

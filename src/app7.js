@@ -95,7 +95,7 @@ function runQuiz(cfg) {
 
   function record(q, ok, yours, quiet, o = {}) {
     R.log.push({ q, ok, yours }); R.ansAt = R.i;
-    if (q.after) q.after(ok);
+    if (q.after) q.after(ok, yours);
     if (q.cat) catAnswer(q.cat, ok);
     const ms = o.ms ?? (R.qt0 ? performance.now() - R.qt0 : null);
     const ad = adaptRecord(q, ok, ms, !!(o.assist ?? R.assist), o.conf);

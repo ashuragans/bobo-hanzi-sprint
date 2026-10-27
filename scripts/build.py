@@ -276,6 +276,56 @@ for c in chars:
         nostroke.append(c)
 print("chars:", len(chars), "with strokes:", len(strokes), "missing:", "".join(nostroke))
 
+# ------------------------------------------------ look-alike characters (for the mix-up drills)
+# Two signals from the stroke data: the overall shape (strokes drawn on a small blurred grid, compared like pictures) and
+# shared components (the longest run of the same stroke types, e.g. 青 in 請/情, 馬 in 媽/嗎, 買 inside 賣).
+import math
+import numpy as np
+def _raster(med, N=32):
+    img = np.zeros((N, N))
+    for st in med:
+        pts = [((x / 1024) * (N - 1), ((900 - y) / 1024) * (N - 1)) for x, y in st]
+        for (x0, y0), (x1, y1) in zip(pts, pts[1:] or pts):
+            for t in np.linspace(0, 1, int(max(abs(x1 - x0), abs(y1 - y0)) * 2) + 1):
+                img[min(N - 1, max(0, int(round(y0 + (y1 - y0) * t)))), min(N - 1, max(0, int(round(x0 + (x1 - x0) * t))))] = 1
+    k = np.array([1, 4, 6, 4, 1], float) / 16
+    for _ in range(2):
+        img = np.apply_along_axis(lambda r: np.convolve(r, k, "same"), 1, img)
+        img = np.apply_along_axis(lambda r: np.convolve(r, k, "same"), 0, img)
+    v = img.ravel() - img.mean()
+    return v / (np.linalg.norm(v) + 1e-9)
+def stroke_type(m):  # direction (8 ways) + sharp turn + long/short; the same rule runs in the app (app12.js)
+    (x0, y0), (x1, y1) = m[0], m[-1]
+    d = int(((math.degrees(math.atan2(y0 - y1, x1 - x0)) + 382.5) % 360) // 45)
+    turn = 0
+    for a, b, c in zip(m, m[1:], m[2:]):
+        v1, v2 = (b[0] - a[0], b[1] - a[1]), (c[0] - b[0], c[1] - b[1])
+        n1, n2 = math.hypot(*v1), math.hypot(*v2)
+        if n1 > 25 and n2 > 25 and (v1[0] * v2[0] + v1[1] * v2[1]) / (n1 * n2) < 0.3: turn = 1; break
+    return d * 4 + turn * 2 + (1 if math.hypot(x1 - x0, y1 - y0) > 250 else 0)
+def _run(a, b):  # longest common run
+    best, prev = 0, [0] * (len(b) + 1)
+    for i in range(len(a)):
+        cur = [0] * (len(b) + 1)
+        for j in range(len(b)):
+            if a[i] == b[j]: cur[j + 1] = prev[j] + 1; best = max(best, cur[j + 1])
+        prev = cur
+    return best
+lc = sorted(strokes)
+RAS = np.stack([_raster(strokes[c]["medians"]) for c in lc]); SIM = RAS @ RAS.T
+TY = [[stroke_type(m) for m in strokes[c]["medians"]] for c in lc]
+look = {}
+for i, c in enumerate(lc):
+    sc = []
+    for j, o in enumerate(lc):
+        if i == j: continue
+        la, lb = len(TY[i]), len(TY[j]); k = _run(TY[i], TY[j]) if abs(la - lb) < 9 else 0
+        comp = (k / max(la, lb) + k / min(la, lb)) / 2 if k >= 3 else 0
+        s = 0.6 * SIM[i, j] + 0.4 * comp - 0.015 * abs(la - lb)
+        if s >= 0.55: sc.append((-round(s, 4), o))
+    if sc: look[c] = "".join(o for _, o in sorted(sc)[:5])
+print("look-alikes:", len(look), "characters, e.g.", " ".join(c + "→" + look.get(c, "") for c in "買未午請媽"))
+
 out_dir = os.path.join(ROOT, "public")
 os.makedirs(out_dir, exist_ok=True)
 def bank_set(st):
@@ -294,14 +344,75 @@ def bank_set(st):
 def order_item(o):
     for a in o["a"]: assert sorted(a) == sorted("".join(o["t"])), ("order mismatch", o)
     return {"t": o["t"], "a": o["a"], "en": o["en"], "note": o.get("note", "")}
-for ps in content3.LAST_PICS + content3.NEW_PICS:
+for ps in content3.LAST_PICS + content3.NEW_PICS + content3.MID_PICS:
     for it in ps["items"]:
         assert it in ps["bank"] and it in content3.PIC, ("pic", ps["id"], it)
+for st in content3.MID_CHOICE:
+    for first, ai in st["items"]:
+        assert first.count("＿＿") == 1 and 0 <= ai < len(st["opts"]), ("choice", st["id"], first)
+mid_words = []
+for h in content3.MID_WORDS:
+    k = h if h in D else H2K.get(h)
+    assert k, ("midterm word missing from the vocabulary", h)
+    if k not in mid_words: mid_words.append(k)
+# midterm-style pools (src/app13.js builds a new midterm-style test from these every time)
+def known(h):
+    k = h if h in D else H2K.get(h)
+    assert k, ("midterm-style word missing from the vocabulary", h)
+    return k
+LORD = ["L0", "L1", "L2", "L3", "L4", "L5", "L6"]
+def first_lesson(h):
+    ls = [l for l in D[known(h)]["ls"] if l in LORD]
+    return min(ls, key=LORD.index) if ls else None
+style_names = [n for v in content3.STYLE_NAMES.values() for n, _ in v]
+style_passages = []
+for p in content3.STYLE_PASSAGES:
+    marks = re.findall(r"\[([^\]]+)\]", p["text"])
+    words = [m.split("|")[0] for m in marks]
+    # the whole passage with every marked word written out and the names left out
+    full = re.sub(r"\{[MF]2?\}", "◯", re.sub(r"\[([^\]|]+)(\|[^\]]*)?\]", r"\1", p["text"]))
+    for m in marks:
+        for x in m.split("|"): known(x)
+    assert len(words) >= 14 and len(set(words)) == len(words), ("passage needs 14+ different marked words", p["id"])
+    for w in words:
+        # no giveaways: a word that can be a blank shows up nowhere else, not even inside another word or a name
+        assert full.count(w) == 1, ("giveaway: passage word shows up more than once", p["id"], w, full.count(w))
+        for n in style_names: assert w not in n, ("giveaway: passage word inside a name", p["id"], w, n)
+        assert w not in p["title"], ("giveaway: passage word in the title", p["id"], w)
+    for slot in re.findall(r"\{([MF]2?)\}", p["text"]): assert slot[0] in content3.STYLE_NAMES
+    parts = []
+    for piece in re.split(r"(\[[^\]]+\]|\{[MF]2?\})", p["text"]):
+        if not piece: continue
+        if piece[0] == "[": ws = piece[1:-1].split("|"); parts.append(["b", ws[0], ws, tk(ws[0])])
+        elif piece[0] == "{": parts.append(["n", piece[1:-1]])
+        else: parts.append(["t", tk(piece)])
+    ls = [first_lesson(w) for w in words]
+    style_passages.append({"id": p["id"], "title": p["title"], "en": p["en"], "L": max([l for l in ls if l] or ["L6"], key=LORD.index), "parts": parts})
+for first, half, g in content3.STYLE_HALVES:
+    assert first.count("＿＿") == 1 and half and g, ("half", first)
+for a, b, g in content3.STYLE_DIALOGS:
+    assert a and b and g, ("dialog", a)
+assert len({g for _, _, g in content3.STYLE_HALVES}) >= 10 and len({g for _, _, g in content3.STYLE_DIALOGS}) >= 12
+style_mw = []
+for noun, mws in content3.STYLE_MW:
+    known(noun); ok = mws.split("/")
+    for m in ok: known(m)
+    style_mw.append([noun, ok])
+style_pics = []
+for th in content3.STYLE_PICS:
+    ws = []
+    for h in th["words"]:
+        if h in content3.PIC or EMOJI.get(h): ws.append(h)
+        else: raise AssertionError(("picture word has no picture", h))
+    style_pics.append({"title": th["title"], "words": ws})
+style = {"names": content3.STYLE_NAMES, "passages": style_passages, "halves": content3.STYLE_HALVES, "dialogs": content3.STYLE_DIALOGS, "mw": style_mw, "pics": style_pics}
+print("midterm-style pools:", len(style_passages), "passages,", len(content3.STYLE_HALVES), "halves,", len(content3.STYLE_DIALOGS), "dialogues,", len(style_mw), "measure words")
 tests = {"last": {"banks": [bank_set(s) for s in content3.LAST_BANKS], "orders": [order_item(o) for o in content3.LAST_ORDERS], "pics": content3.LAST_PICS},
          "banks": [bank_set(s) for s in content3.BANKS], "cloze": [bank_set(s) for s in content3.CLOZE], "opp": content3.OPPOSITES,
-         "orders": [order_item(o) for o in content3.ORDERS], "pics": content3.NEW_PICS, "pic": content3.PIC}
+         "orders": [order_item(o) for o in content3.ORDERS], "pics": content3.NEW_PICS, "pic": content3.PIC,
+         "mid": {"pics": content3.MID_PICS, "banks": [bank_set(s) for s in content3.MID_BANKS], "choice": content3.MID_CHOICE, "words": mid_words}, "style": style}
 data = {"altpy": ALT_PY, "tests": tests, "words": words_out, "lessons": lessons_out, "people": PEOPLE, "grammar": g_out, "drills": DRILLS,
-        "reading": READING, "routine": ROUTINE, "mnemo": mn, "charsWithStrokes": "".join(strokes.keys())}
+        "reading": READING, "routine": ROUTINE, "mnemo": mn, "charsWithStrokes": "".join(strokes.keys()), "look": look}
 js = "window.DATA=" + json.dumps(data, ensure_ascii=False, separators=(",", ":")) + ";"
 open(os.path.join(GEN_DIR, "data.js"), "w", encoding="utf-8").write(js)
 open(os.path.join(out_dir, "strokes.json"), "w", encoding="utf-8").write(json.dumps(strokes, ensure_ascii=False, separators=(",", ":")))
