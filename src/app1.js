@@ -44,10 +44,10 @@ const uniq = a => [...new Set(a)];
 const LS_KEY = 'hanzi-sprint-v1';
 function defState() {
   return { v: 1, updatedAt: 0, start: today(), testDate: ymd(new Date(Date.now() + 3 * 86400000)), xp: 0, streak: { last: '', n: 0 }, day: { date: '', xp: 0 },
-    cards: {}, plan: {}, gd: {}, cat: {}, mocks: [], written: {}, custom: [], ui: {},
+    cards: {}, plan: {}, gd: {}, cat: {}, mocks: [], written: {}, custom: [], ui: { confOk: 1 },
     pearls: 0, path: {}, quests: null, ach: {}, ward: { flavor: 'milk', acc: 'band', owned: ['fl:milk', 'ac:none', 'ac:band'] }, totals: { sessions: 0, perfect: 0, chests: 0, night: 0 },
     bestCombo: 0, name: '', freeze: 0, dayLog: {}, lastNode: '', seenIntro: false,
-    wm: {}, conf: {}, look: {}, sk: {}, pk: {}, dial: .35, recentS: [],
+    wm: {}, conf: {}, look: {}, sk: {}, pk: {}, dial: .35, recentS: [], fs: {}, cc: {},
     set: { ph: 'py', en: true, rate: 0.85, sfx: true, shadow: false, hint: 'tap', hintV: 2 } };
 }
 function normalize(s) {
@@ -56,12 +56,13 @@ function normalize(s) {
   o.set = Object.assign(defState().set, (s && s.set) || {});
   o.ward = Object.assign(defState().ward, (s && s.ward) || {});
   o.totals = Object.assign(defState().totals, (s && s.totals) || {});
-  ['cards', 'plan', 'gd', 'cat', 'written', 'ui', 'path', 'ach', 'dayLog', 'wm', 'conf', 'look', 'sk', 'pk'].forEach(k => { if (!o[k] || typeof o[k] !== 'object') o[k] = {}; });
+  ['cards', 'plan', 'gd', 'cat', 'written', 'ui', 'path', 'ach', 'dayLog', 'wm', 'conf', 'look', 'sk', 'pk', 'fs', 'cc'].forEach(k => { if (!o[k] || typeof o[k] !== 'object') o[k] = {}; });
   ['mocks', 'custom', 'recentS'].forEach(k => { if (!Array.isArray(o[k])) o[k] = []; });
   if (typeof o.dial !== 'number') o.dial = .35;
   if (!o.set.hintV) { o.set.hint = 'tap'; o.set.hintV = 2; }
   if (!Array.isArray(o.ward.owned)) o.ward.owned = defState().ward.owned;
   if (typeof o.pearls !== 'number') o.pearls = 0;
+  if (!o.ui.confOk) { o.conf = {}; o.ui.confOk = 1; } // the mix-up list recorded the wrong option before Oct 2026 (unshuffled keys): start it fresh once
   return o;
 }
 let S = (() => { try { const r = localStorage.getItem(LS_KEY); if (r) return normalize(JSON.parse(r)); } catch (e) {} return defState(); })();
@@ -133,15 +134,43 @@ function addXP(n, x, y) {
   document.body.appendChild(el); setTimeout(() => el.remove(), 1000);
 }
 
-/* ---- spaced repetition (Leitner boxes tuned for a 3-day sprint) */
-const IV = [1, 10, 60, 300, 1440, 2880]; // minutes
-function grade(k, g) {
+/* ---- spaced repetition
+   New words climb short learning steps (Leitner boxes: 1 min → 10 min → 1 h …). Once a word is learned (box 3+), a long-term
+   memory model (FSRS-4.5) predicts when you would forget it and brings it back just before that — and never after the test date.
+   S.cards[k] = [box, due, reviews, lapses] · S.fs[k] = [stability in days, difficulty 1–10, last review, reviews] */
+const IV = [1, 10, 60, 300, 1440, 2880]; // learning steps, minutes
+const FSW = [0.4872, 1.4003, 3.7145, 13.8206, 5.1618, 1.2298, 0.8975, 0.031, 1.6474, 0.1367, 1.0461, 2.1072, 0.0793, 0.3246, 1.587, 0.2272, 2.8755];
+const fsR = (days, s) => Math.pow(1 + 19 / 81 * days / s, -0.5); // chance you still remember it after `days`
+const fsDays = (s, r = .9) => s * 81 / 19 * (Math.pow(r, -2) - 1); // days until that chance drops to r
+function fsNext(k, g, now) { // memory after a review: g = 0 again · 1 hard · 2 good · 3 easy
+  const G = g + 1, c = S.cards[k];
+  let f = S.fs[k];
+  if (!f && c && c[2]) f = [[.3, .5, 1, 2, 4, 7][c[0]], 5, c[1] - IV[c[0]] * 60000, c[2]]; // practised before this model existed
+  if (!f) { const G0 = Math.min(G, 3); return [FSW[G0 - 1], clamp(FSW[4] - (G0 - 3) * FSW[5], 1, 10), now, 1]; } // just met: easy counts as good
+  const s = f[0], r = fsR(Math.max(0, now - f[2]) / 864e5, s);
+  const d = clamp(FSW[7] * FSW[4] + (1 - FSW[7]) * (f[1] - FSW[6] * (G - 3)), 1, 10);
+  const s2 = G === 1 ? Math.min(s, FSW[11] * Math.pow(d, -FSW[12]) * (Math.pow(s + 1, FSW[13]) - 1) * Math.exp(FSW[14] * (1 - r)))
+    : s * (1 + Math.exp(FSW[8]) * (11 - d) * Math.pow(s, -FSW[9]) * (Math.exp(FSW[10] * (1 - r)) - 1) * (G === 2 ? FSW[15] : G === 4 ? FSW[16] : 1));
+  return [Math.max(.1, s2), d, now, f[3] + 1];
+}
+function schedule(k, g, now = Date.now()) { // what a review would do, without changing anything
   const c = S.cards[k] ? S.cards[k].slice() : [0, 0, 0, 0];
   let box = c[0];
   if (g === 0) { box = 0; c[3]++; } else if (g === 1) box = Math.max(1, box); else if (g === 2) box = Math.min(5, box + 1); else box = Math.min(5, box + 2);
-  const mins = g === 1 ? Math.max(1, IV[box] / 2) : IV[box];
-  c[0] = box; c[1] = Date.now() + mins * 60000; c[2]++; S.cards[k] = c;
+  const f = fsNext(k, g, now);
+  let mins = g === 1 ? Math.max(1, IV[box] / 2) : IV[box];
+  if (g && box >= 3) mins = Math.max(mins, fsDays(f[0]) * 1440);
+  const eve = parseYmd(S.testDate).getTime() - 16 * 36e5; // 8 a.m. the day before the test: everything comes back by then
+  if (eve > now + 3 * 36e5 && now + mins * 6e4 > eve) mins = (eve - now) / 6e4;
+  c[0] = box; c[1] = now + mins * 6e4; c[2]++;
+  return { c, f, mins };
 }
+function grade(k, g) {
+  const { c, f } = schedule(k, g);
+  S.cards[k] = c; S.fs[k] = [Math.round(f[0] * 1000) / 1000, Math.round(f[1] * 100) / 100, f[2], f[3]];
+}
+/* chance (0–1) that you still remember word k right now */
+function recallNow(k, now = Date.now()) { const f = S.fs[k]; if (f) return fsR(Math.max(0, now - f[2]) / 864e5, f[0]); return S.cards[k] ? (S.cards[k][1] > now ? .9 : .7) : 0; }
 const quizSRS = (k, ok) => grade(k, ok ? 2 : 0);
 const box = k => S.cards[k] ? S.cards[k][0] : -1;
 const seen = k => !!S.cards[k];
@@ -149,10 +178,8 @@ const known = k => box(k) >= 2;
 const isWeak = k => S.cards[k] && S.cards[k][3] > 0 && S.cards[k][0] < 3;
 const due = k => S.cards[k] && S.cards[k][1] <= Date.now();
 function nextIn(k, g) {
-  const c = S.cards[k] || [0, 0, 0, 0]; let b = c[0];
-  if (g === 0) b = 0; else if (g === 1) b = Math.max(1, b); else if (g === 2) b = Math.min(5, b + 1); else b = Math.min(5, b + 2);
-  const m = g === 1 ? Math.max(1, IV[b] / 2) : IV[b];
-  return m < 60 ? Math.round(m) + 'm' : m < 1440 ? Math.round(m / 60) + 'h' : Math.round(m / 1440) + 'd';
+  const m = schedule(k, g).mins;
+  return m < 60 ? Math.max(1, Math.round(m)) + 'm' : m < 1440 ? Math.round(m / 60) + 'h' : m < 43200 ? Math.round(m / 1440) + 'd' : Math.round(m / 43200) + 'mo';
 }
 function gramAnswer(g, ok) { if (ok) S.gd[g] = (S.gd[g] || 0) + 1; }
 function catAnswer(c, ok) { const a = S.cat[c] || [0, 0]; S.cat[c] = [a[0] + (ok ? 1 : 0), a[1] + 1]; }
@@ -161,12 +188,13 @@ function catAnswer(c, ok) { const a = S.cat[c] || [0, 0]; S.cat[c] = [a[0] + (ok
 const DECKS = [
   { id: 'L0', zh: '預備', en: 'Intro' }, { id: 'L1', zh: '第一課', en: 'Lesson 1' }, { id: 'L2', zh: '第二課', en: 'Lesson 2' }, { id: 'L3', zh: '第三課', en: 'Lesson 3' },
   { id: 'L4', zh: '第四課', en: 'Lesson 4' }, { id: 'L5', zh: '第五課', en: 'Lesson 5' }, { id: 'L6', zh: '第六課', en: 'Lesson 6' },
-  { id: 'T1', zh: '詞表 1', en: 'Vocab table L1' }, { id: 'T2', zh: '詞表 2', en: 'Vocab table L2' }, { id: 'weak', zh: '錯題', en: 'Weak words' }, { id: 'MY', zh: '我的', en: 'My words' }];
+  { id: 'T1', zh: '詞表 1', en: 'Vocab table L1' }, { id: 'T2', zh: '詞表 2', en: 'Vocab table L2' }, { id: 'MID', zh: '期中考', en: 'Midterm words' }, { id: 'weak', zh: '錯題', en: 'Weak words' }, { id: 'MY', zh: '我的', en: 'My words' }];
 function deckWords(id) {
   if (/^L\d$/.test(id)) return LMAP[id].words.map(k => W[k]);
   if (id === 'LALL') return uniq(LES.flatMap(l => l.words)).map(k => W[k]);
   if (id === 'T1') return WL.filter(w => w.lv === 1);
   if (id === 'T2') return WL.filter(w => w.lv === 2);
+  if (id === 'MID') return DATA.tests.mid.words.map(k => W[k]);
   if (id === 'weak') return WL.filter(w => isWeak(w.k));
   if (id === 'MY') return WL.filter(w => w.lv === 9);
   if (id === 'ALL') return WL.filter(w => w.lv !== 9 || true);

@@ -69,6 +69,7 @@ function adaptRecord(q, ok, ms, assist, conf) {
   const fast = ms != null && ms < (FAST[q.sk || 'm'] || 6000);
   const before = dialLv();
   if (q.k) learn(q.k, q.sk || 'm', ok, { ms, assist, conf });
+  if (!ok && conf && q.k && q.cat !== 'listen') noteWordMix(q.k, conf);
   if (ok && q.ks) q.ks.slice(0, 6).forEach(k => learn(k, 'm', true, { w: .25, noSrs: true }));
   if (!q.noDial) dialStep(ok, fast, assist);
   return { fast, dialChanged: dialLv() !== before ? dialLv() - before : 0 };
@@ -81,7 +82,7 @@ function smartDist(w, pool, n, dir, lvl) {
   const rev = Object.keys(S.conf).filter(k => S.conf[k][w.k] && W[k]).map(k => W[k]);
   let cand = [];
   if (lvl >= 3) cand.push(...conf, ...rev, ...sampleN(WL.filter(o => o.k !== w.k && o.lv !== 9 && HAN.test(o.h) && [...o.h].some(c => w.h.includes(c))), 2));
-  if (lvl >= 2) cand.push(...sampleN(pool.filter(o => o.k !== w.k && o.ls.some(l => w.ls.includes(l))), 4));
+  if (lvl >= 2) cand.push(...lookWords(w, WL.filter(o => o.lv !== 9)).slice(0, 2), ...sampleN(pool.filter(o => o.k !== w.k && o.ls.some(l => w.ls.includes(l))), 4)); // look-alikes first
   if (lvl <= 1) cand.push(...sampleN(pool.filter(o => o.k !== w.k && !o.ls.some(l => w.ls.includes(l)) && o.h.length !== w.h.length), 5));
   cand.push(...distractors(w, pool, 12, meaning ? 'h2e' : dir === 'hearH' ? 'listen' : dir));
   const out = [], seenT = new Set([meaning ? w.e : w.h]);
@@ -147,7 +148,7 @@ function qWord(w, qt, lvl, pool) {
 }
 function sentToken(s, w) { const t = s.toks.find(t => H2W[t[0]] && H2W[t[0]].k === w.k); return t ? t[0] : null; }
 function qSent(w, qt, lvl, o = {}) {
-  const s = sentFor(w.k, { L: o.L, prefSeen: true, gen: qt === 'pick' || qt === 'fix' || qt === 'build' ? true : undefined });
+  const s = sentFor(w.k, { L: o.L, prefSeen: true, gen: qt === 'pick' || qt === 'fix' || qt === 'build' || qt === 'frame' ? true : undefined });
   if (!s) return null;
   const hidePy = lvl >= 4 || dialLv() === 3;
   let q = null;
@@ -158,6 +159,7 @@ function qSent(w, qt, lvl, o = {}) {
   else if (qt === 'pick') q = qSentPick(s, { k: w.k });
   else if (qt === 'fix') q = qSentFix(s, { k: w.k });
   else if (qt === 'build') q = qSentBuild(s, { k: w.k });
+  else if (qt === 'frame') q = qSentFrame(s, { k: w.k, hidePy });
   if (q) { q.lvl = lvl; q.hidePy = q.hidePy ?? (qt === 'read' || qt === 'cloze' ? hidePy : false); if (!q.k) q.k = w.k; }
   return q;
 }
@@ -179,13 +181,14 @@ function qFor(w, o = {}) {
   const avoid = new Set([].concat(o.avoid || []));
   let opts = LADDER[lvl].filter(([t]) => !avoid.has(t) && (t !== 'write' || hwOK()) && !((t === 'hearH' || t === 'hearM' || t === 'hearS') && !ttsOK()));
   const pp = Math.min(3, peekPy(w.k)), pm = Math.min(3, peekMean(w.k));
-  opts = opts.map(([t, wt]) => [t, wt * (1.5 - v[SKL.indexOf(QT[t].sk)]) * (1 + ((t === 'h2py' || t === 'tone') ? pp * .6 : 0) + ((t === 'mean' || t === 'recall' || t === 'read') ? pm * .6 : 0))]);
+  const mixed = [...w.h].reduce((a, c) => a + ccOf(c), 0); // characters of this word you've mixed up
+  opts = opts.map(([t, wt]) => [t, wt * (1.5 - v[SKL.indexOf(QT[t].sk)]) * (1 + ((t === 'h2py' || t === 'tone') ? pp * .6 : 0) + ((t === 'mean' || t === 'recall' || t === 'read') ? pm * .6 : 0) + (t === 'lookc' ? Math.min(2, mixed * .5) : 0))]);
   if (pp >= 1 && !opts.some(o => o[0] === 'h2py') && !avoid.has('h2py')) opts.push(['h2py', 1 + pp * .6]);
   if (pm >= 1 && !opts.some(o => o[0] === 'mean') && !avoid.has('mean')) opts.push(['mean', 1 + pm * .6]);
   for (let tries = 0; tries < 5 && opts.length; tries++) {
     const tot = opts.reduce((a, b) => a + b[1], 0); let r = Math.random() * tot, pickT = opts[0][0];
     for (const [t, wt] of opts) { r -= wt; if (r <= 0) { pickT = t; break; } }
-    const q = QT[pickT].f === qWord ? qWord(w, pickT, lvl, o.pool) : qSent(w, pickT, lvl, o);
+    const f = QT[pickT].f, q = f === qWord ? qWord(w, pickT, lvl, o.pool) : f === qSent ? qSent(w, pickT, lvl, o) : f(w, pickT, lvl, o);
     if (q && (pp >= 1 || pm >= 1) && q.kind === 'mc' && /qbig/.test(q.prompt || '')) q.hidePy = true;
     if (q) { q.retry = () => qFor(w, { lvl: Math.max(1, lvl - 1), avoid: [pickT], pool: o.pool, L: o.L }); return q; }
     opts = opts.filter(x => x[0] !== pickT);
@@ -200,6 +203,7 @@ function wordPriority(w) {
   const v = wmOf(w.k), c = S.cards[w.k];
   let p = 1.4 - (v[0] * .3 + v[1] * .25 + v[4] * .3 + v[2] * .15);
   if (c && c[1] <= Date.now()) p += .6;
+  if (c) p += (1 - recallNow(w.k)) * 1.2; // the memory model's guess that it's fading
   if (c) p += Math.min(1, c[3] * .25);
   p += Object.values(S.conf[w.k] || {}).reduce((a, b) => a + b, 0) * .3 + peekScore(w.k) * .45;
   if (stageOf(w.k) >= 5 && !(c && c[1] <= Date.now())) p -= 1;
@@ -268,7 +272,8 @@ function startSmart() {
   if (words.length < 4) words = words.concat(lessonWordsOf(currentLesson()).filter(w => !words.includes(w)).slice(0, 6 - words.length));
   const pairs = confPairs(3), gs = weakGrammar(3);
   let xi = 0;
-  const extras = [...pairs.map(([a, b]) => () => qContrast(a, b)), ...gs.map(g => () => qGrammarFor(g))];
+  const mix = mixPairs(3).filter(p => S.cc[ccKey(...p)]); // characters you mix up
+  const extras = [...pairs.map(([a, b]) => () => qContrast(a, b)), ...mix.map(([a, b]) => () => pick(pairQs(a, b)) || null), ...gs.map(g => () => qGrammarFor(g))];
   runAdaptive({ title: '智慧複習', smart: true, len: 15, hearts: 0, back: () => go('learn'),
     gen: wordGen(words, { teach: 0, pool: WL.filter(x => x.lv !== 9), extra: () => extras.length ? extras[xi++ % extras.length]() : null, extraEvery: 3 }),
     onDone: () => ({ chest: 0 }) });

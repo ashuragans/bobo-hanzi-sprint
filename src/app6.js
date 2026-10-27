@@ -121,8 +121,22 @@ function teacherTest() {
   qs.push(Object.assign(qBank(pick(TT.banks.filter(b => b.kind === 'mw')), { shuffleBank: true }), { label: 'III. Choose the correct measure word' }));
   qs.push(qOpp(7));
   qs.push(Object.assign(qBank(pick(TT.cloze), { shuffleBank: true }), { label: 'V. Read the passage and fill in the blanks' }));
+  qs.push(...genChoiceSet(5, { hidePy: true }));
   qs.push(qPics(pick(TT.last.pics)), qPics(pick(TT.pics)));
   return qs;
+}
+/* choose-a-sentence question, in the paper's order and letters (midterm dialogues and sentence halves) */
+function qChoice(st, [first, ai]) {
+  const full = first.replace('＿＿', st.opts[ai].replace(/[。！？!]$/, ''));
+  return { kind: 'mc', cat: 'reading', abc: true, han: true, label: st.sec, prompt: `<div class="qmid">${fillBlank(first)}</div>`, opts: st.opts.slice(), ans: [ai],
+    explain: `<div class="zh">${ruby(tokenizeLoose(full))}</div>` };
+}
+/* the reading part of the midterm, exactly as on the paper */
+function midTest() {
+  const M = TT.mid, ch = p => M.choice.filter(c => c.id.startsWith(p)).flatMap(c => c.items.map(it => qChoice(c, it)));
+  return [...M.pics.map(p => Object.assign(qPics(p), { label: p.title + ' — write the letter for each picture' })),
+    ...M.banks.filter(b => b.kind === 'cloze').map(b => Object.assign(qBank(b), { label: b.sec })), ...ch('md'),
+    ...M.banks.filter(b => b.kind === 'mw').map(b => Object.assign(qBank(b), { label: b.sec })), ...ch('mh')];
 }
 function lastTest() {
   const T = TT.last;
@@ -130,7 +144,7 @@ function lastTest() {
 }
 function vTest(el) {
   const ms = S.mocks.slice().reverse();
-  const typeName = { teacher: '老師式考卷', last: '上次的考卷', mock: '模擬考' };
+  const typeName = { teacher: '老師式考卷', last: '上次的考卷', mock: '模擬考', mid: '期中考' };
   el.innerHTML = `<div class="stack"><div class="sec-head"><div><span class="eyebrow">考試 · Practice tests</span><h1>Practice the way your teacher tests</h1></div></div>
     <div class="grid2">
       <div class="page pad stack">
@@ -144,6 +158,11 @@ function vTest(el) {
         <div class="han" style="font-size:2.4rem;line-height:1">上次的考卷</div>
         <p class="muted">Your last test, every question, with the answer key. Redo it until you get 100% — your teacher often reuses the same kinds of sentences.</p>
         <div class="row"><button class="btn primary" id="lt_go">${IC.redo}Redo the last test</button></div>
+      </div>
+      <div class="page pad stack">
+        <div class="han" style="font-size:2.4rem;line-height:1">期中考</div>
+        <p class="muted">The reading part of your midterm, exactly as on the paper: picture matching, two passages, dialogues, measure words and sentence halves.</p>
+        <div class="row"><button class="btn primary" id="mid_go">${IC.redo}Redo the midterm</button><button class="btn" data-go="cards" data-p='{"deck":"MID"}'>${IC.cards}Midterm words</button></div>
       </div>
       <div class="page pad stack">
         <div class="han" style="font-size:2.4rem;line-height:1">模擬考</div>
@@ -160,6 +179,7 @@ function vTest(el) {
   $('#tt_prac', el).onclick = () => runQuiz({ title: 'Teacher-style test', mock: true, type: 'teacher', qs: teacherTest(), back: () => go('test') });
   $('#tt_exam', el).onclick = () => runQuiz({ title: 'Teacher-style test (exam)', exam: true, mock: true, type: 'teacher', qs: teacherTest(), back: () => go('test') });
   $('#lt_go', el).onclick = () => runQuiz({ title: 'Your last test', mock: true, type: 'last', qs: lastTest(), back: () => go('test') });
+  $('#mid_go', el).onclick = () => runQuiz({ title: '期中考', mock: true, type: 'mid', qs: midTest(), back: () => go('test') });
   $('#mt_go', el).onclick = () => runQuiz({ title: 'Mock test', exam: true, mock: true, type: 'mock', minutes: $('#mt_timer', el).checked ? 30 : 0, qs: mockQuiz($('#mt_table', el).checked), back: () => go('test') });
   $$('[data-drillgo]', el).forEach(b => b.onclick = () => { const s = DRILL_SETS.find(x => x.id === b.dataset.drillgo); runQuiz({ title: s.en, qs: s.make(), back: () => go('test') }); });
 }

@@ -15,9 +15,10 @@ function distractors(w, pool, n, dir) {
   for (const o of scored) { const t = dir === 'h2e' ? o.e : o.h; if (seenT.has(t)) continue; seenT.add(t); out.push(o); if (out.length >= n) break; }
   return out;
 }
-function mcq(base) { // shuffle options, keep answer
+function mcq(base) { // shuffle options, keep answer (and which word each option is, for the mix-up list)
   const order = shuffle(base.opts.map((_, i) => i));
   if (base.optHTML) base.optHTML = order.map(i => base.optHTML[i]);
+  if (base.optK) base.optK = order.map(i => base.optK[i]);
   return Object.assign(base, { opts: order.map(i => base.opts[i]), ans: base.ans.map(a => order.indexOf(a)) });
 }
 function qVocab(w, dir, pool) {
@@ -258,5 +259,5 @@ function vDrills(el) {
     <button class="btn seal" data-go="test">${IC.test}Take a mock test</button></div>
     <div class="quick">${DRILL_SETS.map(s => `<button class="qbtn" data-drill="${s.id}"${s.id === 'listen' && !ttsOK() ? ' disabled title="No Chinese voice on this device"' : ''}><span class="qh">${s.zh}</span><b>${s.en}</b><span>${s.d}</span></button>`).join('')}</div>
     <div class="page pad"><h3 style="margin-bottom:10px">Your accuracy by skill</h3><div class="catrows">${Object.keys(CAT).map(c => { const [a, b] = S.cat[c] || [0, 0]; return `<div class="catrow"><span class="small">${CAT[c]}</span><div class="bar ${b && a / b < .6 ? 'seal' : b && a / b < .8 ? 'gold' : ''}"><i style="width:${b ? a / b * 100 : 0}%"></i></div><span class="nums small" style="text-align:right">${b ? Math.round(a / b * 100) + '%' : '—'}</span></div>`; }).join('')}</div></div></div>`;
-  $$('[data-drill]', el).forEach(b => b.onclick = () => { const s = DRILL_SETS.find(x => x.id === b.dataset.drill); runQuiz({ title: s.en, qs: s.make(), back: () => go('drills') }); });
+  $$('[data-drill]', el).forEach(b => b.onclick = () => { const s = DRILL_SETS.find(x => x.id === b.dataset.drill); if (s.start) return s.start(() => go('drills')); runQuiz({ title: s.en, qs: s.make(), back: () => go('drills') }); });
 }
