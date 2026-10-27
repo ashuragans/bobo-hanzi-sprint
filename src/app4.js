@@ -40,10 +40,10 @@ function qVocab(w, dir, pool) {
 function fillBlank(s) { return esc(s).replace(/＿＿/g, '<span style="display:inline-block;min-width:2.2em;border-bottom:2.5px solid var(--pen);margin:0 .15em">&nbsp;</span>'); }
 function gExplain(g) { const x = G[g]; const wr = x.wr[0]; return `<div><b>${esc(x.t)}</b></div><div class="han" style="font-size:1.1rem">${esc(x.p)}</div>${wr ? `<div class="small"><span class="mark x">✗</span><span class="han">${esc(wr[0])}</span> → <span class="mark o">✓</span><span class="han">${esc(wr[1])}</span> · ${esc(wr[2])}</div>` : ''}<button class="btn sm ghost" data-go="grammar" data-p='{"g":"${g}"}' style="align-self:flex-start">Open this grammar point</button>`; }
 function qFromDrill(d) {
-  const after = ok => gramAnswer(d.g, ok);
-  if (d.k === 'choose') return mcq({ kind: 'mc', cat: 'grammar', label: 'Fill in the blank', prompt: `<div class="qmid">${fillBlank(d.q)}</div>`, opts: d.o.slice(), han: true, ans: [].concat(d.a), explain: gExplain(d.g), after, g: d.g });
-  if (d.k === 'fix') return mcq({ kind: 'mc', cat: 'grammar', label: 'Which sentence is correct?', prompt: '', opts: d.o.slice(), han: true, ans: [d.a], explain: gExplain(d.g), after, g: d.g });
-  return { kind: 'order', cat: 'order', label: 'Put the words in order', prompt: `<div class="qen">${esc(d.en)}</div>`, tiles: d.t.slice(), answers: d.a, end: d.end ?? '。', explain: gExplain(d.g), after, g: d.g };
+  const after = ok => gramAnswer(d.g, ok), sig = DRILLS.includes(d) ? 'dr|' + DRILLS.indexOf(d) : ''; // sig: a missed drill goes into the mistake notebook
+  if (d.k === 'choose') return mcq({ kind: 'mc', cat: 'grammar', label: 'Fill in the blank', prompt: `<div class="qmid">${fillBlank(d.q)}</div>`, opts: d.o.slice(), han: true, ans: [].concat(d.a), explain: gExplain(d.g), after, g: d.g, sig });
+  if (d.k === 'fix') return mcq({ kind: 'mc', cat: 'grammar', label: 'Which sentence is correct?', prompt: '', opts: d.o.slice(), han: true, ans: [d.a], explain: gExplain(d.g), after, g: d.g, sig });
+  return { kind: 'order', cat: 'order', label: 'Put the words in order', prompt: `<div class="qen">${esc(d.en)}</div>`, tiles: d.t.slice(), answers: d.a, end: d.end ?? '。', explain: gExplain(d.g), after, g: d.g, sig };
 }
 function clockSVG(h, m) {
   const ha = ((h % 12) + m / 60) * 30 * Math.PI / 180, ma = m * 6 * Math.PI / 180;
@@ -198,7 +198,7 @@ function qRadical() {
 function qReading(rq) {
   rq = rq || pick(DATA.reading);
   const [lid, ti] = rq.text.split('-'); const tx = LMAP[lid].texts[+ti];
-  return mcq({ kind: 'mc', cat: 'reading', label: 'Read, then answer', prompt: `<div class="passage"><div class="small faint" style="margin-bottom:4px">${esc(tx.title)}</div>${tx.lines.map(l => `<div class="zh">${l[0] ? `<b class="han" style="color:var(--ink-2)">${esc(l[0])}：</b>` : ''}${ruby(l[1])}</div>`).join('')}</div><div class="qmid" style="margin-top:6px">${esc(rq.q)}</div>`, opts: rq.o.slice(), han: true, ans: [rq.a], explain: `<div class="han" style="font-size:1.2rem">${esc(rq.o[rq.a])}</div>` });
+  return mcq({ kind: 'mc', cat: 'reading', label: 'Read, then answer', prompt: `<div class="passage"><div class="small faint" style="margin-bottom:4px">${esc(tx.title)}</div>${tx.lines.map(l => `<div class="zh">${l[0] ? `<b class="han" style="color:var(--ink-2)">${esc(l[0])}：</b>` : ''}${ruby(l[1])}</div>`).join('')}</div><div class="qmid" style="margin-top:6px">${esc(rq.q)}</div>`, opts: rq.o.slice(), han: true, ans: [rq.a], explain: `<div class="han" style="font-size:1.2rem">${esc(rq.o[rq.a])}</div>`, sig: 'rd|' + DATA.reading.indexOf(rq) });
 }
 function qRoutine() {
   const R = DATA.routine;

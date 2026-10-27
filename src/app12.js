@@ -214,13 +214,13 @@ Object.values(G).forEach(g => { if (g.later) return; g.ex.forEach(([toks, en]) =
 }); });
 /* a set like the midterm: a few questions sharing one list of replies (one reply per kind of question, so only one fits) */
 function genChoiceSet(n = 5, o = {}) {
-  const maxL = o.L ? LIDX[o.L] : 6, pool = shuffle(QA.filter(x => (LIDX[x.L] ?? 6) <= maxL)), chosen = [];
+  const maxL = o.L ? LIDX[o.L] : 6, pool = shuffle(QA.filter(x => (LIDX[x.L] ?? 6) <= maxL)), chosen = o.with ? [o.with] : [];
   for (const x of pool) { if (!chosen.some(y => y.g === x.g || y.az === x.az)) chosen.push(x); if (chosen.length >= n + 1) break; }
   if (chosen.length < 3) return [];
   const opts = shuffle(chosen.map(x => x.az));
   return chosen.slice(0, Math.min(n, chosen.length - 1)).map(x => ({ kind: 'mc', cat: 'reading', qt: 'qa', abc: true, han: true, label: 'Choose an appropriate sentence to complete each dialogue',
     prompt: `<div class="qa"><div><b>A：</b><span class="zh">${ruby(x.q)}</span></div><div><b>B：</b><span class="sblank">＿＿</span></div></div>`,
-    opts, ans: [opts.indexOf(x.az)], hidePy: o.hidePy ?? dialLv() >= 2, explain: `<div class="zh">${ruby(x.q)}</div><div class="han">${esc(x.az)}</div><div class="small">${esc(x.en)}</div>` }));
+    opts, ans: [opts.indexOf(x.az)], hidePy: o.hidePy ?? dialLv() >= 2, sig: 'qa|' + QA.indexOf(x), explain: `<div class="zh">${ruby(x.q)}</div><div class="han">${esc(x.az)}</div><div class="small">${esc(x.en)}</div>` }));
 }
 
 /* ---- memory forecast (Stats page) */

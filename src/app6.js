@@ -39,7 +39,8 @@ function qPics(set) {
 }
 function qOrderNum(o, fixed) {
   const tiles = fixed ? o.t.slice() : shuffle(o.t);
-  return { kind: 'order', cat: 'order', numbered: true, label: 'II. Regroup the sentence in correct order', prompt: `<div class="qmid" style="font-size:1.25rem">${tiles.map((t, i) => `${esc(t)} <span class="small faint">(${i + 1})</span>`).join(' / ')}</div>`,
+  const sig = TT.orders.includes(o) || TT.last.orders.includes(o) ? 'ord|' + o.a[0] : '';
+  return { kind: 'order', cat: 'order', numbered: true, sig, label: 'II. Regroup the sentence in correct order', prompt: `<div class="qmid" style="font-size:1.25rem">${tiles.map((t, i) => `${esc(t)} <span class="small faint">(${i + 1})</span>`).join(' / ')}</div>`,
     hint: o.en, tiles, answers: o.a, end: o.end || '。', note: o.note || '', explain: '' };
 }
 
@@ -130,7 +131,7 @@ function teacherTest() {
 /* choose-a-sentence question, in the paper's order and letters (midterm dialogues and sentence halves) */
 function qChoice(st, [first, ai]) {
   const full = first.replace('＿＿', st.opts[ai].replace(/[。！？!]$/, ''));
-  return { kind: 'mc', cat: 'reading', abc: true, han: true, label: st.sec, prompt: `<div class="qmid">${fillBlank(first)}</div>`, opts: st.opts.slice(), ans: [ai],
+  return { kind: 'mc', cat: 'reading', abc: true, han: true, label: st.sec, sig: 'ch|' + first, prompt: `<div class="qmid">${fillBlank(first)}</div>`, opts: st.opts.slice(), ans: [ai],
     explain: `<div class="zh">${ruby(tokenizeLoose(full))}</div>` };
 }
 /* the reading part of the midterm, exactly as on the paper */

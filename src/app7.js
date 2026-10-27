@@ -99,6 +99,7 @@ function runQuiz(cfg) {
     if (q.cat) catAnswer(q.cat, ok);
     const ms = o.ms ?? (R.qt0 ? performance.now() - R.qt0 : null);
     const ad = adaptRecord(q, ok, ms, !!(o.assist ?? R.assist), o.conf);
+    trackAnswer(q, ok, { ms, assist: !!(o.assist ?? R.assist), yours, blank: o.blank });
     if (ok) { R.right++; R.combo++; R.best = Math.max(R.best, R.combo); questEvent('combo', R.combo, true); if (q.cat === 'listen') questEvent('listen'); }
     else {
       R.combo = 0;
@@ -165,6 +166,8 @@ function runQuiz(cfg) {
     const pk = $('#peek', el); if (pk) pk.onclick = () => { $('.qwrap', el).classList.remove('hidepy'); R.assist = true; pk.remove(); };
     const lt = $('#later', el); if (lt) lt.onclick = () => { q.laterUsed = true; qs.splice(R.i, 1); qs.push(q); sfx('tap'); render(); };
     if (q.say) setTimeout(() => { if (RUN === R && R.cur === q) speak(q.say); }, 300);
+    // every Chinese word in the question can be tapped in practice: pinyin first, then the meaning (both count as a peek)
+    if (practice && canTokPrompt(q)) { const n0 = $$('.tok', el).length; tokPrompt($('.qprompt', el)); if (!q.hidePy && $$('.tok', el).length > n0) $('.qprompt', el).insertAdjacentHTML('afterend', '<p class="tiny faint hint-line">Tap a word for its pinyin, tap again for its meaning.</p>'); }
     R.qt0 = performance.now() + (q.say ? 1200 : 0);
     ({ mc: renderMC, order: renderOrder, bank: renderBank, teach: renderTeach, write: renderWrite })[q.kind](q);
   }
@@ -198,12 +201,22 @@ function runQuiz(cfg) {
 
   function renderMC(q) {
     const body = $('#qbody', el);
-    const twoCol = q.opts.every(o => String(o).length <= 14);
+    const twoCol = q.opts.every(o => String(o).length <= 14), pk = practice && canPeekOpts(q), plv = q.opts.map(() => 0);
     const KL = q.abc ? 'ABCDEFGHIJKLMNOP' : '123456789';
     body.innerHTML = q.optHTML
       ? `<div class="opts pics">${q.optHTML.map((h, i) => `<button class="opt picopt" data-i="${i}" aria-label="${KL[i]}"><span class="k">${KL[i]}</span><span class="pbox">${h}</span></button>`).join('')}</div>`
-      : `<div class="opts ${twoCol ? 'two' : ''} ${q.han && q.opts.some(o => String(o).length > 8) ? 'long' : ''}">${q.opts.map((o, i) => `<button class="opt" data-i="${i}"><span class="k">${KL[i]}</span><span class="ot ${q.han ? 'han' : ''}">${esc(o)}</span></button>`).join('')}</div>`;
+      : `<div class="opts ${twoCol ? 'two' : ''} ${q.han && q.opts.some(o => String(o).length > 8) ? 'long' : ''}">${q.opts.map((o, i) => { const b = `<button class="opt" data-i="${i}"><span class="k">${KL[i]}</span><span class="ot ${q.han ? 'han' : ''}">${esc(o)}<span class="opk"></span></span></button>`;
+          return pk ? `<div class="optw">${b}<button class="opeek" data-pi="${i}" aria-label="Peek at choice ${KL[i]}">拼</button></div>` : b; }).join('')}</div>`;
     let sel = -1, answered = false;
+    // peek at a choice: 拼 shows its pinyin, then 意 its meaning; the answer then counts as helped and those words come back sooner
+    if (pk) $$('.opeek', body).forEach(b => b.onclick = e => {
+      e.stopPropagation(); const i = +b.dataset.pi; if (answered || plv[i] >= 2) return;
+      plv[i]++; R.assist = true;
+      peekKeys(q.opts[i]).forEach(k => notePeek(k, plv[i] === 1 ? 'p' : 'm'));
+      if (plv[i] === 1) speak(q.opts[i]);
+      $(`.opt[data-i="${i}"] .opk`, body).innerHTML = optPeekHTML(q.opts[i], plv[i]);
+      b.textContent = plv[i] === 1 ? '意' : '✓'; b.classList.toggle('s1', plv[i] === 1); b.disabled = plv[i] >= 2; sfx('tap');
+    });
     const btns = $$('.opt', body);
     const choose = i => {
       if (answered) return;
@@ -214,7 +227,7 @@ function runQuiz(cfg) {
     const check = () => {
       if (answered || sel < 0) return; answered = true;
       const ok = q.ans.includes(sel);
-      btns.forEach(b => b.disabled = true);
+      btns.forEach(b => b.disabled = true); $$('.opeek', body).forEach(b => b.disabled = true);
       record(q, ok, q.opts[sel], false, { conf: q.optK ? q.optK[sel] : null });
       if (cfg.exam) return next();
       btns[sel].classList.remove('chosen'); btns[sel].classList.add(ok ? 'right' : 'wrong');
@@ -352,8 +365,8 @@ function runQuiz(cfg) {
         const ok = f >= 0 && q.ans[k].includes(q.bank[f]);
         if (ok) right++;
         const aw = q.ans[k][0], ak = H2W[aw] && H2W[aw].k, ai = q.bank.indexOf(aw);
-        gain += record({ kind: 'mc', cat: q.cat, label: q.label, opts: q.bank, han: true, abc: true, ans: q.ans[k].map(w => q.bank.indexOf(w)), prompt: context(k), explain: '', after: q.after, k: ak, sk: 'u', noDial: true },
-          ok, f >= 0 ? q.bank[f] : '(blank)', true, { assist: helped.has(ai) || R.assist, conf: f >= 0 && H2W[q.bank[f]] ? H2W[q.bank[f]].k : null, noRetry: true });
+        gain += record({ kind: 'mc', cat: q.cat, qtype: qtypeOf(q), label: q.label, opts: q.bank, han: true, abc: true, ans: q.ans[k].map(w => q.bank.indexOf(w)), prompt: context(k), explain: '', after: q.after, k: ak, sk: 'u', noDial: true },
+          ok, f >= 0 ? q.bank[f] : '(blank)', true, { assist: helped.has(ai) || R.assist, conf: f >= 0 && H2W[q.bank[f]] ? H2W[q.bank[f]].k : null, noRetry: true, blank: true });
         rows.push([k, ok, aw, f]);
       });
       dialStep(right / nB >= .8, false, false);
@@ -456,7 +469,6 @@ function runQuiz(cfg) {
     const wrong = R.log.filter(l => !l.ok);
     const title = cfg.exam || cfg.mock ? `${pct >= 90 ? '優' : pct >= 80 ? '甲' : pct >= 70 ? '乙' : pct >= 60 ? '丙' : '加油'}` : '';
     const head = perfect ? ['完美！', 'Perfect lesson!'] : pct >= 80 ? ['做得好！', 'Lesson complete!'] : pct >= 50 ? ['完成了！', 'Lesson complete'] : ['加油！', 'Keep practicing'];
-    const weakest = Object.entries(cats).filter(([, v]) => v[1] >= 2).sort((a, b) => a[1][0] / a[1][1] - b[1][0] / b[1][1])[0];
     const d = dialLv();
     el.innerHTML = `<div class="finish">
       <div class="fin-mascot">${mascotSVG({ mood: pct >= 60 ? 'cheer' : 'think', size: 150 })}</div>
@@ -470,7 +482,7 @@ function runQuiz(cfg) {
       ${skipped ? `<p class="note" style="max-width:520px">${skipped} question${skipped > 1 ? 's were' : ' was'} not answered, so ${skipped > 1 ? 'they count' : 'it counts'} as wrong.</p>` : ''}
       ${stageSummaryHTML(R)}${peekSummaryHTML(R)}
       ${cfg.adaptive ? `<div class="fin-dial"><span class="dbars">${[1, 2, 3].map(i => `<i class="${i <= d ? 'on' : ''}"></i>`).join('')}</span><span><b>Difficulty: ${DIAL_N[d][1]}</b> · <span class="muted">${DIAL_N[d][2]}</span></span></div>` : ''}
-      ${weakest && weakest[1][0] / weakest[1][1] < .8 ? `<p class="note" style="max-width:520px">Focus next on <b>${esc(CAT[weakest[0]] || weakest[0])}</b> — ${weakest[1][0]}/${weakest[1][1]} right.</p>` : ''}
+      ${sessionNoteHTML(R)}
       ${cfg.exam || cfg.mock ? `<div class="catrows" style="max-width:520px">${Object.entries(cats).map(([c, [a, b]]) => `<div class="catrow"><span>${esc(CAT[c] || c)}</span><div class="bar ${a / b < .6 ? 'seal' : a / b < .8 ? 'gold' : ''}"><i style="width:${a / b * 100}%"></i></div><span class="nums small" style="text-align:right">${a}/${b}</span></div>`).join('')}</div>` : ''}
       <p class="tiny faint">${IC.check.replace('<svg', '<svg style="width:12px;height:12px;vertical-align:-1px"')} Progress saved${CLOUD.state === 'on' ? ' to your account' : ' on this device'}</p>
       <div class="fin-btns"><button class="btn3d big" id="fin-go">Continue</button>${wrong.length ? `<button class="btn3d ghost" id="fin-rev">Practice ${wrong.length} mistake${wrong.length > 1 ? 's' : ''}</button>` : ''}${!cfg.smart && smartCounts().weak >= 3 ? '<button class="btn3d ghost" id="fin-smart">Smart review</button>' : ''}</div>
@@ -484,6 +496,7 @@ function runQuiz(cfg) {
     $('#fin-go', el).onclick = exitTo;
     if ($('#fin-rev', el)) $('#fin-rev', el).onclick = () => runQuiz({ title: 'Mistakes', adaptive: true, qs: wrong.map(l => Object.assign({}, l.q, { isRetry: false })).filter(q => q.kind !== 'bank'), back: cfg.back });
     if ($('#fin-smart', el)) $('#fin-smart', el).onclick = () => startSmart();
+    if ($('#fin-focus', el)) $('#fin-focus', el).onclick = () => actFor(QTI[R.focus][2], cfg.back)();
     setTimeout(() => afterRewards(after, lvl0), 1500);
   }
   render();

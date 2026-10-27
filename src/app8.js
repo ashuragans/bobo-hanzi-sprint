@@ -395,12 +395,14 @@ function vLearn(el, p) {
     <div class="learn-main">
       <div class="learn-top"><button class="chip3d" id="ltQuests">${claim ? chestSVG(false, 22) : '🎯'} Quests <b class="nums">${qd}/3</b></button><button class="chip3d" data-go="test"><span class="han">考</span> ${daysLeft() < 0 ? '—' : daysLeft()} days</button><button class="chip3d" data-go="me" data-p='{"tab":"ward"}'>${mascotSVG({ size: 20 })} Wardrobe</button><button class="chip3d tutor-entry" data-tutor>💬 Ask tutor</button></div>
       ${smartCardHTML()}
+      ${S.totals.sessions ? coachHTML(2) : ''}
       ${UNITS.map(u => unitHTML(u, cur)).join('')}
       <div class="path-end">${mascotSVG({ mood: 'cheer', size: 110 })}<p class="han" style="font-size:1.3rem">考試加油！</p><p class="small muted">Finish the final sprint, then go ace that test.</p></div>
     </div>
     <aside class="learn-side">${sideHTML()}</aside></div>`;
   bindClaims(el, () => go('learn', p));
   if ($('#smartGo', el)) $('#smartGo', el).onclick = () => startSmart();
+  bindCoach(el);
   $('#ltQuests', el).onclick = () => { const m = modal(`<h2>Daily quests</h2><p class="small muted">New quests every day. Finish one to open a chest.</p>${questsHTML()}`, [['Close', 'ghost', null]]); bindClaims(m, () => { closeModal(); go('learn', p); }); };
   $$('[data-guide]', el).forEach(b => b.onclick = () => { const id = b.dataset.guide; if (id === 'FIN') go('test'); else go('lessons', { l: id }); });
   $$('.node', el).forEach(b => b.onclick = e => {
@@ -455,6 +457,7 @@ function vMe(el, p) {
       return `<div class="strow"><span class="han">${name}</span><div class="stbar">${c.map((x, i) => [x, i]).reverse().map(([x, i]) => x ? `<i class="s${i}" style="width:${x / n * 100}%" title="${STG[i][1]}: ${x}"></i>` : '').join('')}</div><span class="nums small">${c[4] + c[5]}/${ws.length}</span></div>`; };
     const pairs = confPairs(8), looked = Object.keys(S.pk).filter(k => W[k]).sort((a, b) => peekScore(b) - peekScore(a)).map(k => W[k]).slice(0, 14);
     T.innerHTML = `<div class="grid2">
+      ${coachHTML(8, true)}
       <div class="card"><h3>Your skills</h3><p class="small muted" style="margin:2px 0 10px">Averages over the ${met.length} words you've met. Each session aims at your lowest bars.</p>
         <div class="skrows">${SKL.map(sk => bar(SKN[sk], skAvg(sk))).join('')}${bar(['語法', 'Grammar'], gAvg)}</div></div>
       ${memoryCardHTML()}
@@ -465,9 +468,11 @@ function vMe(el, p) {
         <p class="tiny faint" style="margin-top:8px">New → Met → Recognize (you know the meaning) → Recall (you can find the word from English) → Can use (in sentences) → Mastered (also by ear or tone).</p></div>
       <div class="card"><h3>Words you mix up</h3>${pairs.length ? `<div class="pairs">${pairs.map(([a, b, c]) => `<div class="pair"><span data-say="${esc(a.h)}"><b class="han">${esc(a.h)}</b><small>${esc(shortEn(a.e))}</small></span><span class="vs">↔</span><span data-say="${esc(b.h)}"><b class="han">${esc(b.h)}</b><small>${esc(shortEn(b.e))}</small></span></div>`).join('')}</div><button class="btn3d sm" id="pairGo" style="margin-top:10px">Practice these</button>` : '<p class="small muted">No mix-ups yet. When you pick a wrong word, 波波 remembers it and uses it to test you again.</p>'}</div>
       <div class="card"><h3>Words you peek at</h3>${looked.length ? `<p class="small muted" style="margin:2px 0 8px">拼 = you checked the pinyin, 意 = you checked the meaning. Right answers without peeking clear them.</p><div class="wchips">${looked.map(w => `<span class="wchip peek" data-say="${esc(w.h)}"><b class="han">${esc(w.h)}</b><span>${peekPy(w.k) ? '拼' + (peekPy(w.k) >= 2 ? '×' + Math.round(peekPy(w.k)) : '') : ''}${peekMean(w.k) ? ' 意' + (peekMean(w.k) >= 2 ? '×' + Math.round(peekMean(w.k)) : '') : ''}</span></span>`).join('')}</div><button class="btn3d sm" id="lookGo" style="margin-top:10px">Practice them</button>` : '<p class="small muted">In practice tests, tap 拼 or 意 on a word to peek at it. 波波 remembers every peek and brings those words back until you can read them without help.</p>'}</div>
-      <div class="card"><h3 style="margin-bottom:10px">Accuracy by question type</h3><div class="catrows">${Object.keys(CAT).map(c => { const [a, b] = S.cat[c] || [0, 0]; return `<div class="catrow"><span class="small">${CAT[c]}</span><div class="bar ${b && a / b < .6 ? 'seal' : b && a / b < .8 ? 'gold' : ''}"><i style="width:${b ? a / b * 100 : 0}%"></i></div><span class="nums small" style="text-align:right">${b ? Math.round(a / b * 100) + '%' : '—'}</span></div>`; }).join('')}</div></div>
+      ${missCardHTML()}
+      ${typeTableHTML() || `<div class="card"><h3 style="margin-bottom:10px">Accuracy by question type</h3><div class="catrows">${Object.keys(CAT).map(c => { const [a, b] = S.cat[c] || [0, 0]; return `<div class="catrow"><span class="small">${CAT[c]}</span><div class="bar ${b && a / b < .6 ? 'seal' : b && a / b < .8 ? 'gold' : ''}"><i style="width:${b ? a / b * 100 : 0}%"></i></div><span class="nums small" style="text-align:right">${b ? Math.round(a / b * 100) + '%' : '—'}</span></div>`; }).join('')}</div></div>`}
       <div class="card"><h3>Overall</h3><div class="row" style="gap:16px;margin-top:10px"><div class="ring">${ringSVG(R0.pct)}<div class="val nums">${R0.pct}%<small>ready</small></div></div><div class="small stack" style="gap:4px"><span>${S.totals.sessions || 0} sessions · ${S.totals.perfect || 0} perfect</span><span>Best combo: ${S.bestCombo || 0}</span><span>${Object.keys(S.written).length} characters written</span><span>${S.mocks.length} practice tests</span></div></div></div></div>`;
-    animateRings(T);
+    animateRings(T); bindCoach(T);
+    if ($('#missGo', T)) $('#missGo', T).onclick = () => startMistakes(() => go('me', { tab: 'stats' }));
     if ($('#pairGo', T)) $('#pairGo', T).onclick = () => { const ps = confPairs(8); const qs = shuffle(ps.flatMap(([a, b]) => [qContrast(a, b), qContrast(b, a)])); runAdaptive({ title: 'Mix-ups', qs, hearts: 0, back: () => go('me', { tab: 'stats' }) }); };
     if ($('#lookGo', T)) $('#lookGo', T).onclick = () => runAdaptive({ title: 'Looked-up words', len: 12, hearts: 0, gen: wordGen(looked, { teach: 0 }), back: () => go('me', { tab: 'stats' }) });
   } else saveTab(T);
@@ -518,14 +523,15 @@ function vPractice(el) {
   const weakN = deckWords('weak').length, dueN = WL.filter(w => due(w.k)).length;
   const sc = smartCounts();
   const tiles = [['smart', {}, '智慧', 'Smart review', sc.seen ? `${sc.due} due · ${sc.weak} weak · ${sc.conf} mix-ups` : 'Built from your mistakes', 'pink'], ['cards', { deck: 'LALL', mode: 'flip' }, '翻卡', 'Flashcards', dueN ? dueN + ' due now' : 'Spaced repetition', 'jade'], ['cards', { deck: 'T1', mode: 'speed' }, '快選', 'Speed sweep', 'Race through the vocab table', 'gold'],
-    ['cards', { deck: 'weak', mode: 'flip' }, '錯題', 'Weak words', weakN + ' to fix', 'seal'], ['clinic', {}, '字形', 'Mix-up clinic', mixCount() ? mixCount() + ' look-alike pair' + (mixCount() > 1 ? 's' : '') + ' you mix up' : 'Characters that look alike', 'pink'], ['lessons', {}, '課文', 'Dialogues', 'Read and listen to every lesson', 'sky'],
+    ['cards', { deck: 'weak', mode: 'flip' }, '錯題', 'Weak words', weakN + ' to fix', 'seal'], ['clinic', {}, '字形', 'Mix-up clinic', mixCount() ? mixCount() + ' look-alike pair' + (mixCount() > 1 ? 's' : '') + ' you mix up' : 'Characters that look alike', 'pink'], ['miss', {}, '錯題本', 'Mistake notebook', Object.keys(S.miss).length ? `${missDue().length} to redo · ${Object.keys(S.miss).length} saved` : 'Every question you miss', 'seal'], ['lessons', {}, '課文', 'Dialogues', 'Read and listen to every lesson', 'sky'],
     ['grammar', {}, '語法', 'Grammar library', `All ${Object.keys(G).length} points with examples`, 'taro'], ['write', { mode: 'dict' }, '聽寫', 'Dictation', 'Hear it, write it', 'tea']];
   el.innerHTML = `<div class="stack"><div class="sec-head"><div><span class="eyebrow">練習 · Practice</span><h1>Practice anything, anytime</h1></div></div>
-    <div class="hub">${tiles.map(([v, p, zh, en, d, c]) => `<button class="hubtile u-${c}" ${v === 'smart' ? 'id="hubSmart"' : v === 'clinic' ? 'id="hubClinic"' : `data-go="${v}" data-p='${JSON.stringify(p)}'`}><span class="ht-zh han">${zh}</span><b>${en}</b><span>${d}</span></button>`).join('')}<button class="hubtile u-gold tutor-entry" data-tutor><span class="ht-zh han">問老師</span><b>Ask the tutor</b><span>Check a sentence, ask about grammar</span></button></div>
+    <div class="hub">${tiles.map(([v, p, zh, en, d, c]) => `<button class="hubtile u-${c}" ${v === 'smart' ? 'id="hubSmart"' : v === 'clinic' ? 'id="hubClinic"' : v === 'miss' ? 'id="hubMiss"' : `data-go="${v}" data-p='${JSON.stringify(p)}'`}><span class="ht-zh han">${zh}</span><b>${en}</b><span>${d}</span></button>`).join('')}<button class="hubtile u-gold tutor-entry" data-tutor><span class="ht-zh han">問老師</span><b>Ask the tutor</b><span>Check a sentence, ask about grammar</span></button></div>
     <div id="drillsHere"></div></div>`;
   vDrills($('#drillsHere', el));
   $('#hubSmart', el).onclick = () => startSmart();
   $('#hubClinic', el).onclick = () => startClinic();
+  $('#hubMiss', el).onclick = () => startMistakes();
 }
 
 /* ---- welcome, streak pop */
