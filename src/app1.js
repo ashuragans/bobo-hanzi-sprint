@@ -44,7 +44,7 @@ const uniq = a => [...new Set(a)];
 const LS_KEY = 'hanzi-sprint-v1';
 function defState() {
   return { v: 1, updatedAt: 0, start: today(), testDate: ymd(new Date(Date.now() + 3 * 86400000)), xp: 0, streak: { last: '', n: 0 }, day: { date: '', xp: 0 },
-    cards: {}, plan: {}, gd: {}, cat: {}, mocks: [], written: {}, custom: [], ui: { confOk: 1 },
+    cards: {}, plan: {}, gd: {}, cat: {}, mocks: [], written: {}, custom: [], ui: { confOk: 1, seenP: [] },
     pearls: 0, path: {}, quests: null, ach: {}, ward: { flavor: 'milk', acc: 'band', owned: ['fl:milk', 'ac:none', 'ac:band'] }, totals: { sessions: 0, perfect: 0, chests: 0, night: 0 },
     bestCombo: 0, name: '', freeze: 0, dayLog: {}, lastNode: '', seenIntro: false,
     wm: {}, conf: {}, look: {}, sk: {}, pk: {}, dial: .35, recentS: [], fs: {}, cc: {},
@@ -62,6 +62,7 @@ function normalize(s) {
   if (!o.set.hintV) { o.set.hint = 'tap'; o.set.hintV = 2; }
   if (!Array.isArray(o.ward.owned)) o.ward.owned = defState().ward.owned;
   if (typeof o.pearls !== 'number') o.pearls = 0;
+  if (!Array.isArray(o.ui.seenP)) o.ui.seenP = []; // midterm-style passages seen lately (newest first)
   if (!o.ui.confOk) { o.conf = {}; o.ui.confOk = 1; } // the mix-up list recorded the wrong option before Oct 2026 (unshuffled keys): start it fresh once
   return o;
 }

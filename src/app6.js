@@ -118,9 +118,11 @@ function teacherTest() {
   if (gb) qs.push(genBankQ(gb, { num: 'I.' }));
   const gens = [genOrderQ({ prefSeen: true }), genOrderQ({ prefSeen: true })].filter(Boolean);
   [...sampleN(TT.orders, 5 - gens.length), ...gens].forEach(o => qs.push(qOrderNum(o)));
-  qs.push(Object.assign(qBank(pick(TT.banks.filter(b => b.kind === 'mw')), { shuffleBank: true }), { label: 'III. Choose the correct measure word' }));
+  const mwb = Math.random() < .5 && genMwBank(8, { label: 'III. Choose the correct measure word' });
+  qs.push(mwb || Object.assign(qBank(pick(TT.banks.filter(b => b.kind === 'mw')), { shuffleBank: true }), { label: 'III. Choose the correct measure word' }));
   qs.push(qOpp(7));
-  qs.push(Object.assign(qBank(pick(TT.cloze), { shuffleBank: true }), { label: 'V. Read the passage and fill in the blanks' }));
+  const pg = Math.random() < .5 && genPassage({ n: 10, label: 'V. Read the passage and fill in the blanks' });
+  qs.push(pg || Object.assign(qBank(pick(TT.cloze), { shuffleBank: true }), { label: 'V. Read the passage and fill in the blanks' }));
   qs.push(...genChoiceSet(5, { hidePy: true }));
   qs.push(qPics(pick(TT.last.pics)), qPics(pick(TT.pics)));
   return qs;
@@ -144,7 +146,7 @@ function lastTest() {
 }
 function vTest(el) {
   const ms = S.mocks.slice().reverse();
-  const typeName = { teacher: '老師式考卷', last: '上次的考卷', mock: '模擬考', mid: '期中考' };
+  const typeName = { teacher: '老師式考卷', last: '上次的考卷', mock: '模擬考', mid: '期中考', midstyle: '期中考式' };
   el.innerHTML = `<div class="stack"><div class="sec-head"><div><span class="eyebrow">考試 · Practice tests</span><h1>Practice the way your teacher tests</h1></div></div>
     <div class="grid2">
       <div class="page pad stack">
@@ -160,6 +162,12 @@ function vTest(el) {
         <div class="row"><button class="btn primary" id="lt_go">${IC.redo}Redo the last test</button></div>
       </div>
       <div class="page pad stack">
+        <div class="row" style="justify-content:space-between"><div class="han" style="font-size:2.4rem;line-height:1">期中考式考卷</div><span class="tag bonus">New every time</span></div>
+        <p class="muted">A new test in your midterm's format: listening, picture matching, two reading passages with a word bank, dialogues, measure words and second halves. New passages, new blanks and new names each time, and the words you are weak on come up first.</p>
+        <label class="row small"><input type="checkbox" id="ms_short"> Short version (15 min)</label>
+        <div class="row"><button class="btn primary big" id="ms_prac">${IC.play}Practice</button><button class="btn big" id="ms_exam">${IC.test}Exam mode</button></div>
+      </div>
+      <div class="page pad stack">
         <div class="han" style="font-size:2.4rem;line-height:1">期中考</div>
         <p class="muted">The reading part of your midterm, exactly as on the paper: picture matching, two passages, dialogues, measure words and sentence halves.</p>
         <div class="row"><button class="btn primary" id="mid_go">${IC.redo}Redo the midterm</button><button class="btn" data-go="cards" data-p='{"deck":"MID"}'>${IC.cards}Midterm words</button></div>
@@ -172,13 +180,15 @@ function vTest(el) {
         <div class="row"><button class="btn" id="mt_go">${IC.play}Start the mixed mock test</button></div>
       </div>
       <div class="page pad stack"><h3>How your teacher tests</h3>
-        <div class="stack" style="gap:6px">${[['聽力', 'She reads a sentence, you pick picture A, B or C', 'lpic'], ['詞庫填空', 'Word bank A–K, fill the blanks in a dialogue', 'bank'], ['排句子', 'Numbered chunks → write the order (1/5/3/2/4)', 'order'], ['量詞', 'Measure-word bank: 本 張 枝 台 朵 個 種', 'mw'], ['反義詞', 'Opposite words: 貴 ↔ 便宜, 大 ↔ 小', 'opp'], ['看圖', 'Match pictures: verbs, fruits, drinks, adjectives', 'pics']]
+        <div class="stack" style="gap:6px">${[['聽力', 'She reads a sentence, you pick picture A, B or C', 'lpic'], ['詞庫填空', 'Word bank A–K, fill the blanks in a dialogue', 'bank'], ['排句子', 'Numbered chunks → write the order (1/5/3/2/4)', 'order'], ['量詞', 'Measure-word bank: 本 張 枝 台 朵 個 種', 'mw'], ['反義詞', 'Opposite words: 貴 ↔ 便宜, 大 ↔ 小', 'opp'], ['看圖', 'Match pictures: verbs, fruits, drinks, adjectives', 'pics'], ['短文填空', 'A passage with a word bank A–N', 'passage'], ['選回答', 'Choose the reply to complete each dialogue', 'qa'], ['後半句', 'Choose the second half of each sentence', 'halves']]
           .map(([zh, d, id]) => `<button class="gitem" data-drillgo="${id}"><span class="han" style="font-size:1.3rem;min-width:4.2em">${zh}</span><span class="small muted" style="text-align:left">${d}</span></button>`).join('')}</div></div>
     </div>
     <div class="page pad stack"><h3>Past results</h3>${ms.length ? `<div class="stack" style="gap:8px">${ms.slice(0, 10).map(m => `<div class="row" style="justify-content:space-between;flex-wrap:nowrap"><span class="small muted nums" style="min-width:150px">${m.date} · <span class="han">${typeName[m.type] || '模擬考'}</span></span><div class="bar ${m.pct < 60 ? 'seal' : m.pct < 80 ? 'gold' : ''}" style="flex:1;margin:0 12px"><i style="width:${m.pct}%"></i></div><b class="nums">${m.pct}%</b></div>`).join('')}</div>` : '<p class="muted">No tests yet. Redo the last test first, then try a teacher-style test.</p>'}</div></div>`;
   $('#tt_prac', el).onclick = () => runQuiz({ title: 'Teacher-style test', mock: true, type: 'teacher', qs: teacherTest(), back: () => go('test') });
   $('#tt_exam', el).onclick = () => runQuiz({ title: 'Teacher-style test (exam)', exam: true, mock: true, type: 'teacher', qs: teacherTest(), back: () => go('test') });
   $('#lt_go', el).onclick = () => runQuiz({ title: 'Your last test', mock: true, type: 'last', qs: lastTest(), back: () => go('test') });
+  const msGo = exam => runQuiz({ title: exam ? '期中考式考卷 (exam)' : '期中考式考卷', exam, mock: true, type: 'midstyle', qs: midStyleTest({ short: $('#ms_short', el).checked }), back: () => go('test') });
+  $('#ms_prac', el).onclick = () => msGo(false); $('#ms_exam', el).onclick = () => msGo(true);
   $('#mid_go', el).onclick = () => runQuiz({ title: '期中考', mock: true, type: 'mid', qs: midTest(), back: () => go('test') });
   $('#mt_go', el).onclick = () => runQuiz({ title: 'Mock test', exam: true, mock: true, type: 'mock', minutes: $('#mt_timer', el).checked ? 30 : 0, qs: mockQuiz($('#mt_table', el).checked), back: () => go('test') });
   $$('[data-drillgo]', el).forEach(b => b.onclick = () => { const s = DRILL_SETS.find(x => x.id === b.dataset.drillgo); runQuiz({ title: s.en, qs: s.make(), back: () => go('test') }); });

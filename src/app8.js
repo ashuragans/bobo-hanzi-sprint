@@ -131,7 +131,7 @@ const ACH = [
   ['unit', '🏆', 'Unit champion', 'Finish every level in one unit', s => UNITS.some(u => u.nodes.every(nd => (s.path[nd.id] || 0) >= 1)), 30],
   ['chest', '🧰', 'Treasure hunter', 'Open 5 chests', s => (s.totals.chests || 0) >= 5, 20],
   ['last100', '📜', 'Payback', 'Score 100% on your last-test redo', s => s.mocks.some(m => m.type === 'last' && m.pct === 100), 40],
-  ['ready', '🎓', 'Test ready', 'Score 80%+ on a teacher-style test', s => s.mocks.some(m => m.type === 'teacher' && m.pct >= 80), 40],
+  ['ready', '🎓', 'Test ready', 'Score 80%+ on a teacher-style test', s => s.mocks.some(m => (m.type === 'teacher' || m.type === 'midstyle') && m.pct >= 80), 40],
   ['shop', '🛍️', 'Fashionista', 'Buy something for 波波', s => (s.ward.owned || []).length > 2, 10],
   ['level5', '⭐', 'Little teacher', 'Reach level 5', s => levelOf(s.xp) >= 5, 30],
   ['night', '🌙', 'Night owl', 'Study after 10 p.m.', s => (s.totals.night || 0) > 0, 10],
@@ -202,7 +202,7 @@ const UNITS = [
   { id: 'FIN', idx: LES.length, zh: '衝刺', name: '考前衝刺', en: 'Final sprint before the test', color: 'seal',
     nodes: [{ t: 'test', which: 'last', title: '上次的考卷', en: 'Your last test' }, { t: 'lmix', title: '聽力 A/B/C', en: 'Listening mix' }, { t: 'sweep', deck: 'T1', title: '詞表 1', en: 'Vocab table 1' },
       { t: 'test', which: 'teacher', title: '老師式考卷', en: 'Teacher-style test' }, { t: 'sweep', deck: 'T2', title: '詞表 2', en: 'Vocab table 2' }, { t: 'test', which: 'mock', title: '模擬考', en: 'Mixed mock test' },
-      { t: 'test', which: 'mid', title: '期中考', en: 'Your midterm' }]
+      { t: 'test', which: 'mid', title: '期中考', en: 'Your midterm' }, { t: 'test', which: 'midstyle', title: '期中考式', en: 'New midterm-style test' }]
       .map((n, j) => Object.assign(n, { id: 'FIN-' + j, unit: 'FIN' })) }];
 const NODES = UNITS.flatMap(u => u.nodes);
 const nodeCount = id => S.path[id] || 0;
@@ -216,7 +216,7 @@ function nodeDesc(nd) {
     listen: 'Hear a sentence, pick the picture A, B or C — like your teacher\'s listening test.',
     write: 'Watch the stroke order, trace it, then write characters from memory.',
     check: 'Mixed questions in your teacher\'s style. Score 60% to pass and open the chest.',
-    test: { last: 'Every question from the test your teacher gave you.', teacher: 'A full new test in your teacher\'s format.', mock: '40 mixed questions with a 30-minute timer.', mid: 'The reading part of your midterm, exactly as on the paper.' }[nd.which],
+    test: { last: 'Every question from the test your teacher gave you.', teacher: 'A full new test in your teacher\'s format.', mock: '40 mixed questions with a 30-minute timer.', mid: 'The reading part of your midterm, exactly as on the paper.', midstyle: 'A new test in your midterm\'s format, different every time.' }[nd.which],
     lmix: '10 listening questions: times, prices, food, places and more.',
     sweep: `Fast 4-choice round through ${nd.deck === 'T1' ? 'Level 1' : 'Level 2'} of the vocab table.` })[nd.t];
 }
@@ -332,7 +332,7 @@ function startNode(nd) {
   else if (nd.t === 'lmix') { cfg.hearts = 0; cfg.qs = ttsOK() ? shuffle([...Array.from({ length: 6 }, qListenPic), ...Array.from({ length: 4 }, () => { const x = genAny({ prefSeen: true }); return x ? qSentHear(x, {}) : qListenPic(); })]) : shuffle(DATA.reading).slice(0, 8).map(r => qReading(r)); }
   else if (nd.t === 'sweep') { cfg.hearts = 0; const ws = deckWords(nd.deck); cfg.len = 15; cfg.gen = wordGen(buildQueue(ws, 24, 24), { teach: 0, pool: ws }); }
   else if (nd.t === 'test') { cfg.hearts = 0; cfg.adaptive = false; cfg.mock = true; cfg.type = nd.which; cfg.title = nd.title;
-    if (nd.which === 'last') cfg.qs = lastTest(); else if (nd.which === 'mid') cfg.qs = midTest(); else if (nd.which === 'teacher') cfg.qs = teacherTest(); else { cfg.qs = mockQuiz(true); cfg.exam = true; cfg.minutes = 30; } }
+    if (nd.which === 'last') cfg.qs = lastTest(); else if (nd.which === 'mid') cfg.qs = midTest(); else if (nd.which === 'midstyle') cfg.qs = midStyleTest(); else if (nd.which === 'teacher') cfg.qs = teacherTest(); else { cfg.qs = mockQuiz(true); cfg.exam = true; cfg.minutes = 30; } }
   cfg.onDone = res => {
     const first = !nodeCount(nd.id);
     const need = nd.t === 'check' ? 60 : 0;

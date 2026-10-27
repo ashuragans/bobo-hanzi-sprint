@@ -355,10 +355,62 @@ for h in content3.MID_WORDS:
     k = h if h in D else H2K.get(h)
     assert k, ("midterm word missing from the vocabulary", h)
     if k not in mid_words: mid_words.append(k)
+# midterm-style pools (src/app13.js builds a new midterm-style test from these every time)
+def known(h):
+    k = h if h in D else H2K.get(h)
+    assert k, ("midterm-style word missing from the vocabulary", h)
+    return k
+LORD = ["L0", "L1", "L2", "L3", "L4", "L5", "L6"]
+def first_lesson(h):
+    ls = [l for l in D[known(h)]["ls"] if l in LORD]
+    return min(ls, key=LORD.index) if ls else None
+style_names = [n for v in content3.STYLE_NAMES.values() for n, _ in v]
+style_passages = []
+for p in content3.STYLE_PASSAGES:
+    marks = re.findall(r"\[([^\]]+)\]", p["text"])
+    words = [m.split("|")[0] for m in marks]
+    # the whole passage with every marked word written out and the names left out
+    full = re.sub(r"\{[MF]2?\}", "◯", re.sub(r"\[([^\]|]+)(\|[^\]]*)?\]", r"\1", p["text"]))
+    for m in marks:
+        for x in m.split("|"): known(x)
+    assert len(words) >= 14 and len(set(words)) == len(words), ("passage needs 14+ different marked words", p["id"])
+    for w in words:
+        # no giveaways: a word that can be a blank shows up nowhere else, not even inside another word or a name
+        assert full.count(w) == 1, ("giveaway: passage word shows up more than once", p["id"], w, full.count(w))
+        for n in style_names: assert w not in n, ("giveaway: passage word inside a name", p["id"], w, n)
+        assert w not in p["title"], ("giveaway: passage word in the title", p["id"], w)
+    for slot in re.findall(r"\{([MF]2?)\}", p["text"]): assert slot[0] in content3.STYLE_NAMES
+    parts = []
+    for piece in re.split(r"(\[[^\]]+\]|\{[MF]2?\})", p["text"]):
+        if not piece: continue
+        if piece[0] == "[": ws = piece[1:-1].split("|"); parts.append(["b", ws[0], ws, tk(ws[0])])
+        elif piece[0] == "{": parts.append(["n", piece[1:-1]])
+        else: parts.append(["t", tk(piece)])
+    ls = [first_lesson(w) for w in words]
+    style_passages.append({"id": p["id"], "title": p["title"], "en": p["en"], "L": max([l for l in ls if l] or ["L6"], key=LORD.index), "parts": parts})
+for first, half, g in content3.STYLE_HALVES:
+    assert first.count("＿＿") == 1 and half and g, ("half", first)
+for a, b, g in content3.STYLE_DIALOGS:
+    assert a and b and g, ("dialog", a)
+assert len({g for _, _, g in content3.STYLE_HALVES}) >= 10 and len({g for _, _, g in content3.STYLE_DIALOGS}) >= 12
+style_mw = []
+for noun, mws in content3.STYLE_MW:
+    known(noun); ok = mws.split("/")
+    for m in ok: known(m)
+    style_mw.append([noun, ok])
+style_pics = []
+for th in content3.STYLE_PICS:
+    ws = []
+    for h in th["words"]:
+        if h in content3.PIC or EMOJI.get(h): ws.append(h)
+        else: raise AssertionError(("picture word has no picture", h))
+    style_pics.append({"title": th["title"], "words": ws})
+style = {"names": content3.STYLE_NAMES, "passages": style_passages, "halves": content3.STYLE_HALVES, "dialogs": content3.STYLE_DIALOGS, "mw": style_mw, "pics": style_pics}
+print("midterm-style pools:", len(style_passages), "passages,", len(content3.STYLE_HALVES), "halves,", len(content3.STYLE_DIALOGS), "dialogues,", len(style_mw), "measure words")
 tests = {"last": {"banks": [bank_set(s) for s in content3.LAST_BANKS], "orders": [order_item(o) for o in content3.LAST_ORDERS], "pics": content3.LAST_PICS},
          "banks": [bank_set(s) for s in content3.BANKS], "cloze": [bank_set(s) for s in content3.CLOZE], "opp": content3.OPPOSITES,
          "orders": [order_item(o) for o in content3.ORDERS], "pics": content3.NEW_PICS, "pic": content3.PIC,
-         "mid": {"pics": content3.MID_PICS, "banks": [bank_set(s) for s in content3.MID_BANKS], "choice": content3.MID_CHOICE, "words": mid_words}}
+         "mid": {"pics": content3.MID_PICS, "banks": [bank_set(s) for s in content3.MID_BANKS], "choice": content3.MID_CHOICE, "words": mid_words}, "style": style}
 data = {"altpy": ALT_PY, "tests": tests, "words": words_out, "lessons": lessons_out, "people": PEOPLE, "grammar": g_out, "drills": DRILLS,
         "reading": READING, "routine": ROUTINE, "mnemo": mn, "charsWithStrokes": "".join(strokes.keys()), "look": look}
 js = "window.DATA=" + json.dumps(data, ensure_ascii=False, separators=(",", ":")) + ";"

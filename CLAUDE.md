@@ -47,7 +47,7 @@ tests will serve the local copy. Tests exit non-zero on any page error, console 
 
 ```
 public/              what Vercel serves: index.html (generated), strokes.json (generated), icons, manifest
-src/                 app code, concatenated in numeric order (app1 … app11) into one script — order matters
+src/                 app code, concatenated in numeric order (app1 … app13) into one script — order matters
   shell.html         page skeleton (header, nav, containers); /*CSS*/ /*DATA*/ /*APP*/ are filled by assemble.py
   style.css          all styles; tokens in :root, dark mode under prefers-color-scheme and [data-theme]
   app1.js            data indexes (W words, H2W), state S (defState/normalize/save), cloud sync, spaced repetition (learning steps, then the FSRS-4.5
@@ -65,10 +65,14 @@ src/                 app code, concatenated in numeric order (app1 … app11) in
   app12.js           look-alike characters (DATA.look from build.py + S.cc = pairs the student mixes up), "which character?" questions,
                      the 字形診所 mix-up clinic (contrast cards with the different strokes in red), who/when/where/what and choose-the-reply
                      questions, the midterm redo, the memory forecast on Stats
+  app13.js           midterm-style tests: a NEW test in the midterm's format every time (midStyleTest: pictures, two passages with a word
+                     bank, dialogues, measure-word bank, second halves), built from the STYLE_* pools; weak words are blanked first.
+                     Also the 短文填空 / 後半句 / 量詞填空 drills; teacherTest uses a generated passage or measure-word bank half the time
 content/
   content.py         Lessons 1–3 (from the class slides), GRAMMAR, DRILLS, READING, ROUTINE, MNEMO
   content2.py        Lessons 4–6 (book word lists; L4–5 practice dialogues written for this site; L6 dialogues, words and exercises from the class slides), more grammar and drills
-  content3.py        teacher-style tests: LAST_* = the earlier class test and MID_* = the midterm (do not change), BANKS, CLOZE, OPPOSITES, ORDERS, NEW_PICS, PIC
+  content3.py        teacher-style tests: LAST_* = the earlier class test and MID_* = the midterm (do not change), BANKS, CLOZE, OPPOSITES, ORDERS, NEW_PICS, PIC,
+                     STYLE_* = pools for the midterm-style generator (passages, second halves, dialogues, measure words, picture themes)
   vocab_tocfl.txt    the teacher's vocab table, `key|alts|pinyin|english`, exactly 804 lines of entries
   vocab_extra.txt    words from slides/book that are not in the table (same format)
   book1_raw.txt      lesson word lists from the book: `L#|word|pinyin|POS|english`
@@ -81,6 +85,7 @@ tests/               Playwright tests + run_all.py
 
 - **Add or fix a word:** edit `content/vocab_extra.txt` (never change the 804 lines of `vocab_tocfl.txt` unless the teacher's table changed). Then run `build.py`.
 - **Add example sentences:** add `[zh, en]` pairs to `EXAMPLES` in `src/app11.js`. Then run `assemble.py`.
+- **Add a midterm-style passage:** add to `STYLE_PASSAGES` in `content3.py`. Mark 14+ words that may become blanks as `[word]` (`[word|alt]` also accepts `alt`), and names as `{M}` `{M2}` `{F}` `{F2}`. build.py fails if a marked word shows up a second time anywhere in the passage (even inside another word) or inside a name. Only mark words that can't be swapped with another marked word, or list the swap as an `|alt`. Second halves and dialogues carry a group: a set never takes two of one group, so put every pair whose answer could also fit another one in the same group.
 - **Add a teacher-style word bank or cloze set:** add to `BANKS`/`CLOZE` in `content3.py`, using `＿＿` for blanks. `ans` lists one answer, or a list of accepted answers, per blank. Then run `build.py`.
 - **New question type:** write a generator that returns the same shape as its neighbours (`mcq(...)` in app4, or the session item kinds in app7). Register it where it should appear: `LADDER`/`qFor` in app9 for adaptive practice, or a node in `NODES` (app8) for the learning path.
 - **Change difficulty or adaptivity:** see `learn()`, `dialStep()`, `qFor()`, `wordPriority()` in app9. Peeking at pinyin or meaning counts as half-knowing a word and fades over about 3 days (`peekScore`).

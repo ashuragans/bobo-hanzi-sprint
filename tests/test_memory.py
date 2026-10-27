@@ -1,5 +1,6 @@
 """Memory & reading upgrades: the long-term review schedule, mix-up tracking (characters you confuse), the 字形診所
-mix-up clinic, who/when/where/what and choose-the-reply questions, the midterm redo and the memory forecast.
+mix-up clinic, who/when/where/what and choose-the-reply questions, the midterm redo, the new midterm-style test (different
+every time) and its drills, and the memory forecast.
 Runs at 320 px (phone) and 1366 px (desktop) and fails on page errors or overlapping elements."""
 import asyncio, os, re
 from playwright.async_api import async_playwright
@@ -70,7 +71,7 @@ async def main():
             if not await run_through(p, f'{tag} clinic', smart=False): errors.append(f'{tag} clinic did not finish')
             if await p.locator('#fin-go').count(): await p.locator('#fin-go').click(); await p.wait_for_timeout(300)
             # 4) new drills: who/when/where/what and choose the reply
-            for d in ['frame', 'qa', 'look']:
+            for d in ['frame', 'qa', 'look', 'passage', 'halves', 'mwbank']:
                 await p.evaluate("go('drills')"); await p.wait_for_timeout(400); await check(p, f'{tag} drills page')
                 await p.locator(f'[data-drill="{d}"]').click(); await p.wait_for_timeout(400)
                 if not await run_through(p, f'{tag} drill {d}', shot=f'drill_{d}_{w}'): errors.append(f'{tag} drill {d} did not finish')
@@ -82,6 +83,19 @@ async def main():
             m = await p.evaluate("S.mocks[S.mocks.length - 1]")
             notes.append(f'{tag} midterm result {m}')
             if not m or m['type'] != 'mid' or m['pct'] != 100 or m['n'] != 116: errors.append(f'{tag} midterm score wrong: {m}')
+            if await p.locator('#fin-go').count(): await p.locator('#fin-go').click(); await p.wait_for_timeout(300)
+            # 5b) a new midterm-style test: a different test every time, all answers right -> 100% recorded
+            v = await p.evaluate("""(() => { const sig = qs => qs.map(q => q.kind === 'bank' ? q.bank.join('') + JSON.stringify(q.ans) : q.prompt + q.opts.join('')).join('|');
+              const a = midStyleTest({ noListen: true }), b = midStyleTest({ noListen: true }), n = qs => qs.reduce((x, q) => x + (q.kind === 'bank' ? q.ans.length : 1), 0);
+              return { differ: sig(a) !== sig(b), n: n(a), parts: a.map(q => q.kind === 'bank' ? (q.layout || q.cat) : q.qt).join(' ') }; })()""")
+            notes.append(f'{tag} midterm-style test {v}')
+            if not v['differ'] or v['n'] < 80: errors.append(f'{tag} midterm-style tests not new each time: {v}')
+            await p.evaluate("go('test')"); await p.wait_for_timeout(400)
+            await p.locator('#ms_prac').click(); await p.wait_for_timeout(400)
+            if not await run_through(p, f'{tag} midterm-style', n=80, shot=f'midstyle_{w}'): errors.append(f'{tag} midterm-style test did not finish')
+            m = await p.evaluate("S.mocks[S.mocks.length - 1]")
+            notes.append(f'{tag} midterm-style result {m}')
+            if not m or m['type'] != 'midstyle' or m['pct'] != 100 or m['n'] < 80: errors.append(f'{tag} midterm-style score wrong: {m}')
             if await p.locator('#fin-go').count(): await p.locator('#fin-go').click(); await p.wait_for_timeout(300)
             # 6) a timed test that runs out of time counts the unanswered questions as wrong
             await p.evaluate("runQuiz({ title: 'Mock test', exam: true, mock: true, type: 'mock', minutes: 30, qs: mockQuiz(true), back: () => go('test') })"); await p.wait_for_timeout(300)

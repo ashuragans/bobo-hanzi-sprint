@@ -302,3 +302,164 @@ PIC.update({
  "大樓": "🏢", "錢": "💰", "室友": "🧑‍🤝‍🧑🏠", "商店": "🏪", "客人": "🛍️🙋", "大門": "🏫🚪", "休息": "🛋️😌", "老人們": "👴👵", "大衣": "🧥", "時間": "🕒",
  "院子": "🏡🌳", "奶奶": "👵", "風景": "⛰️🌳", "家人": "👨‍👩‍👧‍👦", "腳踏車": "🚲",
 })
+
+# ------------------------------------------------ midterm-style pools: a NEW test in the midterm's format every time (src/app13.js)
+# Passages: [word] is a word that can become a blank; [word|alt] also accepts alt there. {M} {M2} = a boy's name, {F} {F2} = a girl's
+# name (picked at random each time). Each run blanks 12-14 of the marked words. No giveaways: build.py checks that every marked word
+# shows up exactly once in the whole passage and in no name.
+STYLE_NAMES = {"M": [["中明", "Zhōngmíng"], ["國安", "Guó'ān"], ["志明", "Zhìmíng"], ["建華", "Jiànhuá"]],
+               "F": [["友美", "Yǒuměi"], ["宜文", "Yíwén"], ["美玲", "Měilíng"], ["雅婷", "Yǎtíng"]]}
+STYLE_PASSAGES = [
+ {"id": "sp1", "title": "我們班",
+  "text": "今天我們班來了一個[新]同學。她[叫]{F}，是[日本]人。老師說：「大家好，這是{F}，請你們[認識]一下。」{F}很[漂亮|可愛]，也很[可愛|漂亮]。"
+          "下課以後，我[問]她：「你[覺得]台灣[怎麼樣]？」她說：「我很[喜歡]台灣！台灣的[水果]都很好吃，[芒果]是我最愛的。」"
+          "我的[朋友]{M}是台灣人，他[知道]哪裡有好喝的珍珠奶茶，我們就[一起]去喝奶茶。{F}說：「[謝謝]你們！」我們說：「[不客氣]！」",
+  "en": "Today a new classmate came to our class. Her name is {F}; she is Japanese. The teacher said: 'Hello everyone, this is {F}, please get to know her.' {F} is pretty and cute. "
+        "After class I asked her: 'What do you think of Taiwan?' She said: 'I like Taiwan a lot! Taiwan's fruit is all delicious, and mango is my favourite.' "
+        "My friend {M} is Taiwanese and knows where there is good bubble tea, so we went for milk tea together. {F} said: 'Thank you!' We said: 'You're welcome!'"},
+ {"id": "sp2", "title": "我的一天",
+  "text": "{M}是大學生。他每天早上七點[起床]，[刷牙]以後吃[早餐]。他八點[去]學校，九點[上課]。[中午]他跟同學在學校吃午餐。下午四點[下課]，他就[回家]。"
+          "他[晚上]六點[半]做飯，七點跟媽媽一起吃[晚餐]。吃飯以後，他在客廳[看電視]，也給朋友打[電話]。十點他[洗澡]，十一點上床[睡覺]。"
+          "[星期六]和星期天沒有課，他喜歡在家[休息]。",
+  "en": "{M} is a university student. Every morning he gets up at seven and has breakfast after brushing his teeth. He goes to school at eight and class starts at nine. "
+        "At noon he has lunch at school with classmates. Class ends at four in the afternoon and he goes home. In the evening he cooks at half past six and has dinner with his mom at seven. "
+        "After dinner he watches TV in the living room and phones his friends. At ten he showers, and at eleven he goes to bed. There is no class on Saturday and Sunday, and he likes to rest at home."},
+ {"id": "sp3", "title": "送什麼好？",
+  "text": "下個星期五是{F}的[生日]，{M}[想]送她一個[禮物]。他不[知道]她喜歡什麼，就去[問]她的[室友]。她說：「{F}很喜歡看書，你可以送她一[本]中文書。」"
+          "{M}去書店看看，那裡的書有的很[便宜|貴]，有的很[貴|便宜]。他買的書是三百塊。他也買了五[朵]花，書和花[一共]五百五十塊。"
+          "星期五那天，{M}送她書和花，她很[開心]。她說：「這些花的[顏色]真[好看]！[謝謝]你！」他們[一起]吃了[蛋糕]。",
+  "en": "Next Friday is {F}'s birthday, and {M} wants to give her a present. He doesn't know what she likes, so he asks her roommate. She says: '{F} loves reading; you could give her a Chinese book.' "
+        "{M} goes to have a look in a bookshop; some books are cheap and some are expensive. The book he buys is 300 dollars. He also buys five flowers; the book and the flowers are 550 dollars in all. "
+        "On Friday {M} gives her the book and the flowers, and she is very happy. She says: 'The colour of these flowers is so pretty! Thank you!' They eat cake together."},
+ {"id": "sp4", "title": "飲料店",
+  "text": "現在是[夏天]，今天天氣很[熱]，{F}和{M}都很[渴]，他們就去學校[附近]的飲料店。老闆問：「你們要喝什麼？」{F}說：「[請]給我一杯冰[綠茶]，不要太[甜]。」"
+          "老闆又問：「[先生]，你要喝咖啡[還是]奶茶？」{M}說：「我要奶茶，這裡的奶茶[最]好喝！」{F}問：「多少[錢]？」老闆說：「[一共]八十五[塊]。」"
+          "{F}給老闆一百元，老闆[找]她十五元。喝了冰冰的飲料，他們都很[高興]。",
+  "en": "It is summer and very hot today. {F} and {M} are both thirsty, so they go to the drink shop near school. The owner asks: 'What would you like to drink?' {F} says: 'An iced green tea please, not too sweet.' "
+        "The owner asks again: 'Sir, would you like coffee or milk tea?' {M} says: 'Milk tea. The milk tea here is the best!' {F} asks: 'How much?' The owner says: '85 dollars altogether.' "
+        "{F} gives the owner 100 dollars and gets 15 back. After the cold drinks they are both happy."},
+ {"id": "sp5", "title": "手機在哪裡？",
+  "text": "今天早上{M}要去學校，可是他的手機[不見了]。他先在睡覺的[房間]裡找，[床]上面、書桌[下面|旁邊]都沒有。他[再]去看電視的[客廳]找，[沙發]上也沒有。"
+          "他問媽媽：「你[看見]我的手機了嗎？」媽媽說：「我不[知道]。你[昨天]晚上在哪裡玩手機？」{M}說：「我在[廚房]做三明治，一邊做一邊看手機。」"
+          "媽媽說：「那你去那裡看看[吧]！」{M}一看，手機就在冰箱[旁邊|下面]的[桌子]上。他很[高興]，說：「[謝謝]媽媽！」",
+  "en": "This morning {M} has to go to school, but his phone has gone missing. First he looks in the bedroom: not on the bed, not under the desk. Then he looks in the living room where they watch TV: not on the sofa either. "
+        "He asks his mom: 'Did you see my phone?' Mom says: 'I don't know. Where were you playing on your phone last night?' {M} says: 'I was making a sandwich in the kitchen, looking at my phone while I made it.' "
+        "Mom says: 'Then go and look there!' {M} looks, and the phone is on the table next to the fridge. He is very happy and says: 'Thanks, Mom!'"},
+ {"id": "sp6", "title": "我的家",
+  "text": "{F}的家是一[棟][白色]的房子，房子[外面]有很多花。一進門是[客廳]，那裡有一[張]大沙發，沙發[前面]有一[台]電視。沙發後面是[廚房]，她爸爸很會[做飯]，每天都在那裡做晚餐。"
+          "{F}的[房間]不大，可是很[漂亮|可愛]。她的床旁邊有書桌，她[常常|喜歡]在那裡[看書|上網]、[上網|看書]。她家有一[隻]貓，很[可愛|漂亮]，[喜歡|常常]在窗戶下面曬太陽。",
+  "en": "{F}'s home is a white house with lots of flowers outside. Inside the door is the living room, with a big sofa and a TV in front of the sofa. Behind the sofa is the kitchen; her dad is a good cook and makes dinner there every day. "
+        "{F}'s room is not big, but it is pretty. There is a desk next to her bed, where she often reads and goes online. Her family has a cat; it is cute and likes to lie in the sun under the window."},
+ {"id": "sp7", "title": "打網球",
+  "text": "{M}的[興趣]是[運動]。[平時]他很忙，[只]有週末有空。星期六早上，他給{F}打[電話]：「明天天氣很好，我們去打網球，[怎麼樣]？」{F}說：「好啊！可是我網球打[得]不太好。」"
+          "{M}說：「[沒問題]，我們[慢慢]打。」星期天[下午]，他們在學校打了兩個小時的網球，都有點[累]了，就坐下來[休息]，喝了兩[瓶]水。"
+          "{F}說：「打網球真[有意思]！下個週末我們[再]去[吧]！」",
+  "en": "{M}'s hobby is sport. Usually he is busy and only has free time at the weekend. On Saturday morning he phones {F}: 'The weather is nice tomorrow, how about playing tennis?' {F} says: 'OK! But I don't play tennis very well.' "
+        "{M} says: 'No problem, we'll play slowly.' On Sunday afternoon they play tennis at school for two hours, get a little tired, sit down to rest and drink two bottles of water. "
+        "{F} says: 'Tennis is really fun! Let's go again next weekend!'"},
+ {"id": "sp8", "title": "週末出去玩",
+  "text": "[這兩天]天氣很好，不冷也不[熱]，{F}和{F2}想去[海邊]玩。{F}很[會]游泳，她游[得]很[快]。{F2}不想游，她說：「我在[旁邊]看[風景]、[拍照]就好。」"
+          "她們[騎]腳踏車去，[大約]三十[分鐘]就到了。那裡的海很[漂亮]，人也不太多。{F}游了一個小時，{F2}拍了好幾張照片。回家的時候，她們都很[累|開心]，可是也很[開心|累]。",
+  "en": "These days the weather is nice, neither cold nor hot, and {F} and {F2} want to go to the beach. {F} swims well and fast. {F2} doesn't want to swim; she says: 'I'll just look at the view and take photos nearby.' "
+        "They ride bikes there and arrive in about thirty minutes. The sea is beautiful and there aren't many people. {F} swims for an hour and {F2} takes lots of photos. On the way home they are tired but happy."},
+ {"id": "sp9", "title": "咖啡和蛋糕",
+  "text": "星期四晚上，{F}打電話[問]{M}：「你星期六下午[有空]嗎？我們[一起]去喝[下午茶]，好不好？」{M}說：「好啊！[哪裡]有好喝的咖啡？」"
+          "{F}說：「我[知道]學校附近有一[家]咖啡廳，那裡的咖啡很不錯，[巧克力]蛋糕也很好吃。」他們說好兩點[半]見。星期六{M}兩點就到了，[可是]{F}三點才來。"
+          "她說：「不好意思，我的[錢包][不見了]，我在房間[找]了很久。」{M}說：「沒關係！你想吃什麼？今天我[請客]！」他們一邊吃蛋糕一邊[聽]音樂，都很[開心]。",
+  "en": "On Thursday evening {F} phones {M} and asks: 'Are you free on Saturday afternoon? Shall we go for afternoon tea?' {M} says: 'Sure! Where is there good coffee?' "
+        "{F} says: 'I know a café near school; the coffee is good and the chocolate cake is delicious too.' They agree to meet at half past two. On Saturday {M} arrives at two, but {F} only comes at three. "
+        "She says: 'Sorry, my wallet went missing and I searched my room for ages.' {M} says: 'No problem! What do you want to eat? It's my treat today!' They eat cake, listen to music and have a great time."},
+ {"id": "sp10", "title": "好朋友們",
+  "text": "{F}有幾個好朋友，他們的[興趣]都不一樣。{M}最愛[音樂]，他很會[唱歌]，會唱很多[首]中文歌。{M2}喜歡[畫畫]，他畫的畫很[好看]。"
+          "{F}喜歡電影，她[每]個星期都去[電影院]看一[部]新電影。[平時]大家都很忙，可是[週末]他們[常常|有時候]一起出去玩，[有時候|常常]去打[籃球]，也去海邊游泳。"
+          "他們[覺得]，[跟]好朋友在一起真[快樂]！",
+  "en": "{F} has a few good friends, and they all have different hobbies. {M} loves music most; he sings well and knows lots of Chinese songs. {M2} likes drawing, and his pictures look great. "
+        "{F} likes films and goes to the cinema every week to see a new one. Usually everyone is busy, but at the weekend they often go out together, sometimes to play basketball and also to swim at the beach. "
+        "They feel that being with good friends is really happy!"},
+ {"id": "sp11", "title": "吃牛肉麵",
+  "text": "今天中午{M}很[餓]，他和{F}去學校[後面]的[餐廳]吃飯。老闆說：「我們的牛肉麵[最]好吃！」{M}說：「[請]給我一[碗]牛肉麵。」{F}說：「我[只]想吃[點心]。」"
+          "老闆問：「你們要喝什麼？」{F}說：「我要一[杯|瓶]冰[紅茶]。」{M}說：「我要一[瓶|杯]果汁。」吃完以後，老闆說：「[一共]兩百五十[塊]。」"
+          "{F}說：「這裡的東西很[便宜]，我們下次[再]來吧！」",
+  "en": "At noon today {M} is hungry, so he and {F} go to eat at the restaurant behind school. The owner says: 'Our beef noodles are the best!' {M} says: 'A bowl of beef noodles, please.' {F} says: 'I only want a snack.' "
+        "The owner asks: 'What would you like to drink?' {F} says: 'An iced black tea.' {M} says: 'A bottle of juice for me.' After eating, the owner says: '250 dollars in all.' "
+        "{F} says: 'The food here is cheap, let's come again next time!'"},
+ {"id": "sp12", "title": "大家來我家",
+  "text": "九月二十三[號]是{F}的[生日]，那天是[星期六]。她[請]了幾個同學來她家[玩]。{M}和{M2}[一起]去商店買了一個大[蛋糕]和一[本]書，[送]給她。"
+          "[下午]三點，大家都來了。{F}的[媽媽]做了很多東西，大家都說很[好吃]。[晚上]大家[回家]的時候，{F}說：「今天我很[高興]，[謝謝]你們！」",
+  "en": "September 23 is {F}'s birthday, and that day is a Saturday. She invites some classmates to her home. {M} and {M2} go to a shop together and buy a big cake and a book to give her. "
+        "At three in the afternoon everyone arrives. {F}'s mom makes lots of food and everyone says it's delicious. In the evening, when everyone goes home, {F} says: 'I'm so happy today, thank you all!'"},
+]
+# second halves: [sentence with ＿＿ where the half goes, the half, group]. A set never takes two pairs of the same group, so only one half fits each line.
+STYLE_HALVES = [
+ ["王先生是美國人，＿＿。", "可是他中文說得很好", "lang"], ["我的室友是日本人，＿＿。", "所以她日文說得很好", "lang"],
+ ["我的朋友從韓國來，＿＿。", "他想在台灣學中文", "lang"], ["老師說得太快了，＿＿？", "可以請您說慢一點嗎", "lang"],
+ ["今天天氣很冷，＿＿。", "你應該多穿一件衣服", "weather"], ["外面下雨了，＿＿。", "我們不要去海邊了", "weather"],
+ ["夏天天氣很熱，＿＿。", "我常常去游泳池游泳", "weather"], ["這兩天天氣很好，不冷也不熱，＿＿。", "很多人去山上看風景", "weather"],
+ ["我好餓，＿＿？", "我們去吃牛肉麵，好不好", "food"], ["這家店的蛋糕很好吃，＿＿。", "我每個星期都來買", "food"],
+ ["小美很喜歡吃水果，＿＿。", "她最愛吃芒果和西瓜", "food"], ["我不喜歡吃甜的，＿＿。", "所以我不吃蛋糕和冰淇淋", "food"],
+ ["我好渴，＿＿。", "想喝一杯冰紅茶", "food"], ["這杯咖啡太甜了，＿＿。", "我不想喝了", "food"],
+ ["你要喝咖啡，＿＿？", "還是要喝茶", "or"], ["你想今天去，＿＿？", "還是明天去", "or"],
+ ["這件衣服太貴了，＿＿？", "有沒有便宜一點的", "shop"], ["我想買一枝筆，＿＿？", "請問一枝多少錢", "shop"],
+ ["這兩件衣服都很便宜，＿＿。", "我兩件都要買", "shop"], ["這雙鞋子太小了，＿＿？", "有沒有大一點的", "shop"],
+ ["明天是媽媽的生日，＿＿。", "我想送她一個大蛋糕", "gift"], ["今天是我的生日，＿＿。", "我請大家吃蛋糕", "gift"],
+ ["我不知道要送朋友什麼禮物，＿＿？", "你可以幫我想一想嗎", "gift"], ["謝謝你送我這本書，＿＿。", "我會好好地看", "gift"],
+ ["我的手機不見了，＿＿？", "你看見了嗎", "lost"], ["你的錢包在這裡，＿＿。", "就在沙發下面", "lost"],
+ ["我找了很久，＿＿。", "可是還是找不到我的錢包", "lost"],
+ ["他打網球打得很好，＿＿。", "可是游泳游得很慢", "sport"], ["弟弟很喜歡運動，＿＿。", "他每天下午都去打籃球", "sport"],
+ ["我跑步跑得很慢，＿＿。", "因為我平時很少運動", "sport"], ["我會騎腳踏車，＿＿。", "可是不會騎摩托車", "sport"],
+ ["姊姊很會唱歌，＿＿。", "她會唱很多首中文歌", "hobby"], ["我的興趣是畫畫，＿＿。", "我常常畫我家的貓", "hobby"],
+ ["這部電影很有意思，＿＿。", "你也應該去看", "hobby"], ["他每天都上網聽音樂，＿＿。", "他最喜歡聽台灣的歌", "hobby"],
+ ["我們學校的籃球比賽很有意思，＿＿。", "很多學生都去看", "hobby"],
+ ["我今天有點累，＿＿。", "想在家休息一下", "rest"], ["現在已經晚上十二點了，＿＿。", "你應該去睡覺了", "rest"],
+ ["哥哥昨天晚上睡得很晚，＿＿。", "所以今天上課的時候很累", "rest"],
+ ["週末我沒有課，＿＿？", "我們一起去看電影，好嗎", "invite"], ["現在是下午三點，＿＿。", "我們去喝下午茶吧", "invite"],
+ ["這裡的風景很漂亮，＿＿。", "我們在這裡拍照吧", "invite"],
+ ["我每天早上七點起床，＿＿。", "刷牙以後吃早餐", "routine"], ["今天是星期天，＿＿。", "不用去學校上課", "routine"],
+ ["我們九點上課，＿＿。", "十二點下課", "routine"], ["我每天晚上都很忙，＿＿。", "要做飯，也要洗衣服", "routine"],
+ ["哥哥在客廳看電視，＿＿。", "媽媽在廚房做飯", "home"], ["我家有一隻小貓，＿＿。", "每天都在沙發上睡覺", "home"],
+ ["我的房間不大，＿＿。", "只有一張床和一張書桌", "home"], ["我家旁邊有一家咖啡廳，＿＿。", "我常常去那裡看書", "home"],
+ ["我不會開車，＿＿。", "所以每天騎腳踏車上班", "go"], ["我們坐公車去吧，＿＿。", "大約二十分鐘就到了", "go"],
+ ["爸爸每天開車上班，＿＿。", "我和哥哥騎機車去學校", "go"],
+ ["她是我的新同學，＿＿。", "她叫林友美，是日本人", "people"], ["這是我的朋友，＿＿。", "他姓王，叫王國安", "people"],
+ ["我們家有五個人，＿＿。", "爸爸、媽媽、哥哥、妹妹和我", "people"],
+]
+# dialogues: [A's line, B's reply, group]. A set never takes two dialogues of the same group, and the extra replies come from other groups,
+# so a group holds every question that one of its replies could also answer (where is my wallet / where is the toilet).
+STYLE_DIALOGS = [
+ ["你是哪國人？", "我是越南人，來台灣學中文。", "origin"], ["你的老師是台灣人嗎？", "不是，她是美國人。", "origin"],
+ ["你住在哪裡？", "我住在學校附近，走路十分鐘就到了。", "live"], ["你家在哪裡？", "在台北，我家旁邊有一個公園。", "live"],
+ ["你想吃什麼？", "我想吃一碗牛肉麵。", "eat"], ["你餓不餓？我們去吃飯吧！", "我不餓，可是有點渴。", "eat"],
+ ["你要喝咖啡還是茶？", "我要一杯熱咖啡。", "drink"], ["你要冰的還是熱的？", "冰的，天氣太熱了。", "drink"],
+ ["這件衣服很好看，你想買嗎？", "不要，我不喜歡這個顏色。", "buy"], ["你昨天買了什麼東西？", "我買了一雙鞋子和一件外套。", "buy"],
+ ["這枝筆多少錢？", "三十五塊。", "price"], ["兩杯奶茶一共多少錢？", "一共一百二十塊。", "price"],
+ ["我們星期六去看電影，好不好？", "好啊，我們幾點見？", "invite"], ["週末我們一起去爬山，怎麼樣？", "不好意思，我不太會爬山。", "invite"],
+ ["你平常喜歡做什麼？", "我喜歡聽音樂，有時候也去打球。", "free"], ["你的興趣是什麼？", "我的興趣是畫畫和拍照。", "free"],
+ ["你會打網球嗎？", "會，可是打得不太好。", "can"], ["聽說你很會游泳。", "沒有，我游得很慢。", "can"],
+ ["你怎麼了？", "我覺得有點累，想休息一下。", "how"], ["你為什麼不去運動？", "我今天很忙，沒有時間。", "how"],
+ ["你的錢包在哪裡？", "在書桌上面。", "where"], ["你看見我的手機了嗎？", "看見了，在沙發下面。", "where"],
+ ["你每天幾點起床？", "七點半。", "time"], ["你們幾點下課？", "下午四點。", "time"],
+ ["你的生日是幾月幾號？", "九月二十三號。", "date"], ["今天星期幾？", "今天星期五，明天不用上課。", "date"],
+ ["請問，圖書館在哪裡？", "就在學校大門的旁邊。", "where"], ["請問，洗手間在哪裡？", "在教室後面。", "where"],
+ ["你家有幾個人？", "四個人：爸爸、媽媽、姊姊和我。", "family"], ["你有哥哥嗎？", "沒有，我只有一個妹妹。", "family"],
+ ["請問您貴姓？", "我姓王，叫王大文。", "who"], ["她叫什麼名字？", "她叫林友美。", "who"],
+ ["今天天氣怎麼樣？", "很熱，我們去游泳吧！", "weather"], ["外面下雨了嗎？", "下雨了，你要帶雨傘。", "weather"],
+ ["你覺得這部電影怎麼樣？", "很有意思，我很喜歡。", "opinion"], ["你覺得中文難不難？", "有點難，可是很有意思。", "opinion"],
+ ["你怎麼去學校？", "我騎腳踏車去。", "go"], ["你坐公車去嗎？", "不，我走路去。", "go"],
+ ["那個女生是誰？", "她是我的新同學。", "who"], ["這是誰的書？", "是我哥哥的。", "who"],
+ ["謝謝你的禮物！", "不客氣，你喜歡就好。", "thanks"], ["謝謝你幫我找錢包！", "不客氣，這是小事。", "thanks"],
+]
+# measure words: [noun, the measure words that are right with it]. A bank never has two measure words that both fit one noun.
+STYLE_MW = [["鉛筆", "支/枝"], ["筆", "支/枝"], ["中文書", "本"], ["課本", "本"], ["白紙", "張"], ["桌子", "張"], ["床", "張"], ["沙發", "張"],
+  ["電腦", "台/部"], ["電視", "台"], ["冰箱", "台"], ["花", "朵/枝/支"], ["衣服", "件"], ["大衣", "件"], ["外套", "件"], ["鞋子", "雙"],
+  ["褲子", "條"], ["河", "條"], ["魚", "條/隻"], ["狗", "隻/條"], ["貓", "隻"], ["鳥兒", "隻"], ["咖啡", "杯/瓶/罐"], ["奶茶", "杯/瓶"],
+  ["汽水", "罐/瓶/杯"], ["啤酒", "罐/瓶/杯"], ["牛肉麵", "碗"], ["老師", "位/個"], ["客人", "位/個"], ["顏色", "種"], ["水果", "種/個"],
+  ["電影", "部"], ["歌", "首"], ["比賽", "場"], ["房子", "棟/間"], ["大樓", "棟"], ["教室", "間"], ["房間", "間/個"],
+  ["餐廳", "家/間"], ["咖啡廳", "家/間"], ["商店", "家/間"], ["飲料店", "家/間"], ["小吃店", "家/間"], ["腳踏車", "輛/台/部"], ["摩托車", "輛/台/部"],
+  ["汽車", "輛/台/部"], ["課", "堂"]]
+# picture-matching themes: each run takes 12 words with different pictures from a theme
+STYLE_PICS = [
+ {"title": "Food & drinks", "words": "咖啡 牛奶 果汁 紅茶 綠茶 奶茶 汽水 啤酒 紅酒 豆漿 冰塊 冰淇淋 蛋糕 三明治 熱狗 牛肉麵 巧克力 點心 麵包 漢堡 雞蛋 蘋果 香蕉 西瓜 芒果 葡萄 鳳梨 草莓 番茄 橘子 木瓜".split()},
+ {"title": "Things & places", "words": "書 筆 鉛筆 紙 桌子 椅子 床 沙發 電腦 電視 手機 錢包 書包 衣服 大衣 鞋子 褲子 帽子 地圖 黑板 窗戶 門 學校 圖書館 廚房 海邊 電影院 咖啡廳 商店 大樓 院子 馬路 一條河 山 腳踏車 汽車 公車 火車 飛機 禮物 錢 手錶 眼鏡".split()},
+ {"title": "People & activities", "words": "爸爸 媽媽 哥哥 姊姊 奶奶 爺爺 老師 學生 醫生 室友 家人 起床 刷牙 洗澡 睡覺 做飯 看書 看電視 唱歌 跳舞 游泳 跑步 打網球 打籃球 踢足球 騎腳踏車 看電影 拍照 畫畫 上網 玩遊戲 休息 旅行 回家 上課".split()},
+ {"title": "Weather, feelings & animals", "words": "熱 冷 下雨 下雪 夏天 冬天 春天 秋天 風 太陽 累 忙 高興 生氣 哭 可愛 漂亮 貓 狗 鳥 魚 馬 牛 豬 雞 風景".split()},
+]
