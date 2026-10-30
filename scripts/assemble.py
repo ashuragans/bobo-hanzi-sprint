@@ -60,11 +60,11 @@ HEAD = """<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="A game for learning Traditional Chinese: 時代華語 1, Lessons 1–6, TOCFL vocabulary, writing, listening and teacher-style tests.">
+<meta name="description" content="A game for learning Traditional Chinese: 時代華語 1, Lessons 1–7, TOCFL vocabulary, writing, listening and teacher-style tests.">
 <meta name="theme-color" content="#F3F6F1" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#111714" media="(prefers-color-scheme: dark)">
 <meta property="og:title" content="Bobo Hanzi Sprint">
-<meta property="og:description" content="Learn Traditional Chinese with Bobo: lessons 1–6, smart review, writing and listening.">
+<meta property="og:description" content="Learn Traditional Chinese with Bobo: lessons 1–7, smart review, writing and listening.">
 <meta property="og:image" content="icon-512.png">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="icon-192.png" type="image/png" sizes="192x192">

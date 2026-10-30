@@ -248,6 +248,28 @@ const EXAMPLES = [
   ['我昨天看了一場足球比賽。', 'Yesterday I watched a soccer game.'],
   ['我喜歡去山上拍照。', 'I like going up the mountain to take photos.'],
   ['弟弟很喜歡玩遊戲。', 'My younger brother loves playing games.'],
+  // ---- Lesson 7 怎麼到飯店去？ (the book's word list and the class slides)
+  ['這首歌怎麼唱？', 'How do you sing this song?'], ['我要到他家去。', 'I am going to his place.'], ['我後天要到這家飯店去看朋友。', 'The day after tomorrow I am going to this hotel to visit a friend.'],
+  ['有餐廳的旅館叫飯店。', 'An inn with a restaurant is called a hotel.'], ['我今天想找朋友去吃飯。', 'Today I want to go and see my friends for a meal.'], ['你在找什麼？我在找我的手機。', 'What are you looking for? I\'m looking for my phone.'],
+  ['我找到我的皮包了。', 'I found my purse.'], ['這杯飲料三十元，我給你五十元，請找我二十元。', 'This drink is 30; here\'s 50 — please give me 20 change.'], ['不用找了。', 'Keep the change.'],
+  ['我每天早上八點半到學校。', 'I get to school at 8:30 every morning.'], ['我的朋友在那家旅館前面等我。', 'My friend is waiting for me in front of that inn.'], ['請等我一下。', 'Please wait for me a moment.'],
+  ['我等了十分鐘。', 'I waited ten minutes.'], ['你想坐捷運去，還是坐公車去？', 'Do you want to go by MRT or by bus?'], ['他坐火車去台北。', 'He takes the train to Taipei.'],
+  ['我們坐高鐵去台中。', 'We take the high-speed rail to Taichung.'], ['她坐計程車去火車站。', 'She takes a taxi to the train station.'], ['我們坐船去旗津。', 'We take a boat to Cijin.'],
+  ['他坐在沙發上。', 'He is sitting on the sofa.'], ['你要在這裡下車嗎？', 'Do you want to get off here?'], ['公車來了，我們上車吧！', 'The bus is here — let\'s get on!'],
+  ['他家有點兒遠，我們可以坐捷運去嗎？', 'His place is a bit far. Can we take the MRT there?'], ['那家餐廳很近，我們走路去吧！', 'That restaurant is close; let\'s walk there!'], ['公園不遠，走路五分鐘就到了。', 'The park isn\'t far; it\'s five minutes on foot.'],
+  ['從學校到捷運站有多遠？', 'How far is it from school to the MRT station?'], ['他要從他家走路去學校。', 'He is going to walk to school from his house.'], ['我從去年開始學中文。', 'I started learning Chinese last year.'],
+  ['請走慢一點。', 'Please walk a bit slower.'], ['現在太晚了，我要走了。', 'It\'s too late now; I have to go.'], ['我很餓，我們可以先吃飯嗎？', 'I\'m very hungry. Can we eat first?'],
+  ['這張地圖上有十多家餐廳，我們要去哪一家？', 'There are more than ten restaurants on this map. Which one are we going to?'], ['明天是爸爸的生日，我要送他一個錶。', 'Tomorrow is Dad\'s birthday; I\'m giving him a watch.'],
+  ['我累了，不想走了。', 'I\'m tired; I don\'t want to walk any more.'], ['路上有很多車。', 'There are lots of cars on the road.'], ['現在這條街上沒有車。', 'There are no cars on this street right now.'],
+  ['不要在馬路上玩。', 'Don\'t play in the road.'], ['這個地方好漂亮，我好喜歡。', 'This place is so beautiful; I really like it.'], ['這是我上課的地方。', 'This is where I have class.'],
+  ['學校附近有很多飲料店。', 'There are lots of drink shops near school.'], ['我要到郵局去寄信，也要買一些信封。', 'I\'m going to the post office to mail a letter and buy some envelopes.'], ['你去郵局做什麼？我去買郵票。', 'What are you doing at the post office? Buying stamps.'],
+  ['我要到超級市場去買蛋。', 'I\'m going to the supermarket for some eggs.'], ['我明天有空，一定可以去。', 'I\'m free tomorrow, so I can definitely go.'], ['這種巧克力冰淇淋又便宜又好吃。', 'This chocolate ice cream is cheap and delicious.'],
+  ['我每天坐捷運去上課，我覺得很方便。', 'I take the MRT to class every day; I find it very convenient.'], ['我現在不方便說話。', 'It\'s not a good time for me to talk right now.'], ['今天天氣不冷也不熱，很舒服。', 'The weather today is neither cold nor hot — very comfortable.'],
+  ['我今天不太舒服。', 'I don\'t feel very well today.'], ['我家附近有兩條捷運線。', 'There are two MRT lines near my home.'], ['我要坐紅線捷運。', 'I want to take the red MRT line.'],
+  ['我明天早上九點要到機場。', 'I have to be at the airport by nine tomorrow morning.'], ['那位司機開車開得很好。', 'That driver drives very well.'], ['在這個大車站，坐公車、捷運、火車都很方便。', 'At this big station, buses, the MRT and trains are all convenient.'],
+  ['你家附近有捷運站嗎？', 'Is there an MRT station near your home?'], ['我要坐飛機到英國去。', 'I\'m going to the UK by plane.'], ['這隻小鳥會飛嗎？', 'Can this little bird fly?'],
+  ['你看，飛機起飛了！', 'Look, the plane is taking off!'], ['飛機九點起飛。', 'The plane takes off at nine.'], ['我們要搭九點的飛機。', 'We\'re taking the nine o\'clock plane.'],
+  ['我聽說這家餐廳很好吃。', 'I heard this restaurant is good.'], ['他今天怎麼了？', 'What\'s wrong with him today?'], ['你怎麼還沒吃飯？', 'Why haven\'t you eaten yet?'],
 ];
 const PUN = /[，。？！、：；「」（）]/;
 function tokenizeZh(str) {
@@ -273,6 +295,6 @@ EXAMPLES.forEach(([zh, en], i) => {
   const toks = tokenizeZh(zh);
   const keys = uniq(tokenizeZh.keys);
   const ls = keys.flatMap(k => W[k].ls.filter(l => l in LIDX)).map(l => LIDX[l]);
-  const s = { id: 'ex-' + i, toks, en, L: ls.length ? 'L' + Math.max(...ls) : 'L6', src: 'ex', zh: plainZh(toks), keys };
+  const s = { id: 'ex-' + i, toks, en, L: ls.length ? 'L' + Math.max(...ls) : 'L' + LMAX, src: 'ex', zh: plainZh(toks), keys };
   SENTS.push(s); keys.forEach(k => (SIDX[k] = SIDX[k] || []).push(s));
 });

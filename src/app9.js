@@ -281,7 +281,7 @@ function startSmart() {
     gen: wordGen(words, { teach: 0, pool: WL.filter(x => x.lv !== 9), extra: () => xi < extras.length ? extras[xi++]() : null, extraEvery: extras.length > 5 ? 2 : 3 }),
     onDone: () => ({ chest: 0 }) });
 }
-function currentLesson() { const nd = currentNode(); return nd && nd.unit !== 'FIN' ? nd.unit : 'L6'; }
+function currentLesson() { const nd = currentNode(); return nd && nd.unit !== 'FIN' ? nd.unit : LES[LES.length - 1].id; }
 function smartCounts() {
   const seenW = WL.filter(w => S.cards[w.k] && w.lv !== 9);
   return { due: seenW.filter(w => due(w.k)).length, weak: seenW.filter(w => stageOf(w.k) <= 2).length, conf: confPairs(20).length, looked: Object.keys(S.look).length, peeked: Object.keys(S.pk).filter(k => peekScore(k) >= .5).length, seen: seenW.length, miss: missDue().length };

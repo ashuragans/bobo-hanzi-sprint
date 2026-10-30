@@ -104,7 +104,7 @@ async def main():
             if name == 'phone':
                 await p.screenshot(path=f'{SHOTS}/phone_learn2.png')
             # every node type in L3 + FIN
-            for nid in ['L3-0', 'L3-2', 'L3-3', 'L3-5', 'L3-6', 'L3-7', 'L5-7', 'L0-7', 'L6-7', 'FIN-0', 'FIN-1', 'FIN-2', 'FIN-3', 'FIN-5']:
+            for nid in ['L3-0', 'L3-2', 'L3-3', 'L3-5', 'L3-6', 'L3-7', 'L5-7', 'L0-7', 'L6-7', 'L7-2', 'L7-3', 'L7-7', 'FIN-0', 'FIN-1', 'FIN-2', 'FIN-3', 'FIN-5']:
                 await p.evaluate(f"startNode(NODES.find(n=>n.id==='{nid}'))"); await p.wait_for_timeout(400)
                 r, k = await drive(p, True, n=120, shots=shots if name == 'phone' else None)
                 await p.wait_for_timeout(1800)

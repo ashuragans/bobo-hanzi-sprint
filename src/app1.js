@@ -11,8 +11,8 @@ WL.forEach(w => { if (!H2W[w.h]) H2W[w.h] = w; });
 WL.forEach(w => (w.alt || '').split('/').forEach(a => { if (a && !/\d/.test(a) && !H2W[a]) H2W[a] = w; }));
 const LES = DATA.lessons, LMAP = Object.fromEntries(LES.map(l => [l.id, l]));
 const G = DATA.grammar, DRILLS = DATA.drills, MN = DATA.mnemo;
-const LNAME = { L0: '預備', L1: '第一課', L2: '第二課', L3: '第三課', L4: '第四課', L5: '第五課', L6: '第六課', B: '之後' };
-const LEN = { L0: 'Intro', L1: 'Lesson 1', L2: 'Lesson 2', L3: 'Lesson 3', L4: 'Lesson 4', L5: 'Lesson 5', L6: 'Lesson 6', B: 'Later lessons' };
+const LNAME = { L0: '預備', L1: '第一課', L2: '第二課', L3: '第三課', L4: '第四課', L5: '第五課', L6: '第六課', L7: '第七課', B: '之後' };
+const LEN = { L0: 'Intro', L1: 'Lesson 1', L2: 'Lesson 2', L3: 'Lesson 3', L4: 'Lesson 4', L5: 'Lesson 5', L6: 'Lesson 6', L7: 'Lesson 7', B: 'Later lessons' };
 const SYN = [['二','兩'],['他','她','它'],['常常','時常','經常'],['快樂','高興','開心'],['美','漂亮','美麗'],['讀書','唸書','念','讀','看書'],['早上','上午','早'],
   ['星期天','禮拜天','週日'],['枝','支'],['元','塊'],['和','跟'],['學','學習'],['認為','覺得','想'],['看見','看到'],['聽見','聽到'],['巴士','公車','公共汽車'],
   ['超商','便利商店'],['日文','日語'],['英文','英語'],['房子','屋子'],['午餐','中飯'],['書包','背包'],['喜歡','喜愛','愛'],['妳','你'],['禮拜','星期'],
@@ -188,7 +188,7 @@ function catAnswer(c, ok) { const a = S.cat[c] || [0, 0]; S.cat[c] = [a[0] + (ok
 /* ---- decks */
 const DECKS = [
   { id: 'L0', zh: '預備', en: 'Intro' }, { id: 'L1', zh: '第一課', en: 'Lesson 1' }, { id: 'L2', zh: '第二課', en: 'Lesson 2' }, { id: 'L3', zh: '第三課', en: 'Lesson 3' },
-  { id: 'L4', zh: '第四課', en: 'Lesson 4' }, { id: 'L5', zh: '第五課', en: 'Lesson 5' }, { id: 'L6', zh: '第六課', en: 'Lesson 6' },
+  { id: 'L4', zh: '第四課', en: 'Lesson 4' }, { id: 'L5', zh: '第五課', en: 'Lesson 5' }, { id: 'L6', zh: '第六課', en: 'Lesson 6' }, { id: 'L7', zh: '第七課', en: 'Lesson 7' },
   { id: 'T1', zh: '詞表 1', en: 'Vocab table L1' }, { id: 'T2', zh: '詞表 2', en: 'Vocab table L2' }, { id: 'MID', zh: '期中考', en: 'Midterm words' }, { id: 'weak', zh: '錯題', en: 'Weak words' }, { id: 'MY', zh: '我的', en: 'My words' }];
 function deckWords(id) {
   if (/^L\d$/.test(id)) return LMAP[id].words.map(k => W[k]);

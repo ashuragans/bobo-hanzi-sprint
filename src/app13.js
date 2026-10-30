@@ -8,7 +8,7 @@ const ranked = (a, f) => a.map(x => [x, f(x) + Math.random()]).sort((x, y) => y[
 
 /* ---- a reading passage with a word bank: 13–14 of its marked words become blanks */
 function genPassage(o = {}) {
-  const weak = o.weak || weakKeys(), maxL = o.L ? LIDX[o.L] : 6, recent = S.ui.seenP || [];
+  const weak = o.weak || weakKeys(), maxL = o.L ? LIDX[o.L] : LMAX, recent = S.ui.seenP || [];
   const pool = ST.passages.filter(p => LIDX[p.L] <= maxL && !(o.not || []).includes(p.id));
   if (!pool.length) return null;
   // passages you haven't had lately come first, then the ones with more of your weak words
