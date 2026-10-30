@@ -5,7 +5,7 @@
 const OVR = { 了: 'le', 的: 'de', 得: 'de', 嗎: 'ma', 呢: 'ne', 吧: 'ba', 中明: 'Zhōngmíng', 友美: 'Yǒuměi', 游: 'yóu', 泳: 'yǒng', 舞: 'wǔ', 歌: 'gē', 步: 'bù',
   每天: 'měitiān', 有一點: 'yǒu yìdiǎn', 或是: 'huòshì', 一點: 'yìdiǎn', 多少: 'duōshǎo', 錢: 'qián', 飯: 'fàn' };
 const NPY = { 零: 'líng', 一: 'yī', 二: 'èr', 兩: 'liǎng', 三: 'sān', 四: 'sì', 五: 'wǔ', 六: 'liù', 七: 'qī', 八: 'bā', 九: 'jiǔ', 十: 'shí', 百: 'bǎi', 千: 'qiān', 萬: 'wàn' };
-Object.assign(OVR, { 宜文: 'Yíwén', 國安: "Guó'ān", 小華: 'Xiǎohuá', 小美: 'Xiǎoměi', 小明: 'Xiǎomíng', 安娜: 'Ānnà', 大明: 'Dàmíng' });
+Object.assign(OVR, { 元真: 'Yuánzhēn', 宜文: 'Yíwén', 國安: "Guó'ān", 小華: 'Xiǎohuá', 小美: 'Xiǎoměi', 小明: 'Xiǎomíng', 安娜: 'Ānnà', 大明: 'Dàmíng' });
 function pyOf(h) {
   if (OVR[h]) return OVR[h];
   if (DATA.altpy && DATA.altpy[h]) return DATA.altpy[h];
@@ -129,7 +129,35 @@ const OPINION = TOPIC.flatMap(t => t.adj.map(([a, en]) => ({ h: [a], en, top: t.
 const ORDER_OPEN = [{ h: ['請', '給', '我'], en: 'Please give me' }, { h: ['我', '要'], en: "I'd like" }];
 const ADV = [{ h: ['常常'], en: 'often' }, { h: ['有時候'], en: 'sometimes' }];
 const MWS_ALL = ['本', '枝', '件', '朵', '台', '張', '個', '雙', '杯', '瓶', '碗', '隻'];
-const POOLS = { s: SUBJ, a: ACTS, pl: PLACE, t: TIME, adj: ADJP, it: ITEM, num: NUM, too: TOO, d: DRINK, d2: DRINK, lc: LOCN, sp: SPOT, to: GIFT_TO, r: ROUT, top: TOPIC, op: OPINION, open: ORDER_OPEN, adv: ADV };
+/* Lesson 7: getting around. A way of travel fits only some trips: d = how far (0 in town, 1 the airport, 2 another city, 3 abroad);
+   V = the verb (坐/騎), no = verbs that are wrong with it, adj = what you can say about it (坐捷運很方便) */
+const TRANS = [
+  { h: ['坐', '公車'], en: 'by bus', ing: 'taking the bus', V: '坐', no: ['騎', '走'], d: [0, 1], adj: ['方便', '便宜', '慢'] },
+  { h: ['坐', '捷運'], en: 'by MRT', ing: 'taking the MRT', V: '坐', no: ['騎', '走', '開'], d: [0, 1], adj: ['快', '方便', '舒服'] },
+  { h: ['坐', '計程車'], en: 'by taxi', ing: 'taking a taxi', V: '坐', no: ['騎', '走'], d: [0, 1], adj: ['快', '舒服', '貴'] },
+  { h: ['坐', '火車'], en: 'by train', ing: 'taking the train', V: '坐', no: ['騎', '走', '開'], d: [2], adj: ['舒服', '方便'] },
+  { h: ['坐', '高鐵'], en: 'by high-speed rail', ing: 'taking the high-speed rail', V: '坐', no: ['騎', '走', '開'], d: [2], adj: ['快', '舒服', '貴'] },
+  { h: ['坐', '飛機'], en: 'by plane', ing: 'flying', V: '坐', no: ['騎', '走', '開'], d: [3], adj: ['快', '貴'] },
+  { h: ['騎', '腳踏車'], en: 'by bike', ing: 'riding a bike', V: '騎', no: ['坐', '開', '走'], d: [0], adj: ['慢', '累'] },
+  { h: ['騎', '機車'], en: 'by scooter', ing: 'riding a scooter', V: '騎', no: ['走'], d: [0], adj: ['快', '方便'] },
+  { h: ['開車'], en: 'by car', ing: 'driving', d: [0, 1, 2], adj: ['方便', '舒服', '快'] },
+  { h: ['走路'], en: 'on foot', ing: 'walking', d: [0], adj: ['慢', '累'] }];
+const DEST = [{ h: ['學校'], en: 'school', far: 0 }, { h: ['圖書館'], en: 'the library', far: 0 }, { h: ['火車站'], en: 'the train station', far: 0 }, { h: ['郵局'], en: 'the post office', far: 0 },
+  { h: ['超市'], en: 'the supermarket', far: 0 }, { h: ['飯店'], en: 'the hotel', far: 0 }, { h: ['公司'], en: 'the office', far: 0 }, { h: ['朋友', '家'], en: "a friend's place", far: 0 },
+  { h: ['機場'], en: 'the airport', far: 1 }, { h: ['台北'], en: 'Taipei', far: 2 }, { h: ['台中'], en: 'Taichung', far: 2 }, { h: ['高雄'], en: 'Kaohsiung', far: 2 },
+  { h: ['日本'], en: 'Japan', far: 3 }, { h: ['美國'], en: 'America', far: 3 }, { h: ['韓國'], en: 'Korea', far: 3 }];
+const FROMP = [{ h: ['家'], en: 'home' }, { h: ['學校'], en: 'school' }, { h: ['飯店'], en: 'the hotel' }, { h: ['旅館'], en: 'the inn' }, { h: ['公司'], en: 'the office' }, { h: ['車站'], en: 'the station' }];
+const VOADJ = [{ h: ['方便'], en: 'convenient' }, { h: ['快'], en: 'fast' }, { h: ['舒服'], en: 'comfortable' }, { h: ['便宜'], en: 'cheap' }, { h: ['貴'], en: 'expensive' }, { h: ['慢'], en: 'slow' }, { h: ['累'], en: 'tiring' }];
+const YY = [ // 又…又…: two qualities that point the same way
+  { h: ['這', '家', '餐廳'], en: 'this restaurant', a: ['便宜', 'cheap'], b: ['好吃', 'delicious'] }, { h: ['台北', '的', '捷運'], en: "Taipei's MRT", a: ['快', 'fast'], b: ['方便', 'convenient'] },
+  { h: ['坐', '高鐵'], en: 'taking the high-speed rail', a: ['快', 'fast'], b: ['舒服', 'comfortable'] }, { h: ['這', '個', '蘋果'], en: 'this apple', a: ['大', 'big'], b: ['甜', 'sweet'] },
+  { h: ['她'], en: 'she', a: ['漂亮', 'pretty'], b: ['可愛', 'cute'] }, { h: ['他', '的', '房間'], en: 'his room', a: ['大', 'big'], b: ['漂亮', 'pretty'] },
+  { h: ['這', '件', '衣服'], en: 'this shirt', a: ['漂亮', 'pretty'], b: ['便宜', 'cheap'] }, { h: ['這', '本', '書'], en: 'this book', a: ['好看', 'good'], b: ['有意思', 'interesting'] },
+  { h: ['這', '杯', '咖啡'], en: 'this coffee', a: ['香', 'fragrant'], b: ['好喝', 'tasty'] }, { h: ['我'], en: 'I', be: 'am', a: ['餓', 'hungry'], b: ['渴', 'thirsty'] },
+  { h: ['這', '張', '床'], en: 'this bed', a: ['大', 'big'], b: ['舒服', 'comfortable'] }, { h: ['這裡', '的', '夏天'], en: 'summer here', a: ['熱', 'hot'], b: ['不舒服', 'uncomfortable'] }];
+const CHG = [{ h: ['餓'], en: 'hungry' }, { h: ['渴'], en: 'thirsty' }, { h: ['累'], en: 'tired' }];
+const POOLS = { s: SUBJ, a: ACTS, pl: PLACE, t: TIME, adj: ADJP, it: ITEM, num: NUM, too: TOO, d: DRINK, d2: DRINK, lc: LOCN, sp: SPOT, to: GIFT_TO, r: ROUT, r2: ROUT, top: TOPIC, op: OPINION, open: ORDER_OPEN, adv: ADV,
+  tr: TRANS, ds: DEST, fr: FROMP, ta: VOADJ, yy: YY, chg: CHG };
 const MWPOOL = MWS_ALL.map(m => ({ h: [m], mw: m }));
 
 /* ---- templates: slots, validity, Chinese chunks, English, typical mistakes */
@@ -204,6 +232,31 @@ const TPL = [
     en: v => `${cap(v.s.en)} only ${v.s.p3 ? 'wants' : 'want'} to ${v.a.v} ${v.a.o}.`, bad: [v => [['只'], v.s.h, ['想'], v.a.h], v => [v.s.h, ['想'], v.a.h, ['只']]] },
   { id: 'order', bk: [['mw'], ['it']], L: 'L4', g: 'g_order', sl: ['open', 'it'], ok: v => v.it.order, zh: v => [v.open.h, ['一', v.it.mw], v.it.h], end: '。',
     en: v => `${v.open.en} ${art(v.it.sg)}.`, bad: [v => [v.open.h, ['一'], v.it.h, [v.it.mw]]] },
+  // ---- Lesson 7: getting around
+  { id: 'zenmequ', L: 'L7', g: 'g_zenme_qu', sl: ['s', 'ds'], ok: () => true, zh: v => [v.s.h, ['怎麼'], ['去'], v.ds.h], end: '？',
+    en: v => `How ${v.s.p3 ? 'does' : 'do'} ${v.s.en} get to ${v.ds.en}?`, bad: [v => [v.s.h, ['去'], v.ds.h, ['怎麼']], v => [['怎麼'], v.s.h, ['去'], v.ds.h]] },
+  { id: 'trans', bk: [['tv']], L: 'L7', g: 'g_zenme_qu', sl: ['s', 't', 'tr', 'ds'], float: 1, ok: v => v.tr.d.includes(v.ds.far), zh: v => [v.s.h, v.t.h, v.tr.h, ['去'], v.ds.h], end: '。',
+    en: v => `${cap(v.s.en)} ${beOf(v.s)} going to ${v.ds.en} ${v.tr.en} ${v.t.en}.`,
+    bad: [v => [v.s.h, v.t.h, ['去'], v.ds.h, v.tr.h], v => v.tr.V ? [v.s.h, v.t.h, [v.tr.no[0], v.tr.h[1]], ['去'], v.ds.h] : null] },
+  { id: 'transdao', bk: [['fw', '到', ['到'], ['從', '在', '是']]], L: 'L7', g: 'g_cong_dao', sl: ['s', 'adv', 'tr', 'ds'], ok: v => v.tr.d.includes(v.ds.far), zh: v => [v.s.h, v.adv.h, v.tr.h, ['到'], v.ds.h, ['去']], end: '。',
+    en: v => `${cap(v.s.en)} ${v.adv.en} ${v.s.p3 ? 'goes' : 'go'} to ${v.ds.en} ${v.tr.en}.`, bad: [v => [v.s.h, v.adv.h, v.tr.h, ['去'], v.ds.h, ['到']]] },
+  { id: 'congdao', bk: [['fw', '從', ['從'], ['到', '在', '去']]], L: 'L7', g: 'g_cong_dao', sl: ['s', 'fr', 'pl', 'a'], ok: v => v.pl.acts.includes(v.a.id) && v.fr.h.join('') !== v.pl.h.join(''),
+    zh: v => [v.s.h, ['從'], v.fr.h, ['到'], v.pl.h, ['去'], v.a.h], end: '。',
+    en: v => `${cap(v.s.en)} ${v.s.p3 ? 'goes' : 'go'} from ${v.fr.en} to ${v.pl.en} to ${v.a.v} ${v.a.o1 || v.a.o}.`,
+    bad: [v => [v.s.h, ['到'], v.pl.h, ['從'], v.fr.h, ['去'], v.a.h], v => [v.s.h, ['從'], v.fr.h, ['去'], v.pl.h, ['到'], v.a.h]] },
+  { id: 'votopic', L: 'L7', g: 'g_vo_topic', sl: ['tr', 'ta'], ok: v => v.tr.adj.includes(v.ta.h[0]), zh: v => [v.tr.h, ['很'], v.ta.h], end: '。',
+    en: v => `${cap(v.tr.ing)} is very ${v.ta.en}.`, bad: [v => [v.tr.h, ['是'], v.ta.h], v => v.tr.V ? [[v.tr.h[1], v.tr.h[0]], ['很'], v.ta.h] : null] },
+  { id: 'youyou', L: 'L7', g: 'g_you_you', sl: ['yy'], swap: 1, ok: () => true, zh: v => [v.yy.h, ['又', v.yy.a[0]], ['又', v.yy.b[0]]], end: '。',
+    en: v => `${cap(v.yy.en)} ${v.yy.be || 'is'} both ${v.yy.a[1]} and ${v.yy.b[1]}.`, bad: [v => [v.yy.h, ['又', v.yy.a[0]], ['和', v.yy.b[0]]], v => [v.yy.h, ['很', v.yy.a[0]], ['又', v.yy.b[0]]]] },
+  { id: 'lechg', bk: [['fw', '了', ['了'], ['的', '嗎', '呢', '得']]], L: 'L7', g: 'g_le_change', sl: ['s', 'chg'], ok: () => true, zh: v => [v.s.h, v.chg.h, ['了']], end: '。',
+    en: v => `${cap(v.s.en)} ${beOf(v.s)} ${v.chg.en} now.`, bad: [v => [v.s.h, ['很'], v.chg.h, ['了']], v => [v.s.h, ['了'], v.chg.h]] },
+  { id: 'nowle', L: 'L7', g: 'g_le_change', sl: ['hr'], ok: () => true, zh: v => [['現在'], v.hr.h, ['了']], end: '！',
+    en: v => `It's ${v.hr.n}${v.hr.half ? ':30' : " o'clock"} now!`, bad: [v => [['現在'], ['了'], v.hr.h]] },
+  { id: 'xianzai', bk: [['fw', '先', ['先'], ['再', '就', '都', '也']]], L: 'L7', g: 'g_xian_zai', sl: ['s', 'r', 'r2'],
+    ok: v => { const i = ROUT.indexOf(v.r), j = ROUT.indexOf(v.r2); return j > i && j - i <= 2; }, zh: v => [v.s.h, ['先'], v.r.h, ['再'], v.r2.h], end: '。',
+    en: v => `${cap(v.s.en)} ${vOf(v.s, v.r)} first, then ${vOf(v.s, v.r2)}.`, bad: [v => [v.s.h, ['再'], v.r.h, ['先'], v.r2.h], v => [v.s.h, v.r.h, ['先'], ['再'], v.r2.h]] },
+  { id: 'yiding', bk: [['fw', '一定', ['一定'], ['一起', '一共', '一點']]], L: 'L7', g: 'g_yiding', sl: ['s', 't', 'pl'], float: 1, ok: () => true,
+    zh: v => [v.s.h, v.t.h, ['一定', '會'], ['去'], v.pl.h], end: '。', en: v => `${cap(v.s.en)} will definitely go ${v.pl.to} ${v.t.en}.`, bad: [v => [v.s.h, v.t.h, ['會', '一定'], ['去'], v.pl.h]] },
 ];
 const TMAP = Object.fromEntries(TPL.map(t => [t.id, t]));
 /* measure words that also fit a noun (一瓶果汁 as well as 一杯果汁) are never shown as mistakes */
@@ -220,7 +273,7 @@ const MNP = [{ h: ['好'] }, { h: ['快'] }, { h: ['慢'] }, { h: ['漂亮'] }, 
 const poolOf = (name) => name === 'hr' ? HOURS : name === 'pr' ? PR : name === 'mn' ? MNP : POOLS[name];
 
 /* ---- lesson level of a word: words a learner has met are always allowed */
-const LIDX = { L0: 0, L1: 1, L2: 2, L3: 3, L4: 4, L5: 5, L6: 6 };
+const LIDX = { L0: 0, L1: 1, L2: 2, L3: 3, L4: 4, L5: 5, L6: 6, L7: 7 }, LMAX = Math.max(...Object.values(LIDX));
 const wordLevel = h => { const w = H2W[h]; if (!w) return 0; const ls = w.ls.filter(l => l in LIDX).map(l => LIDX[l]); return ls.length ? Math.min(...ls) : (w.lv === 1 ? 3 : w.lv === 2 ? 5 : 0); };
 const entryWords = e => [].concat(e.h || [], e.mw ? [e.mw] : []).filter(x => typeof x === 'string' && HAN.test(x));
 function entryOK(e, maxL) {
@@ -256,6 +309,7 @@ function render(t, v) {
 function altOrders(s) {
   const n = s.t.float || 0, out = new Set([s.tiles.join('')]);
   if (n) { const [first, ...rest] = s.tiles; for (let i = 1; i <= n; i++) out.add(rest.slice(0, i).join('') + first + rest.slice(i).join('')); }
+  if (s.t.swap && s.tiles.length >= 3) { const t = s.tiles.slice(), m = t.length; [t[m - 1], t[m - 2]] = [t[m - 2], t[m - 1]]; out.add(t.join('')); } // 又快又方便 = 又方便又快
   return [...out];
 }
 function genSent(tid, fixed, o = {}) { const t = TMAP[tid]; const v = fillTpl(t, fixed, o); return v ? render(t, v) : null; }
@@ -273,7 +327,8 @@ function genAny(o = {}) {
 const SLOT_IDX = {};
 TPL.forEach(t => t.sl.forEach(sl => (poolOf(sl) || []).forEach(e => entryWords(e).forEach(h => (SLOT_IDX[h] = SLOT_IDX[h] || []).push([t.id, sl, e])))));
 ['本', '枝', '件', '朵', '台', '張', '個', '雙', '杯', '瓶', '碗', '隻'].forEach(m => ITEM.filter(it => it.mw === m).forEach(it => ['buy', 'price', 'song', 'order', 'you', 'tai'].forEach(tid => { if (TMAP[tid].sl.includes('it')) (SLOT_IDX[m] = SLOT_IDX[m] || []).push([tid, 'it', it]); })));
-const FW = ['想', '喜歡', '也', '都', '很', '會', '去', '最', '在', '有', '送', '覺得', '太', '了', '還是', '要', '每天', '買', '請', '給', '多少', '錢', '這', '有一點', '塊', '吧', '嗎', '不', '得', '每', '應該', '只', '常常'];
+const FW = ['想', '喜歡', '也', '都', '很', '會', '去', '最', '在', '有', '送', '覺得', '太', '了', '還是', '要', '每天', '買', '請', '給', '多少', '錢', '這', '有一點', '塊', '吧', '嗎', '不', '得', '每', '應該', '只', '常常',
+  '從', '到', '怎麼', '又', '先', '再', '一定', '坐', '騎'];
 TPL.forEach(t => { const v = fillTpl(t); if (!v) return; const words = new Set(t.zh(v).flat()); FW.forEach(h => { if (words.has(h)) (SLOT_IDX[h] = SLOT_IDX[h] || []).push([t.id, null, null]); }); });
 function genFor(h, o = {}) {
   const opts = shuffle(SLOT_IDX[h] || []);
@@ -391,6 +446,7 @@ function bkInfo(s, b) {
     const acc = x => { const e = ITEM.find(i => i.h[0] === x); if (!e || !mwsOf(e).includes(it.mw)) return false; try { return !!s.t.ok(Object.assign({}, s.v, { it: e })); } catch (z) { return false; } };
     return { h: it.h[0], type: 'it', acc, wrong: ITEM.filter(i => !mwsOf(i).includes(it.mw)).map(i => i.h[0]) };
   }
+  if (b[0] === 'tv') { const V = s.v.tr.V || '', ok = V === '坐' ? ['坐', '搭'] : [V]; return { h: V, type: 'fw', acc: x => ok.includes(x), wrong: s.v.tr.no || [] }; } // 坐 (or 搭) the bus, 騎 a bike
   if (b[0] === 'adj') return { h: s.v.adj.h[0], type: 'adj', acc: x => ADJP.some(e => e.h[0] === x), wrong: ['書', '杯', '去', '咖啡', '學校', '本', '在'] };
   return { h: b[1], type: 'fw', acc: x => b[2].includes(x), wrong: b[3] || [] };
 }

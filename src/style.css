@@ -1004,6 +1004,7 @@ ruby.tok.show{background:var(--sky-soft);border-radius:4px}
 .smc small{font-size:.7rem;color:var(--ink-2);line-height:1.1}
 .smc.r-who{background:var(--pen-soft)} .smc.r-when{background:var(--gold-soft)} .smc.r-where{background:var(--jade-soft)}
 .smc.r-what{background:var(--seal-soft)} .smc.r-towhom{background:var(--taro-soft)} .smc.r-whatthing{background:var(--sky-soft)}
+.smc.r-how{background:var(--tea-soft)} .smc.r-from{background:var(--pink-soft)}
 .qa{display:flex;flex-direction:column;gap:6px;text-align:left;font-size:1.15rem;max-width:100%}
 
 /* ---- learner record (app14): peeking at answer choices, the coach, every question type, the mistake notebook */

@@ -15,6 +15,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 HERE = os.path.join(ROOT, "content")
 sys.path.insert(0, HERE)
 import content2  # adds Lessons 4–6 to the shared lists
+import content4  # adds Lesson 7
 import content3
 from content import LESSONS, PEOPLE, GRAMMAR, DRILLS, READING, ROUTINE
 MNEMO = content2.MNEMO  # a string: content2's `MNEMO += ...` makes a new one, so take it from there (not from content)
@@ -60,6 +61,9 @@ EMOJI = dict(桌子="🪵", 椅子="🪑", 書="📖", 課本="📘", 紙="📄"
  飲料="🥤", 牛肉麵="🍜", 巧克力="🍫", 咖啡廳="☕", 下午茶="🫖", 沙發="🛋️", 廚房="🍳", 電視機="📺", 曬太陽="😎", 海邊="🏖️",
  電影院="🎦", 畫畫="🎨", 夏天="☀️", 冬天="⛄", 春天="🌷", 秋天="🍂", 窗戶="🪟", 家具="🪑", 自行車="🚲", 客廳="🛋️", 房間="🛏️",
  台灣="🇹🇼", 美國="🇺🇸", 英國="🇬🇧", 日本="🇯🇵", 中國="🇨🇳", 德國="🇩🇪", 法國="🇫🇷", 韓國="🇰🇷", 越南="🇻🇳", 印尼="🇮🇩", 菲律賓="🇵🇭")
+
+EMOJI.update(捷運="🚇", 地鐵="🚇", 高鐵="🚄", 船="🚢", 機車="🛵", 摩托車="🏍️", 飯店="🏨", 機場="🧳✈️", 飛機場="🧳✈️", 起飛="🛫", 超級市場="🛒", 超市="🛒",
+ 市場="🧺", 寄="📮", 時鐘="🕰️", 錶="⌚", 開車="🚘", 車站="🚉", 站="🚏", 飛="🕊️", 走路="🚶", 街="🏙️", 路="🛣️")  # Lesson 7
 
 def disp(k):
     return re.sub(r"\d$", "", k)
@@ -135,7 +139,7 @@ with open(os.path.join(GEN_DIR, "pinyin_diffs.txt"), "w", encoding="utf-8") as f
 print("pinyin diffs:", len(diffs), " letter-level:", sum(1 for d in diffs if d[0]=="LETTERS"))
 
 # ------------------------------------------------ sentence tokenizer with pinyin
-NAMES = {"中明":"Zhōngmíng","友美":"Yǒuměi","宜文":"Yíwén","國安":"Guó'ān","小文":"Xiǎowén","小明":"Xiǎomíng","小美":"Xiǎoměi",
+NAMES = {"元真":"Yuánzhēn","天美":"Tiānměi","中明":"Zhōngmíng","友美":"Yǒuměi","宜文":"Yíwén","國安":"Guó'ān","小文":"Xiǎowén","小明":"Xiǎomíng","小美":"Xiǎoměi",
          "小林":"Xiǎolín","林中明":"Lín Zhōngmíng","林友美":"Lín Yǒuměi","張世娟":"Zhāng Shìjuān","世娟":"Shìjuān","李大華":"Lǐ Dàhuá",
          "王小姐":"Wáng xiǎojiě","王先生":"Wáng xiānshēng","林先生":"Lín xiānshēng","林太太":"Lín tàitai","林小姐":"Lín xiǎojiě",
          "王太太":"Wáng tàitai","王老師":"Wáng lǎoshī","您貴姓":"nín guìxìng","小華":"Xiǎohuá","大明":"Dàmíng","張小華":"Zhāng Xiǎohuá","安娜":"Ānnà","同學們":"tóngxuémen"}
@@ -343,7 +347,7 @@ def bank_set(st):
     return {"id": st["id"], "sec": st.get("sec", ""), "kind": st.get("kind", "conv"), "L": st.get("L", ""), "bank": st["bank"], "lines": lines, "ans": ans}
 def order_item(o):
     for a in o["a"]: assert sorted(a) == sorted("".join(o["t"])), ("order mismatch", o)
-    return {"t": o["t"], "a": o["a"], "en": o["en"], "note": o.get("note", "")}
+    return {"t": o["t"], "a": o["a"], "en": o["en"], "note": o.get("note", ""), "end": o.get("end", "")}
 for ps in content3.LAST_PICS + content3.NEW_PICS + content3.MID_PICS:
     for it in ps["items"]:
         assert it in ps["bank"] and it in content3.PIC, ("pic", ps["id"], it)
@@ -360,7 +364,7 @@ def known(h):
     k = h if h in D else H2K.get(h)
     assert k, ("midterm-style word missing from the vocabulary", h)
     return k
-LORD = ["L0", "L1", "L2", "L3", "L4", "L5", "L6"]
+LORD = ["L0", "L1", "L2", "L3", "L4", "L5", "L6", "L7"]
 def first_lesson(h):
     ls = [l for l in D[known(h)]["ls"] if l in LORD]
     return min(ls, key=LORD.index) if ls else None
@@ -387,7 +391,7 @@ for p in content3.STYLE_PASSAGES:
         elif piece[0] == "{": parts.append(["n", piece[1:-1]])
         else: parts.append(["t", tk(piece)])
     ls = [first_lesson(w) for w in words]
-    style_passages.append({"id": p["id"], "title": p["title"], "en": p["en"], "L": max([l for l in ls if l] or ["L6"], key=LORD.index), "parts": parts})
+    style_passages.append({"id": p["id"], "title": p["title"], "en": p["en"], "L": max([l for l in ls if l] or [LORD[-1]], key=LORD.index), "parts": parts})
 for first, half, g in content3.STYLE_HALVES:
     assert first.count("＿＿") == 1 and half and g, ("half", first)
 for a, b, g in content3.STYLE_DIALOGS:

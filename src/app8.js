@@ -307,7 +307,7 @@ function sessCheck(L) {
   sampleN(LL.grammar.filter(g => G[g]), 3).forEach(g => { const q = qGrammarFor(g, { L }); if (q) qs.push(withRetry(q, g)); });
   const go_ = genOrderQ({ L, prefSeen: true });
   if (go_) qs.push(qOrderNum(go_)); else sampleN(DRILLS.filter(d => d.k === 'order' && LL.grammar.includes(d.g)), 1).forEach(d => qs.push(qOrderNum({ t: d.t, a: d.a, en: d.en })));
-  const sp = { L0: [qLook], L1: [qLook, () => qReading(pick(DATA.reading.filter(r => r.text.startsWith('L1'))))], L2: [qClock, qDate], L3: [qMW, qPrice], L4: [qBigNum, qMW], L5: [qLocation, qLocation], L6: [qListenPic, () => qReading(pick(DATA.reading.filter(r => r.text.startsWith('L6'))))] }[L] || [];
+  const sp = { L0: [qLook], L1: [qLook, () => qReading(pick(DATA.reading.filter(r => r.text.startsWith('L1'))))], L2: [qClock, qDate], L3: [qMW, qPrice], L4: [qBigNum, qMW], L5: [qLocation, qLocation], L6: [qListenPic, () => qReading(pick(DATA.reading.filter(r => r.text.startsWith('L6'))))], L7: [qListenTrans, () => qReading(pick(DATA.reading.filter(r => r.text.startsWith('L7'))))] }[L] || [];
   sp.forEach(f => { const q = f(); if (q && !(q.cat === 'listen' && !ttsOK())) qs.push(q); });
   qs.push(genFrame({ L }));
   const met = all.filter(w => seen(w.k));
@@ -384,7 +384,7 @@ function sideHTML() {
   return `<div class="card side-streak"><div class="row" style="gap:12px;flex-wrap:nowrap"><span class="big-flame ${S.streak.last === today() ? 'lit' : ''}">${FLAME}</span><div><b class="nums" style="font:800 1.6rem var(--f-disp)">${hudStreak()}</b><div class="small muted">day streak${S.freeze ? ` · ${S.freeze} freeze` : ''}</div></div></div>${streakWeek()}</div>
     <div class="card"><div class="row" style="justify-content:space-between;margin-bottom:8px"><h3>Daily quests</h3><span class="small faint nums">${qd}/3</span></div><div id="sideQuests">${questsHTML()}</div></div>
     <div class="card side-test"><div class="row" style="gap:14px;flex-wrap:nowrap"><div class="ring" style="width:84px;height:84px">${ringSVG(R0.pct, 84, 9)}<div class="val nums" style="font-size:1.2rem">${R0.pct}%<small>ready</small></div></div>
-      <div><b style="font:800 1.25rem var(--f-disp)">${d < 0 ? 'Test done' : d === 0 ? 'Test today!' : d + ' day' + (d > 1 ? 's' : '') + ' to go'}</b><div class="small muted">Lessons 1–6 · 時代華語 1</div><button class="btn3d sm" data-go="test" style="margin-top:8px">Practice tests</button></div></div></div>
+      <div><b style="font:800 1.25rem var(--f-disp)">${d < 0 ? 'Test done' : d === 0 ? 'Test today!' : d + ' day' + (d > 1 ? 's' : '') + ' to go'}</b><div class="small muted">Lessons 1–7 · 時代華語 1</div><button class="btn3d sm" data-go="test" style="margin-top:8px">Practice tests</button></div></div></div>
     <div class="card side-tip"><div class="row" style="gap:10px;flex-wrap:nowrap;align-items:flex-end">${mascotSVG({ mood: 'happy', size: 58 })}<div class="bubble"><b class="han">${tip[0]}</b><br><span class="small">${esc(tip[1])}</span></div></div></div>`;
 }
 const hudStreak = () => S.streak.last === today() || S.streak.last === ymd(new Date(Date.now() - 86400000)) ? S.streak.n : 0;

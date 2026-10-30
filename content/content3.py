@@ -463,3 +463,67 @@ STYLE_PICS = [
  {"title": "People & activities", "words": "爸爸 媽媽 哥哥 姊姊 奶奶 爺爺 老師 學生 醫生 室友 家人 起床 刷牙 洗澡 睡覺 做飯 看書 看電視 唱歌 跳舞 游泳 跑步 打網球 打籃球 踢足球 騎腳踏車 看電影 拍照 畫畫 上網 玩遊戲 休息 旅行 回家 上課".split()},
  {"title": "Weather, feelings & animals", "words": "熱 冷 下雨 下雪 夏天 冬天 春天 秋天 風 太陽 累 忙 高興 生氣 哭 可愛 漂亮 貓 狗 鳥 魚 馬 牛 豬 雞 風景".split()},
 ]
+
+# ------------------------------------------------ Lesson 7 怎麼到飯店去？ in the teacher's test formats (written for this site)
+BANKS += [
+ {"id": "n17", "L": "L7", "sec": "Choose the correct word for each sentence", "bank": ["從", "到", "坐", "騎", "走路", "怎麼", "遠", "近", "等"], "lines": [
+   ["1", "A：你＿＿去學校？　B：我＿＿公車去。"], ["2", "學校很＿＿，我們＿＿去吧！"], ["3", "他每天＿＿腳踏車上班。"],
+   ["4", "我＿＿家裡＿＿學校，要十分鐘。"], ["5", "台北太＿＿了，我不想開車去。"], ["6", "請你在門口＿＿我。"]],
+  "ans": ["怎麼", ["坐"], "近", "走路", "騎", "從", "到", "遠", "等"]},
+ {"id": "n18", "L": "L7", "sec": "Choose the correct word for each sentence", "bank": ["又", "一定", "一起", "先", "再", "了", "方便", "附近", "地方"], "lines": [
+   ["1", "坐捷運＿＿快＿＿舒服。"], ["2", "我明天有空，＿＿可以去。"], ["3", "我們＿＿吃飯，＿＿去看電影。"], ["4", "我餓＿＿，想吃一點東西。"],
+   ["5", "我家＿＿有一家超級市場，買東西很＿＿。"], ["6", "這個＿＿好漂亮，我好喜歡。"]],
+  "ans": ["又", "又", "一定", "先", "再", "了", "附近", "方便", "地方"]},
+]
+CLOZE += [
+ {"id": "c7", "L": "L7", "bank": ["坐", "方便", "遠", "就", "起飛", "先", "寄", "封", "騎"], "lines": [
+   ["", "明天我要去日本看朋友。我想＿＿捷運去機場，捷運又快又＿＿。從我家到捷運站不＿＿，走路五分鐘＿＿到了。"
+        "飛機早上十點＿＿，所以我要＿＿去郵局＿＿一＿＿信，再去機場。"]],
+  "ans": ["坐", "方便", "遠", "就", "起飛", "先", "寄", "封"]},
+]
+ORDERS += [
+ {"t": ["到", "坐公車", "每天", "來", "學校", "他"], "a": ["他每天坐公車到學校來", "每天他坐公車到學校來"], "en": "He comes to school by bus every day."},
+ {"t": ["不要", "那家", "走路", "去", "到", "飯店", "我"], "a": ["我不要走路到那家飯店去"], "en": "I don't want to walk to that hotel."},
+ {"t": ["怎麼", "到", "你", "他家", "去"], "a": ["你怎麼到他家去"], "en": "How are you getting to his place?", "end": "？"},
+ {"t": ["從", "我家", "到", "學校", "去", "上課", "我"], "a": ["我從我家到學校去上課"], "en": "I go from home to school for class."},
+ {"t": ["先", "我們", "上網", "看", "地圖", "可以"], "a": ["我們可以先上網看地圖"], "en": "We can look at the map online first."},
+]
+OPPOSITES += [["遠", "近"], ["上車", "下車"]]
+PIC.update({"捷運": "🚇", "高鐵": "🚄", "船": "🚢", "機車": "🛵", "計程車": "🚕", "公車": "🚌", "火車": "🚆", "飛機": "✈️", "走路": "🚶", "開車": "🚘",
+            "郵局": "🏤", "超級市場": "🛒", "機場": "🧳✈️", "車站": "🚉", "地圖": "🗺️", "手錶": "⌚", "信": "✉️", "飯店": "🏨", "寄信": "📮✉️", "時鐘": "🕰️"})
+NEW_PICS += [
+ {"id": "pt", "title": "Getting around (Lesson 7)", "bank": ["公車", "捷運", "計程車", "火車", "高鐵", "飛機", "船", "腳踏車", "機車", "走路"],
+  "items": ["捷運", "船", "走路", "公車", "高鐵", "機車", "飛機", "計程車", "腳踏車", "火車"]},
+ {"id": "pl7", "title": "Around town (Lesson 7)", "bank": ["郵局", "超級市場", "機場", "車站", "飯店", "地圖", "手錶", "信", "寄信", "時鐘"],
+  "items": ["飯店", "手錶", "機場", "寄信", "地圖", "車站", "時鐘", "超級市場", "信", "郵局"]},
+]
+STYLE_PASSAGES += [
+ {"id": "sp13", "title": "去台北找朋友",
+  "text": "這個週末{F}要[從]台中[到]台北去看她的[韓國]朋友。她想坐高鐵去，因為高鐵又[快|舒服]又[舒服|快]。{M}說：「坐高鐵有點兒[貴]，妳可以坐火車去。」"
+          "{F}說：「火車太[慢|貴]了，我[一定]要早一點去。」星期六早上，{F}[先]在車站買票，[再]上車。一個小時以後，她就在台北了。"
+          "她的朋友在車站[等]她，她們[一起]坐[捷運]去朋友住的[飯店]。那裡[附近]有很多好吃的[地方]，她們都很[開心]。",
+  "en": "This weekend {F} is going from Taichung to Taipei to see her Korean friend. She wants to take the high-speed rail, because it's fast and comfortable. {M} says: 'The high-speed rail is a bit expensive; you could take the train.' "
+        "{F} says: 'The train is too slow; I definitely want to get there early.' On Saturday morning {F} first buys a ticket at the station, then gets on. An hour later she's in Taipei. "
+        "Her friend waits for her at the station, and they take the MRT together to the hotel where the friend is staying. There are lots of good places to eat near the hotel, and they're both very happy."},
+ {"id": "sp14", "title": "我住在大學路",
+  "text": "我家在大學路，[附近]有一家[郵局]和一家[超級市場]，買東西很[方便]。我每天[從]家裡[走路]到捷運站，再[坐]捷運去學校上課，[大約]二十分鐘。"
+          "週末我常常[騎]腳踏車去海邊，那裡的[風景]很美。我也喜歡[寄]信給我的日本朋友，我[一定]會買很[漂亮]的[信封]。她說她好喜歡我的信！",
+  "en": "My home is on Daxue Road. Nearby there's a post office and a supermarket, so shopping is convenient. Every day I walk from home to the MRT station, then take the MRT to school for class — about twenty minutes. "
+        "On weekends I often ride my bike to the beach; the scenery there is beautiful. I also like sending letters to my Japanese friend, and I always buy really pretty envelopes. She says she loves my letters!"},
+]
+STYLE_HALVES += [
+ ["從我家到學校不遠，＿＿。", "走路五分鐘就到了", "far"], ["台北太遠了，＿＿。", "我們坐高鐵去吧", "far"], ["他家有點兒遠，＿＿？", "我們可以坐捷運去嗎", "far"],
+ ["公車來了，＿＿。", "我們可以上車了", "change"], ["上課了，老師來了，＿＿。", "我們不可以玩手機了", "change"], ["你十五歲了，＿＿。", "應該學做飯了", "change"],
+ ["我想去郵局寄信，＿＿？", "請問郵局在哪裡", "dir"], ["我不知道怎麼走，＿＿。", "我們先上網看地圖吧", "dir"],
+ ["坐捷運又快又方便，＿＿。", "我每天都坐捷運上班", "go"],
+]
+STYLE_DIALOGS += [
+ ["你們怎麼去台北？", "我們坐高鐵去，又快又舒服。", "go"], ["林先生怎麼去美國？", "他坐飛機去。", "go"],
+ ["從這裡到火車站遠不遠？", "不遠，走路十分鐘就到了。", "far"], ["天美飯店遠嗎？", "有點兒遠，我們坐計程車去吧。", "far"],
+ ["請問，郵局在哪裡？", "郵局在超級市場旁邊。", "where"],
+ ["你去郵局做什麼？", "我要寄信，也要買信封。", "purpose"], ["你去超市買什麼？", "我要去買蛋和牛奶。", "purpose"],
+ ["你等了多久？", "我等了二十分鐘。", "dur"], ["從台北到高雄坐高鐵要多久？", "大約一個半小時。", "dur"],
+]
+STYLE_MW += [["路", "條"], ["街", "條"], ["線", "條"], ["飛機", "架"], ["信", "封"], ["地圖", "張"], ["飯店", "家/間"], ["旅館", "家/間"], ["郵局", "家/間"],
+             ["計程車", "輛/台/部"], ["公車", "輛/台/部"]]
+STYLE_PICS += [{"title": "Getting around", "words": "公車 捷運 計程車 火車 高鐵 飛機 船 腳踏車 機車 走路 開車 郵局 超級市場 機場 車站 飯店 地圖 手錶 信 時鐘".split()}]

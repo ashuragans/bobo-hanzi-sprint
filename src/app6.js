@@ -103,6 +103,17 @@ const LGEN = [
     const card = i => `<span style="display:inline-grid;place-items:center;width:74px;height:74px;border-radius:10px;border:2px solid var(--ink);background:var(--page);font:800 1.1rem var(--f-disp)"><span style="font-size:.7rem;color:var(--seal)">DAY</span>${WEEK_EN[i].toUpperCase()}</span>`;
     return lq(`今天星期${d === 0 ? '天' : WEEK[d]}。`, [[card(d), WEEK_EN[d]], [card(ds[0]), WEEK_EN[ds[0]]], [card(ds[1]), WEEK_EN[ds[1]]]]); },
 ];
+/* Lesson 7: how do you get there? (the transport pictures from the class slides) */
+LD.trans = [['坐公車', '🚌'], ['坐捷運', '🚇'], ['坐計程車', '🚕'], ['坐火車', '🚆'], ['坐高鐵', '🚄'], ['坐飛機', '✈️'], ['坐船', '🚢'], ['騎腳踏車', '🚲'], ['騎機車', '🛵'], ['開車', '🚗'], ['走路', '🚶']];
+LD.place.push(['郵局', '🏤'], ['超級市場', '🛒'], ['機場', '🧳✈️'], ['車站', '🚉'], ['飯店', '🏨']);
+const TRANS_TO = { 坐飛機: ['日本', '美國', '韓國'], 坐船: ['日本', '韓國'], 坐火車: ['台北', '台中', '高雄'], 坐高鐵: ['台北', '台中', '高雄'] };
+function qListenTrans() {
+  const [a, b, c] = sampleN(LD.trans, 3), to = pick(TRANS_TO[a[0]] || ['學校', '圖書館', '超市', '郵局', '公司', '飯店']);
+  const say = pick([`${pick(['我', '他', '她', '我們'])}${pick(['每天', '明天', '週末', ''])}${a[0]}去${to}。`, `你怎麼去${to}？我${a[0]}去。`]);
+  const pic = x => `<span style="font-size:2.4rem">${x[1]}</span>`;
+  return lq(say, [[pic(a), a[0]], [pic(b), b[0]], [pic(c), c[0]]]);
+}
+LGEN.push(qListenTrans);
 function qListenPic() { return pick(LGEN)(); }
 
 /* ---- full tests */
@@ -113,7 +124,7 @@ function teacherTest() {
   const weak = new Set(WL.filter(w => S.cards[w.k] && stageOf(w.k) <= 3).map(w => w.k));
   const score = b => b.bank.filter(h => H2W[h] && weak.has(H2W[h].k)).length + Math.random() * 2;
   const best = a => a.slice().sort((x, y) => score(y) - score(x));
-  const early = best(conv.filter(b => ['L1', 'L2', 'L3'].includes(b.L))), late = best(conv.filter(b => ['L4', 'L5', 'L6'].includes(b.L)));
+  const early = best(conv.filter(b => ['L1', 'L2', 'L3'].includes(b.L))), late = best(conv.filter(b => ['L4', 'L5', 'L6', 'L7'].includes(b.L)));
   const gb = genBank({ n: 6, prefer: [...weak] });
   [early[0], late[0], gb ? null : late[1]].filter(Boolean).forEach(b => qs.push(qBank(b, { shuffleBank: true })));
   if (gb) qs.push(genBankQ(gb, { num: 'I.' }));
@@ -152,7 +163,7 @@ function vTest(el) {
     <div class="grid2">
       <div class="page pad stack">
         <div class="row" style="justify-content:space-between"><div class="han" style="font-size:2.4rem;line-height:1">老師式考卷</div><span class="tag bonus">Recommended</span></div>
-        <p class="muted">A new test in your teacher's exact format, covering Lessons 1–6: listening (choose A, B or C), word-bank conversations, sentence order with numbers, measure words, opposites, a reading passage, and picture matching. Different questions every time.</p>
+        <p class="muted">A new test in your teacher's exact format, covering Lessons 1–7: listening (choose A, B or C), word-bank conversations, sentence order with numbers, measure words, opposites, a reading passage, and picture matching. Different questions every time.</p>
         ${ttsOK() ? '' : '<p class="note">No Chinese voice on this device, so the listening part is skipped.</p>'}
         <div class="row"><button class="btn primary big" id="tt_prac">${IC.play}Practice</button><button class="btn big" id="tt_exam">${IC.test}Exam mode</button></div>
         <p class="tiny faint">Practice checks each part as you go. Exam mode shows the answers only at the end.</p>

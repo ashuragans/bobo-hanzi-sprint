@@ -1,7 +1,7 @@
 # CLAUDE.md — Bobo Hanzi Sprint
 
 A game-style website (Duolingo-like, with 波波 the bubble-tea mascot) for one student learning **Traditional Chinese**
-for a class test. It covers 時代華語 1 (Modern Chinese 1, Taiwan) **Lessons 1–6**, the class slides, the teacher's
+for a class test. It covers 時代華語 1 (Modern Chinese 1, Taiwan) **Lessons 1–7**, the class slides, the teacher's
 **TOCFL vocabulary table (804 words, Level 1 = 1–401, Level 2 = 402–804)** and the teacher's test style: word banks,
 put-in-order, measure words, opposites, cloze, picture matching and listening A/B/C.
 
@@ -75,6 +75,8 @@ src/                 app code, concatenated in numeric order (app1 … app14) in
 content/
   content.py         Lessons 1–3 (from the class slides), GRAMMAR, DRILLS, READING, ROUTINE, MNEMO
   content2.py        Lessons 4–6 (book word lists; L4–5 practice dialogues written for this site; L6 dialogues, words and exercises from the class slides), more grammar and drills
+  content4.py        Lesson 7 怎麼到飯店去？: the book's two dialogues + reading, practice dialogues from the class slides, 8 grammar points
+                     (從/到, 怎麼去 + 坐/搭/騎/開車/走路, 了 new situation, V-O topic, 又…又…, 先…再…, 一定, 怎麼了), drills incl. the slides' fill-ins
   content3.py        teacher-style tests: LAST_* = the earlier class test and MID_* = the midterm (do not change), BANKS, CLOZE, OPPOSITES, ORDERS, NEW_PICS, PIC,
                      STYLE_* = pools for the midterm-style generator (passages, second halves, dialogues, measure words, picture themes)
   vocab_tocfl.txt    the teacher's vocab table, `key|alts|pinyin|english`, exactly 804 lines of entries
@@ -87,6 +89,7 @@ tests/               Playwright tests + run_all.py
 
 ## Recipes
 
+- **Add a lesson:** a new `contentN.py` that does `LESSONS += [...]`, `GRAMMAR.update`, `DRILLS +=`, `READING +=`, `MNEMO +=` (see content4.py), imported in build.py after content2; the book's word list goes into `book1_raw.txt` (`L#|word|…`) and missing words into `vocab_extra.txt`. Then add the lesson id to `LIDX` (app10), `LNAME`/`LEN`/`DECKS` (app1), the Lessons groups (app3), `LORD` (build.py) and the study plan (app2); the learning-path unit is made from `LES` automatically. Give its grammar sentence templates in `TPL` (app10) so the site keeps generating new sentences with the new words, and add it to the teacher-test pools in content3.py.
 - **Add or fix a word:** edit `content/vocab_extra.txt` (never change the 804 lines of `vocab_tocfl.txt` unless the teacher's table changed). Then run `build.py`.
 - **Add example sentences:** add `[zh, en]` pairs to `EXAMPLES` in `src/app11.js`. Then run `assemble.py`.
 - **Add a midterm-style passage:** add to `STYLE_PASSAGES` in `content3.py`. Mark 14+ words that may become blanks as `[word]` (`[word|alt]` also accepts `alt`), and names as `{M}` `{M2}` `{F}` `{F2}`. build.py fails if a marked word shows up a second time anywhere in the passage (even inside another word) or inside a name. Only mark words that can't be swapped with another marked word, or list the swap as an `|alt`. Second halves and dialogues carry a group: a set never takes two of one group, so put every pair whose answer could also fit another one in the same group.

@@ -16,7 +16,7 @@ function vToday(el) {
   el.innerHTML = `<div class="stack">
   <div class="hero">
     <div class="count">
-      <span class="eyebrow" style="color:inherit;opacity:.85">Chinese test · Units 1–6</span>
+      <span class="eyebrow" style="color:inherit;opacity:.85">Chinese test · Units 1–7</span>
       <div class="row" style="align-items:flex-end;gap:16px;flex-wrap:nowrap"><span class="big nums">${d < 0 ? '✓' : d}</span>
         <span class="lbl">${d < 0 ? 'Test day has passed' : d === 0 ? 'Test is today — 加油!' : (d === 1 ? 'day' : 'days') + ' until your test'}<br>
         <span style="font-weight:500;opacity:.85;font-size:.92rem">Day ${planDay()} of your 3-day plan</span></span></div>
@@ -176,7 +176,7 @@ function gItem(g) {
 function vGrammar(el, p) {
   const gid = p.g || S.ui.g || 'g_shi';
   S.ui.g = gid; saveLocal();
-  const groups = [['L0', '預備', 'Intro'], ['L1', '第一課', 'Lesson 1'], ['L2', '第二課', 'Lesson 2'], ['L3', '第三課', 'Lesson 3'], ['L4', '第四課', 'Lesson 4'], ['L5', '第五課', 'Lesson 5'], ['L6', '第六課', 'Lesson 6'], ['B', '之後', 'Later lessons (in the vocab table)']];
+  const groups = [['L0', '預備', 'Intro'], ['L1', '第一課', 'Lesson 1'], ['L2', '第二課', 'Lesson 2'], ['L3', '第三課', 'Lesson 3'], ['L4', '第四課', 'Lesson 4'], ['L5', '第五課', 'Lesson 5'], ['L6', '第六課', 'Lesson 6'], ['L7', '第七課', 'Lesson 7'], ['B', '之後', 'Later lessons (in the vocab table)']];
   const seenG = new Set();
   const listHTML = groups.map(([id, zh, en]) => {
     const gs = (id === 'B' ? Object.keys(G).filter(g => G[g].later) : LMAP[id].grammar).filter(g => !seenG.has(g));

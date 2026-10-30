@@ -353,4 +353,62 @@ L6|有時候|yǒushíhòu||(Adv) sometimes 
 L6|有的時候|yǒudeshíhòu||(Adv) sometimes 
 L6|比賽|bǐsài|N|competition; race; game 
 L6|真|zhēn|Adv|really 
-L6|高興|gāoxìng|Vs|happy 
+L6|高興|gāoxìng|Vs|happy L7|怎麼|zěnme|Adv|how
+L7|到|dào|Prep|to
+L7|飯店|fàndiàn|N|hotel; M: 家
+L7|旅館|lǚguǎn|N|inn; hotel; M: 家
+L7|找|zhǎo|V|to visit; to see (a person)
+L7|韓國|Hánguó|N|Korea
+L7|到|dào|V|to arrive (at a place)
+L7|等|děng|V|to wait for
+L7|坐|zuò|V|to take (transportation)
+L7|捷運|jiéyùn|N|MRT; metro
+L7|地鐵|dìtiě|N|subway; metro
+L7|公車|gōngchē|N|bus; M: 部/輛
+L7|車子|chēzi|N|automobile; car; M: 輛
+L7|汽車|qìchē|N|automobile; car; M: 輛
+L7|計程車|jìchéngchē|N|taxi; M: 輛
+L7|火車|huǒchē|N|train
+L7|上車|shàngchē|V-sep|to get on a bus; to get in a car
+L7|下車|xiàchē|V-sep|to get off a bus; to get out of a car
+L7|遠|yuǎn|Vs|far
+L7|近|jìn|Vs|near
+L7|從|cóng|Prep|from
+L7|走路|zǒulù|V-sep|to walk (on foot)
+L7|走|zǒu|Vi|to walk (on foot)
+L7|先|xiān|Adv|first; in advance
+L7|地圖|dìtú|N|map; M: 張
+L7|錶|biǎo|N|watch; M: 個
+L7|手錶|shǒubiǎo|N|watch; M: 個
+L7|了|le|Ptc|indicating changed situations
+L7|路|lù|N|road; M: 條
+L7|馬路|mǎlù|N|road; M: 條
+L7|條|tiáo|M|measure word for roads, fish, rivers
+L7|街|jiē|N|street; M: 條
+L7|地方|dìfāng|N|place
+L7|附近|fùjìn|N|vicinity; nearby
+L7|郵局|yóujú|N|post office; M: 家/間
+L7|寄|jì|V|to mail
+L7|信|xìn|N|letter; M: 封
+L7|封|fēng|M|measure word for letters
+L7|信封|xìnfēng|N|envelope
+L7|超級市場|chāojíshìchǎng|N|supermarket; M: 家
+L7|超市|chāoshì|N|supermarket; M: 家
+L7|市場|shìchǎng|N|market
+L7|一定|yídìng|Adv|surely; certainly; definitely
+L7|又|yòu|Adv|both…and…
+L7|方便|fāngbiàn|Vs|convenient
+L7|舒服|shūfu|Vs|comfortable
+L7|線|xiàn|N|line; M: 條
+L7|藍|lán|Vs|blue
+L7|藍色|lánsè|N|blue color
+L7|機場|jīchǎng|N|airport
+L7|飛機場|fēijīchǎng|N|airport
+L7|開車|kāichē|V-sep|to drive a car
+L7|司機|sījī|N|driver
+L7|車站|chēzhàn|N|bus (or rail) station
+L7|站|zhàn|N|station
+L7|飛機|fēijī|N|airplane; aircraft; M: 架
+L7|架|jià|M|measure word for airplanes
+L7|飛|fēi|Vi|to fly
+L7|起飛|qǐfēi|Vp|to take off (an airplane)

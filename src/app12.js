@@ -164,7 +164,8 @@ const mixCount = () => Object.keys(S.cc).length;
 
 /* ---- reading in context: who / when / where / what */
 const ROLE = { s: ['誰？', 'Who?', 'who'], t: ['什麼時候？', 'When?', 'when'], hr: ['幾點？', 'What time?', 'when'], pl: ['去哪裡？', 'Where to?', 'where'],
-  a: ['做什麼？', 'Doing what?', 'what'], r: ['做什麼？', 'Doing what?', 'what'], to: ['送給誰？', 'To whom?', 'to whom'], it: ['什麼東西？', 'What thing?', 'what thing'] };
+  a: ['做什麼？', 'Doing what?', 'what'], r: ['做什麼？', 'Doing what?', 'what'], to: ['送給誰？', 'To whom?', 'to whom'], it: ['什麼東西？', 'What thing?', 'what thing'],
+  tr: ['怎麼去？', 'How?', 'how'], ds: ['去哪裡？', 'Where to?', 'where'], fr: ['從哪裡？', 'From where?', 'from'] };
 function frameParts(s) { // the parts of a generated sentence that answer who / when / where / what
   if (!isGen(s)) return [];
   const chunks = s.chunks.map(c => c.join('')), out = [];
@@ -187,7 +188,7 @@ function qSentFrame(s, o = {}) {
     k: o.k, ks: keysExcept(s, o.k), g: s.g, sent: s, hidePy: o.hidePy ?? dialLv() >= 2 });
 }
 function genFrame(o = {}) {
-  for (let i = 0; i < 8; i++) { const s = genSent(pick(['qu', 'freq', 'clock', 'song']), {}, o), q = s && qSentFrame(s, o); if (q) return q; }
+  for (let i = 0; i < 8; i++) { const s = genSent(pick(['qu', 'freq', 'clock', 'song', 'trans', 'congdao', 'transdao']), {}, o), q = s && qSentFrame(s, o); if (q) return q; }
   return null;
 }
 QT.frame = { sk: 'u', f: qSent };
@@ -214,7 +215,7 @@ Object.values(G).forEach(g => { if (g.later) return; g.ex.forEach(([toks, en]) =
 }); });
 /* a set like the midterm: a few questions sharing one list of replies (one reply per kind of question, so only one fits) */
 function genChoiceSet(n = 5, o = {}) {
-  const maxL = o.L ? LIDX[o.L] : 6, pool = shuffle(QA.filter(x => (LIDX[x.L] ?? 6) <= maxL)), chosen = o.with ? [o.with] : [];
+  const maxL = o.L ? LIDX[o.L] : LMAX, pool = shuffle(QA.filter(x => (LIDX[x.L] ?? LMAX) <= maxL)), chosen = o.with ? [o.with] : [];
   for (const x of pool) { if (!chosen.some(y => y.g === x.g || y.az === x.az)) chosen.push(x); if (chosen.length >= n + 1) break; }
   if (chosen.length < 3) return [];
   const opts = shuffle(chosen.map(x => x.az));
