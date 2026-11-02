@@ -1,0 +1,430 @@
+# Memory stories for every character on the site: char|parts|story. This file is read first, so its story wins over content*.py.
+# Picture stories for characters whose story in content*.py was only a definition:
+姊|女 woman + 𠂔|The woman (女) who was born first and always stands in front of you in line: older sister. 姊姊 (also written 姐姐).
+姐|女 woman + 且 a tall stack|A woman (女) next to a tall stack (且) of her things — she's taller and older: older sister. 小姐 = Miss.
+什|亻 person + 十 ten|A person (亻) staring at ten (十) closed boxes: "What's inside?" 什麼 = what?
+麼|麻 hemp + 幺 tiny|Something tiny (幺) hidden in a heap of hemp (麻): "What is it? How?" Always in 什麼 (what) and 怎麼 (how).
+紙|糸 silk + 氏|Silk threads (糸) pressed flat until they turn into a thin sheet: paper. 一張紙 = a sheet of paper.
+椅|木 wood + 奇 strange|A strange (奇) piece of wood (木) with four legs and a back you can sit on: chair. 椅子.
+杯|木 wood + 不 not|A wooden (木) cup that does not (不) leak: cup. 一杯茶 = a cup of tea.
+師|𠂤 a line of people + 帀 a banner|A line of students (𠂤) following the one who holds up the banner (帀): teacher, master. 老師 = teacher.
+很|彳 step + 艮 stubborn|A stubborn (艮) mule taking one step (彳) at a time — very, very slow: very. 很好 = very good.
+呢|口 mouth + 尼 nun|A nun (尼) opens her mouth (口) and throws the question back: "…and you?" 你呢？
+吃|口 mouth + 乞 beg|A hungry beggar (乞) opens his mouth (口) wide: eat. 吃飯 = eat a meal.
+喝|口 mouth + 曷 (日 sun on top)|Thirsty under the hot sun (日 at the top of 曷), your mouth (口) gulps it down: drink. 喝水, 喝茶.
+台|厶 + 口 mouth|A little nose (厶) over an open mouth (口): someone up on a stage, talking. 台灣 = Taiwan; MW for machines: 一台電腦.
+英|艹 flower + 央 centre|The finest flower (艹) right in the centre (央) of the field: hero, English. 英文 = English; 英國 = England.
+幾|幺幺 two tiny threads + 戈 weapon|Tiny threads (幺幺) left after a fight with a weapon (戈): "How many are left?" 幾 = how many; 幾點 = what time?
+在|土 earth + 才 a sprout|A sprout (才) pushing out of the earth (土) right where it is: to be at, in. 在家 = at home.
+去|土 earth + 厶|Someone stepping off the ground (土) and walking away from you: go. 去學校 = go to school.
+來|wheat (looks like 木 with two 人)|Wheat came to people (two 人 on a 木 stalk) as a gift from the sky: come. 來我家 = come to my house.
+覺|⺍ sparkles + 冖 + 見 see|Sparkles (⺍) light up in your head and you suddenly see (見): feel; 睡覺 = sleep (jiào); 覺得 = feel (jué).
+飯|飠 food + 反 turn over|Food (飠) you keep turning over (反) in the pot: cooked rice, a meal. 吃飯 = have a meal.
+做|亻 person + 故 a story|A person (亻) busy making something worth telling a story (故) about: do, make. 做飯 = cook.
+澡|氵 water + 喿 three chirping mouths|Water (氵) splashing while three little birds (the 口口口 of 喿) chirp on a tree: bath. 洗澡 = take a shower.
+刷|尸 + 巾 cloth + 刂 knife|A cloth (巾) rubbed hard back and forth, scraping like a knife (刂): brush. 刷牙 = brush your teeth.
+生|a sprout from the ground|A little plant sprouting up out of the ground (土): be born, life. 生日 = birthday; 學生 = student.
+要|覀 a basket + 女 woman|A woman (女) with a basket (覀) on her head who wants to fill it with everything: want. 我要… = I want…
+些|此 this + 二 two|This (此) plus two (二) more: a few, some. 一些 = some; 這些 = these.
+蛋|疋 + 虫 a little creature|A little creature (虫) curled up inside, waiting to hatch: egg. 蛋糕 = cake; 雞蛋 = chicken egg.
+鉛|金 metal + 㕣|A soft, grey metal (金) that leaves a mark on paper: lead. 鉛筆 = 'lead pen' = pencil.
+怎|乍 suddenly + 心 heart|Your heart (心) suddenly (乍) jumps: "How?! What happened?" 怎麼 = how; 怎麼樣 = how is it?
+樣|木 wood + 羊 sheep + 永 (water)|A wooden (木) toy sheep (羊) floating on the water — a model of what a sheep looks like: shape, way. 怎麼樣 = how is it? 一樣 = the same.
+色|⺈ a hat + 巴 a snake|A snake (巴) wearing a little hat (⺈), showing off all its colours: colour. 顏色 = colour; 紅色, 白色…
+黃|a field (田) shining in autumn|The field (田) in the middle turns golden in autumn: yellow. 黃色 = yellow.
+都|者 people + 阝 city|All the people (者) in the city (阝): all, both. 我們都… = we all…
+常|尚 still + 巾 cloth|A cloth (巾) banner that is still (尚) hanging there day after day: often, usual. 常常 = often.
+服|月 body + 𠬝 a hand pressing|A hand (又) pressing cloth onto the body (月): clothes. 衣服 = clothes; 舒服 = comfortable.
+件|亻 person + 牛 cow|A person (亻) counting the cows (牛) one by one: one piece, one item. MW for clothes and things: 一件衣服.
+今|亼 a roof + ㇇|Everyone gathered under this roof (亼) right now: now, today. 今天 = today; 今年 = this year.
+昨|日 sun + 乍 suddenly|The sun (日) suddenly (乍) went down and that day is gone: yesterday. 昨天.
+週|辶 walk + 周 a circle|Walking (辶) all the way around the circle (周) of seven days: week. 週末 = weekend.
+校|木 tree + 交 cross|Kids crossing (交) under the trees (木) on their way to class: school. 學校 = school.
+圖|囗 a frame + 啚|A map drawn inside a frame (囗): picture, map. 圖書館 = 'picture-book hall' = library.
+教|孝 + 攵 a hand with a stick|A hand with a pointer stick (攵) showing a child (子, inside 孝) the way: teach. 教室 = classroom.
+歲|止 + 戌 an axe|Every year the axe (戌) cuts one more notch on your stick: years of age. 十九歲 = 19 years old.
+兒|臼 a soft head + 儿 legs|A baby with a big soft head (臼) on little legs (儿): child. 兒子 = son; 女兒 = daughter.
+孩|子 child + 亥 a pig|A child (子) playing with a piglet (亥): child. 孩子 = child.
+認|言 words + 忍 bear with|You keep talking (言) and bear with (忍) them until you recognize who they are: recognize. 認識 = know (a person).
+識|言 words + 戠 carve|Words (言) carved (戠) deep into your memory: to know. 認識 = meet, know someone.
+漂|氵 water + 票 ticket|A ticket (票) floating on the water (氵): to float. 漂亮 = pretty — so pretty it makes your heart float.
+亮|高 a tall tower + 几|A lamp shining on top of a tall (高) tower: bright. 漂亮 = pretty; 月亮 = the moon.
+謝|言 words + 射 shoot|Words (言) you shoot (射) straight at someone who helped you: thank. 謝謝 = thank you.
+啡|口 mouth + 非 not|A mouth (口) saying "not (非) without my coffee!": the second half of 咖啡 = coffee.
+季|禾 grain + 子 child|Grain (禾) growing up like a child (子), one stage after another: season. 季節 = season.
+夏|頁 head + 夊 slow feet|A hot head (頁) on slow, dragging feet (夊): summer. 夏天 = summer.
+發|癶 feet + 弓 bow + 殳|Feet planted (癶), arrows sent out from a bow (弓): to send out. 沙發 shāfā = sofa (it sounds like sofa!).
+狗|犭 animal + 句 sentence|An animal (犭) that barks a whole sentence (句) at you: dog.
+踢|足 foot + 易 easy|Your foot (足) kicks the ball so easily (易): kick. 踢足球 = play soccer.
+海|氵 water + 每 every|Water (氵) every (每) way you look: sea. 海邊 = the beach.
+游|氵 water + 斿 a child with a flag|A child (子) waving a flag (方) while splashing in the water (氵): swim. 游泳 = swim. (遊 travel has 辶 walking!)
+會|人 roof + 曾|People (人) gathered under one roof: a meeting. Something you've got down together: can. 我會說中文 = I can speak Chinese.
+得|彳 step + 旦 + 寸 hand|Step (彳) out and grab with your hand (寸) the shining treasure (旦): get. After a verb it tells how: 跑得快 = runs fast.
+唱|口 mouth + 昌 two suns|A mouth (口) singing so brightly it shines like two suns (昌): sing. 唱歌 = sing a song.
+跳|足 foot + 兆 cracks|Feet (足) jumping over the cracks (兆) in the ground: jump. 跳舞 = dance.
+真|十 + 目 eye + 八|Seen with your own eye (目), standing firmly on two legs (八): real, really. 真的 = really; 真好看 = really pretty.
+只|口 mouth + 八 two legs|Just one mouth (口) on two little legs (八): only. 只有 = only have.
+運|辶 walk + 軍 army|An army (軍) on the march (辶): to move, carry. 運動 = exercise; 捷運 = MRT.
+陽|阝 hill + 昜 sun rays|Sun rays (昜) on the sunny side of the hill (阝): sun. 太陽 = the sun.
+# Every other character that has no story in content*.py:
+半|丷 two drops + 二 + 丨 a knife down the middle|A knife (丨) cuts straight down through the middle: half. 一半 = half; 三點半 = 3:30.
+子|a baby with arms out|A swaddled baby with its arms out: child. Also a little ending on nouns: 包子, 椅子, 鞋子.
+冰|冫 ice + 水 water|Two drops of ice (冫) next to water (水): water frozen into ice. 冰淇淋 = ice cream, 冰的 = iced.
+病|疒 sickbed + 丙|疒 is a person lying on a sickbed: sick, illness. 生病 = to get sick.
+不|a bird flying up to the sky line|A bird flying up but stopped by the sky line (一): no, not. 不要 = don't want.
+錯|金 metal + 昔 long ago|Old (昔) metal (金) rusts and goes wrong: wrong, mistake. 不錯 = 'not wrong' = pretty good.
+餐|食 food + 歺 + 又 hand|A hand (又) bringing food (食) to the table: a meal. 餐廳 = 'meal hall' = restaurant.
+出|two mountains stacked 山 + 山|Climbing up out of one mountain and over the next: to go out. 出去 = go out.
+視|礻 show + 見 see|What is shown (礻) for you to see (見): to look at. 電視 = 'electric viewing' = TV.
+讀|言 words + 賣 sell|Reading the words (言) out loud like a market seller (賣) shouting: to read. 讀書 = study.
+多|夕 evening + 夕 evening|Evening after evening (夕夕) piles up: many, much. 多少 = how many.
+少|小 small + 丿 a slice cut off|Something small (小) with a slice cut off: even less, few. 多少 = how many.
+餓|飠 food + 我 me|Food (飠) for ME (我) — now! Hungry. 我好餓 = I'm so hungry.
+朵|几 + 木 tree|Something hanging on a tree (木): a blossom. 一朵花 = a flower; 耳朵 = ear (a flower on your head!).
+二|two lines|Two lines: two. 二 for counting (一、二、三); before a measure word say 兩.
+法|氵 water + 去 go|Rules make things go (去) smoothly like water (氵): law, method. 法國 = France.
+感|咸 all + 心 heart|Something touches your whole (咸) heart (心): to feel. 感冒 = to catch a cold.
+個|亻 person + 固 solid|One solid (固) person (亻) counted at a time: the everyday measure word. 一個人.
+給|糸 thread + 合 join|Tying (糸) things together (合) to hand them over: to give. 給我 = give me.
+還|辶 walk + 睘|Walking (辶) back the way you came: to return, still. 還是 = or (in questions); 還有 = there's still.
+雞|奚 + 隹 bird|A bird (隹) kept on a rope (奚) in the yard: chicken. 雞蛋 = chicken egg.
+腳|月 body + 却 step back|The body part (月) you step back (却) on: foot. 腳踏車 = 'foot-pedal car' = bicycle.
+介|人 a person + 八 between|A person (人) standing between (八) two others: to introduce. 介紹 = to introduce.
+紹|糸 thread + 召 call|Calling (召) people and linking them with a thread (糸): to introduce. 介紹.
+酒|氵 liquid + 酉 wine jar|Liquid (氵) from a wine jar (酉): alcohol. 啤酒 = beer, 紅酒 = red wine.
+試|言 words + 式 style|Trying words (言) in a certain style (式): to try, to test. 考試 = exam, 試試看 = give it a try.
+空|穴 cave + 工 work|A cave (穴) with nothing left after the work (工): empty, sky, free time. 有空 = free.
+氣|气 steam + 米 rice|Steam (气) rising from cooking rice (米): air, breath, weather. 天氣 = weather; 生氣 = angry.
+塊|土 earth + 鬼 ghost|A lump of earth (土) the ghost (鬼) left behind: a piece, a chunk. 三塊 = three dollars.
+筷|竹 bamboo + 快 quick|Bamboo (竹) sticks for eating quickly (快): chopsticks. 筷子.
+拜|two hands 手手|Two hands (手手) pressed together to bow: to worship, visit. 禮拜 = week.
+六|a little house with a roof and two legs|A small hut on two legs: six. Hold up 6 like a phone 🤙 — 六 liù.
+每|𠂉 + 母 mother|Every mother (母) does this every single day: every, each. 每天 = every day.
+麵|麥 wheat + 面 face|Wheat (麥) dough pulled flat like a face (面): noodles. 牛肉麵 = beef noodles.
+妳|女 woman + 尔 you|你 with 女 (woman) inside: 'you' when talking to a woman (Taiwan usage).
+您|你 you + 心 heart|'You' (你) said from the heart (心): polite you. 您貴姓？
+奶|女 woman + 乃|What a mother (女) gives her baby: milk. 牛奶 = cow milk, 奶奶 = grandma.
+旁|立 standing + 方 side|Standing (立) at one side (方): beside. 旁邊 = next to.
+宜|宀 roof + 且|A well-stocked (且) home (宀): suitable, nice. 便宜 = cheap (a nice price).
+千|丿 + 十 ten|Ten (十) with a slash on top: a thousand. 一千 = 1,000.
+肉|a cut of meat with ribs|A slab of meat with the ribs showing: meat. 牛肉 = beef.
+三|three lines|Three lines: three. 三明治 = sandwich.
+候|亻 person + 侯|A person (亻) waiting for the right moment: time, wait. 時候 = time; 有時候 = sometimes.
+四|a mouth with two lines inside|A box (囗) with legs inside: four. 四 sì sounds like 'sir' — 4 sirs in a box.
+外|夕 evening + 卜 fortune-teller|Fortune-tellers (卜) work outside in the evening (夕): outside. 外面 = outside.
+萬|a scorpion|An old picture of a scorpion — there were ten thousand of them! 萬 = ten thousand.
+位|亻 person + 立 stand|The place where a person (亻) stands (立): a seat, the polite measure word for people. 一位老師.
+我|手 hand + 戈 weapon|A hand (手) holding a weapon (戈) to defend myself: I, me.
+五|two lines with an X between|Heaven and earth (二) with yin-yang crossing between: five.
+雨|a sky with raindrops|A cloud with drops (丶丶丶丶) falling under the sky (一): rain. 下雨 = it's raining.
+一|one line|One stroke: one. 一 changes tone: yí before a 4th tone (一個), yì before others (一天).
+共|廿 + 八 two hands|Two hands (八) lifting something together: together, in total. 一共 = altogether.
+意|音 sound + 心 heart|The sound (音) of your heart (心): meaning, idea. 意思 = meaning; 有意思 = interesting.
+思|田 field (= brain) + 心 heart|Your brain (田) and your heart (心) working together: to think. 意思 = meaning.
+文|a person with a tattoo on the chest|A pattern on the body: writing, language. 中文 = Chinese, 英文 = English.
+右|𠂇 hand + 口 mouth|The hand (𠂇) you eat with (口): right. 右邊 = right side.
+元|二 + 儿 legs|A person with a big head on top: first, dollar. 一百元 = 100 dollars (written).
+再|一 + 冉|Doing the same thing a second time: again. 再見 = 'see again' = goodbye.
+張|弓 bow + 長 long|Pulling a long (長) bow (弓) wide open: to stretch; flat things: 一張紙, 一張桌子.
+枝|木 tree + 支 branch|A branch (支) of a tree (木): twig; measure word for pens: 一枝筆.
+住|亻 person + 主 master|A person (亻) who is master (主) of the house: to live. 我住在台北.
+自|a nose|An old picture of a nose — Chinese people point at their nose to say 'me': self. 自己 = oneself.
+巴|a snake with its mouth open|A snake with a wide-open mouth: 嘴巴 = mouth, 巴士 = bus.
+最|曰 + 取 take|Take (取) the top one: most. 最好 = best, 最喜歡 = like most.
+左|𠂇 hand + 工 tool|The hand (𠂇) that holds the tool (工) steady: left. 左邊 = left side.
+啊|口 mouth + 阿|An open mouth (口) going 'ah!': 啊 = ah (surprise, agreement).
+班|玉 jade + 刂 knife + 玉 jade|A knife (刂) splitting jade (玉) into groups: a class, a shift. 上班 = go to work.
+幫|封 seal + 帛 cloth|Cloth (帛) sealed (封) around a package to help carry it: to help. 幫忙 = to help.
+棒|木 wood + 奉 hold up|A wooden (木) stick you hold up (奉) proudly: stick; awesome! 棒球 = baseball, 好棒！
+士|十 + 一|A scholar who knows everything from one (一) to ten (十): scholar, person. 巴士 = bus.
+北|two people back to back|Two people (匕 + 匕) sitting back to back, turning away from the cold: north. 台北.
+部|咅 + 阝 town|A section of a town (阝): part, department. 北部 = the north; 一部電影 = a movie.
+商|a stall with goods inside|A market stall with goods inside: trade. 商店 = shop.
+淇|氵 water + 其|Ice cream melting into a little stream of water (氵) on your hand: the 淇 of 冰淇淋 bīngqílín = ice cream.
+淋|氵 water + 林 forest|Water (氵) pouring on the forest (林): to drip. 冰淇淋 = ice cream (it drips!).
+單|a hunting tool|One single tool: single, a list. 菜單 = menu, 簡單 = simple.
+草|艹 grass + 早 early|Grass (艹) that grows early (早) in spring: grass. 草莓 = strawberry.
+德|彳 step + 直 straight + 心 heart|Walking (彳) straight (直) with a good heart (心): virtue. 德國 = Germany.
+燈|火 fire + 登 climb|A fire (火) climbing up high: lamp. 開燈 = turn on the light.
+址|土 earth + 止 stop|The spot of earth (土) where you stop (止): site. 地址 = address.
+放|方 + 攵 hand with a stick|A hand (攵) putting things in their place (方): to put. 放學 = finish school.
+汁|氵 liquid + 十 ten|Squeeze ten (十) fruits for liquid (氵): juice. 果汁.
+漢|氵 water + 堇|The Han river (氵): Chinese. 漢字 = Chinese characters; 漢堡 = hamburger.
+簡|竹 bamboo + 間 between|Bamboo (竹) strips with a gap (間) between: old writing slips — simple. 簡單 = simple.
+踏|足 foot + 沓|A foot (足) pressing down: to step on. 腳踏車 = bicycle (step-pedal car).
+步|止 foot + 少|One foot (止) in front of the other: a step. 跑步 = to run.
+經|糸 thread + 巠|Threads (糸) running straight through a loom: to pass through. 已經 = already.
+渴|氵 water + 曷 why|'Why (曷) is there no water (氵)?!' Thirsty. 我好渴.
+籃|竹 bamboo + 監|A bamboo (竹) basket: basket. 籃球 = basketball.
+闆|門 door + 品 goods|The one behind the door (門) with all the goods (品): the boss. 老闆 = shop owner.
+習|羽 wings + 白|A baby bird flapping its wings (羽) again and again: to practice. 練習 = practice.
+零|雨 rain + 令|Little drops of rain (雨): bits, zero. 零 = 0.
+帽|巾 cloth + 冒 cover|Cloth (巾) that covers (冒) your head: hat. 帽子.
+票|西 + 示 show|A slip you show (示) to get in: ticket. 門票 = entrance ticket.
+南|a bell / warm tent|A tent open to the warm south: south. 越南 = Vietnam.
+力|a strong arm|A flexed arm: strength. 巧克力 = chocolate.
+唸|口 mouth + 念 think|Saying (口) what you think (念): to read out loud. 唸書 = study.
+啤|口 mouth + 卑 low|Your mouth (口) low (卑) over a foaming glass: the 啤 of 啤酒 píjiǔ = beer.
+平|a balance, level|A level scale: flat, even, usual. 平常 = usually.
+蘋|艹 plant + 頻 again and again|A plant (艹) you pick from again and again (頻) — an apple a day: 蘋果 = apple.
+音|立 stand + 曰 say|Someone standing (立) and saying (曰): sound. 音樂 = music.
+瓜|a melon hanging on a vine|A melon hanging from its vine: melon. 西瓜 = 'western melon' = watermelon.
+香|禾 grain + 日 sun|Grain (禾) warming in the sun (日): fragrant. 香蕉 = banana.
+蕉|艹 plant + 焦 burnt|A plant (艹) with big leaves that turn brown: banana. 香蕉.
+夜|亠 + 亻 person + 夕 moon|A person (亻) under the moon (夕): night. 夜市 = night market.
+池|氵 water + 也|Water (氵) collected in one place: a pool. 游泳池 = swimming pool.
+支|十 + 又 hand|A hand (又) holding a branch (十): branch; measure word for pens. 一支筆.
+足|a leg and a foot|A knee (口) on top of a foot: foot. 足球 = soccer (football!).
+陸|阝 hill + 坴|Hills (阝) of dry land: land. 大陸 = mainland China.
+越|走 run + 戉|Running (走) over and beyond: to cross. 越南 = Vietnam.
+印|a hand pressing down|A hand pressing a seal down: to print. 印尼 = Indonesia.
+尼|尸 a body + 匕 a person behind|One person (匕) sitting close behind another (尸): a nun; 印尼 = Indonesia.
+菲|艹 plant + 非 not|A plant (艹) that is not (非) like any you've seen at home — the tropical islands: 菲律賓 = the Philippines.
+律|彳 step + 聿 brush|Walking (彳) by the written (聿) rules: law. 菲律賓.
+賓|宀 house + 貝 gifts|A guest at the house (宀) bringing gifts (貝): guest. 菲律賓.
+麗|a deer with beautiful antlers|A deer (鹿) with beautiful antlers on top: beautiful. 美麗.
+珍|王 jade + 㐱|Precious jade (王): treasure. 珍珠 = pearl; 珍珠奶茶 = bubble tea.
+珠|王 jade + 朱 red|A red (朱) jade (王) bead: pearl. 珍珠奶茶 = 'pearl milk tea'.
+木|a tree with roots|A tree with branches and roots: tree, wood. 木瓜 = papaya ('tree melon').
+莓|艹 plant + 每 every|A plant (艹) with berries on every (每) stem: berry. 草莓 = strawberry.
+番|釆 + 田 field|Strange foreign things in the field (田): foreign. 番茄 = 'foreign eggplant' = tomato.
+茄|艹 plant + 加 add|A plant (艹) you add (加) to every sauce: eggplant; 番茄 = 'foreign eggplant' = tomato.
+橘|木 tree + 矞|A tree (木) covered in little orange suns: tangerine. 橘子 (the colour 橘色 = orange).
+芒|艹 plant + 亡 gone|A sweet plant (艹) that is gone (亡) as soon as it's on the table: 芒果 mángguǒ = mango.
+葡|艹 plant + 匍 crawl|A plant (艹) that crawls (匍) along: vine. 葡萄 = grapes.
+萄|艹 plant + 匋 a pottery jar|A vine (艹) whose fruit goes into a jar (匋) to make wine: 葡萄 = grapes.
+鳳|几 + 鳥 bird|A wonderful bird (鳥) under a canopy: phoenix. 鳳梨 = 'phoenix pear' = pineapple.
+梨|利 sharp + 木 tree|A tree (木) fruit you cut with a sharp (利) knife: pear. 鳳梨 = 'phoenix pear' = pineapple.
+豆|a bowl on a stand|An old bowl full of beans: bean. 豆漿 = soy milk.
+漿|將 + 水 water|Thick liquid (水): juice, milk. 豆漿 = soy milk.
+板|木 wood + 反|A flat piece of wood (木): board. 黑板 = blackboard.
+齒|止 + teeth in a mouth|Teeth lined up in a mouth: teeth. 牙齒.
+煮|者 + 灬 fire|Something over the fire (灬): to cook, to boil. 煮飯 = to cook.
+金|a mine with nuggets|A mine with two nuggets (丷) under a roof: gold, metal. 金色 = gold color.
+王|三 + 丨|One line (丨) connecting heaven, people and earth (三): king. Also a surname: 王.
+林|木 + 木 two trees|Two trees (木木): a wood, a grove. Also a surname: 林.
+巧|工 work + 丂|Work (工) done cleverly: clever. 巧克力 = chocolate.
+克|十 + 兄 big brother|Big brother (兄) wearing a heavy helmet (十) — he can carry it: can, gram. 巧克力 qiǎokèlì = chocolate.
+棟|木 wood + 東 east|A wooden (木) building: measure word for buildings. 一棟房子.
+具|目 + 八 two hands|Two hands (八) holding a tool: tool, furniture. 家具 = furniture.
+曬|日 sun + 麗|The sun (日) shining beautifully (麗): to sunbathe. 曬太陽.
+戶|a door with one panel|A single-panel door: door, household. 窗戶 = window.
+無|a dancer with nothing|Dancing with empty hands: nothing, without. 無趣 = boring.
+摩|麻 hemp + 手 hand|Hands (手) rubbing rough hemp (麻): to rub. 摩托車 mótuōchē = motorcycle (it sounds like 'motor').
+托|扌 hand + 乇|A hand (扌) holding something up: to support. 摩托車 = motorcycle.
+堂|尚 + 土 earth|A big hall on raised earth (土): hall; measure word for class periods. 一堂課.
+廁|广 shelter + 則|A little building (广) out back: toilet. 廁所.
+雄|厷 arm + 隹 bird|A bird (隹) with strong arms (厷): male, heroic. 高雄 = Kaohsiung.
+仔|亻 person + 子 child|A young (子) person (亻): kid. 牛仔褲 = 'cowboy pants' = jeans.
+困|木 tree + 囗 box|A tree (木) stuck in a box (囗): trapped, difficult. 困難 = difficult.
+鼠|a mouse with whiskers and a tail|An old picture of a mouse: teeth on top, whiskers and a tail. 老鼠 = mouse.
+父|two hands holding an axe|A hand holding a tool to work for the family: father. 父母 = parents.
+母|女 woman + two dots|A woman (女) with two dots for breasts: mother. 父母 = parents.
+襯|衤 clothing + 親 close|Clothing (衤) worn close (親) to the body: lining. 襯衫 = shirt.
+拖|扌 hand + 㐌|A hand (扌) dragging something: to drag. 拖鞋 = slippers (they drag along).
+涼|氵 water + 京|Cool water (氵) in the capital: cool. 涼鞋 = sandals (cool shoes).
+食|a lid on a food bowl|A bowl of food with a lid: food, to eat. 食物 = food.
+爬|爪 claws + 巴|Using your claws (爪) to climb: to climb. 爬山 = climb a mountain.
+逛|辶 walk + 狂 wild|Walking (辶) around wildly (狂) with no plan: to stroll. 逛街 = go window-shopping.
+八|two lines spreading apart|Two strokes splitting apart: eight. 八 bā — 8 is lucky because it sounds like 發 (get rich).
+飽|飠 food + 包 wrap|Food (飠) wrapped (包) up inside your tummy: full. 我吃飽了 = I'm full.
+鼻|自 nose + 畀|自 is an old picture of a nose; add a base: nose. 鼻子.
+別|另 + 刂 knife|A knife (刂) cutting something apart: separate, other; don't! 別說 = don't say it.
+菜|艹 plant + 采 pick|Plants (艹) you pick (采) with your hand: vegetables, a dish. 青菜 = vegetables.
+久|a person dragging something|A person dragging a heavy load for a long time: long (time). 多久 = how long.
+耳|an ear|The shape of an ear with its folds: ear. 耳朵 = ear; 耳機 = 'ear machine' = earphones.
+非|two wings back to back|Two wings facing away from each other: not, wrong. 非常 = very.
+冒|冃 hat + 目 eye|A hat (冃) pulled down over the eyes (目): to cover, risk. 感冒 = to catch a cold.
+告|牛 cow + 口 mouth|A cow (牛) at the altar and a mouth (口) speaking: to tell. 告訴 = to tell.
+訴|言 words + 斥|Words (言) pushed out: to tell, complain. 告訴 = to tell.
+工|a carpenter's tool|A carpenter's square: work. 工作 = work, job.
+作|亻 person + 乍|A person (亻) busy making things: to do, to make. 工作 = job; 作業 = homework.
+園|囗 fence + 袁|A big fence (囗) around a garden: garden, park. 公園 = park.
+功|工 work + 力 strength|Work (工) done with strength (力): effort, skill. 功課 = homework.
+夠|句 + 多 many|Already many (多): enough! 夠了 = that's enough.
+過|辶 walk + 咼|Walking (辶) past: to pass, to have done before. 去過 = have been to.
+進|辶 walk + 隹 bird|A bird (隹) only hops forward (辶): to enter. 進來 = come in.
+九|a bent arm|An arm bent like a hook: nine. 九 jiǔ.
+就|京 capital + 尤|Go to the capital (京) right away: then, just. 就是 = that's exactly it.
+句|勹 wrap + 口 mouth|Words from the mouth (口) wrapped (勹) into one unit: sentence. 句子.
+考|耂 old + 丂|An old (耂) teacher giving you a hard test: to test. 考試 = exam.
+能|a bear|An old picture of a strong bear: able, can. 可能 = maybe; 能力 = ability.
+口|an open mouth|A square open mouth: mouth, opening. 門口 = doorway; 人口 = population.
+拿|合 together + 手 hand|Bring your hand (手) together (合) around it: to take, to hold. 拿東西.
+念|今 now + 心 heart|What is in your heart (心) now (今): to think of, to read aloud. 念書 = study.
+七|a cross with a hooked tail|A cross with its tail cut: seven. 七 qī.
+然|月 meat + 犬 dog + 灬 fire|Dog meat over a fire — 'of course it burns': so, like that. 然後 = then, after that.
+身|a person with a big belly|A person seen from the side with a round belly: body. 身體 = body; health.
+體|骨 bone + 豊|Bones (骨) and everything on them: body. 身體 = body.
+十|a cross|Two fingers crossed: ten (the 一 is one, the 丨 makes it all ten fingers). 十 shí.
+事|a hand holding a brush on a stick|A hand holding an official's tool: matter, business. 事情 = thing.
+它|宀 + 匕|A snake under a roof: it. 它 = it (for things and animals).
+臺|高 tall + 至 arrive|A tall (高) platform you climb up to (至): stage, platform. 臺灣 = Taiwan (also written 台灣).
+湯|氵 water + 昜 sun rising|Hot water (氵) steaming like the rising sun (昜): soup. 牛肉湯.
+痛|疒 sickbed + 甬|Lying on a sickbed (疒) because it hurts: pain. 頭痛 = headache.
+頭|豆 + 頁 head|頁 is a big head; 豆 sits on top like a hat: head. 頭髮 = hair.
+像|亻 person + 象 elephant|A person (亻) looking like an elephant (象): to resemble. 他很像他爸爸.
+睛|目 eye + 青 clear|The clear (青) part of the eye (目): eyeball. 眼睛 = eyes.
+藥|艹 plant + 樂 happy|Plants (艹) that make you happy (樂) again: medicine. 吃藥 = take medicine.
+醫|殹 + 酉 wine jar|A bottle (酉) of medicine plus a doctor's tools: doctor. 醫生.
+用|a bucket with a handle|A bucket you use every day: to use. 不用 = no need.
+魚|a fish with fins and a tail (灬)|An old picture of a fish: head, scales and a tail (灬): fish. 吃魚.
+豬|豕 pig + 者|A fat pig (豕) lying on its back, belly up: pig. 豬肉 = pork.
+己|a rope coiled up|A coiled rope: self. 自己 = oneself. (Not 已 already, not 巳.)
+嘴|口 mouth + 觜 beak|The mouth (口) that's like a bird's beak (觜): mouth. 嘴巴.
+阿|阝 hill + 可 can|"Ah!" (阿) — what you call out to the auntie up on the hill (阝): 阿姨 = auntie.
+姨|女 woman + 夷|A woman (女) in your family: aunt. 阿姨 = auntie (any friendly older woman).
+把|扌 hand + 巴|A hand (扌) gripping the handle: to hold; measure word for things with handles. 一把傘.
+搬|扌 hand + 般|Hands (扌) carrying everything from place to place: to move. 搬家 = move house.
+辦|辛 + 力 strength + 辛|Hard work (力) between two hard jobs (辛): to handle. 辦法 = way; 辦公室 = office.
+助|且 + 力 strength|Adding your strength (力): to help. 幫助 = to help.
+報|幸 + 𠬝|A report delivered by hand: report. 報紙 = newspaper.
+背|北 back to back + 月 body|The part of the body (月) that faces away (北): back. 背包 = backpack.
+被|衤 clothing + 皮 skin|Clothing (衤) like a skin (皮) over you at night: blanket; also 'by' in passive sentences.
+笨|竹 bamboo + 本 root|Thick as a bamboo (竹) root (本): stupid, clumsy.
+變|言 words + 攵 hand|Words (言) and hands (攵) working to change things: to change. 變成 = become.
+利|禾 grain + 刂 knife|A knife (刂) harvesting grain (禾): sharp, profit. 便利商店 = convenience store.
+較|車 cart + 交 cross|Carts (車) crossing (交) to compare: to compare. 比較 = comparatively.
+箱|竹 bamboo + 相|A bamboo (竹) box: box, case. 冰箱 = 'ice box' = fridge.
+伯|亻 person + 白|The older person (亻) with white (白) hair: uncle. 伯伯 = dad's older brother.
+才|a plant just breaking the ground|A sprout just coming up: only then, only just. 他才來 = he only just came.
+參|three stars over a person|A person looking up at three stars: to join in. 參加 = to take part.
+加|力 strength + 口 mouth|Strength (力) plus a shout (口): to add. 加油 = add oil = go for it!
+差|羊 sheep + 工 work|Sheep (羊) doing work (工) badly: poor, to differ. 差不多 = about the same.
+叉|又 hand + 丶|A hand (又) with a prong: fork. 叉子.
+炒|火 fire + 少 a little|A little (少) food tossed fast over the fire (火): to stir-fry. 炒飯 = fried rice.
+成|戊 + 丁|A weapon finishing the job: to become, to succeed. 成績 = grades.
+績|糸 thread + 責 duty|Thread (糸) spun as your duty (責): results. 成績 = grades.
+臭|自 nose + 犬 dog|A dog's (犬) nose (自) knows: smelly. 好臭！
+次|冫 + 欠 yawn|Yawning (欠) the second time: time(s). 一次 = once; 第一次 = the first time.
+聰|耳 ear + 悤|Ears (耳) that hear everything: clever. 聰明 = smart.
+戴|𢦏 + 異|Putting something special on: to wear (hat, glasses, watch). 戴帽子.
+袋|代 + 衣 cloth|Cloth (衣) that holds things: bag. 一袋 = a bag of.
+算|竹 bamboo + 目 + 廾 hands|Hands (廾) moving bamboo (竹) counting sticks: to count, to plan. 打算 = to plan.
+當|尚 + 田 field|Matching a field (田) to its value: to serve as. 當老師 = be a teacher.
+但|亻 person + 旦 dawn|A person (亻) at dawn (旦): only, but. 但是 = but.
+刀|a knife|An old picture of a knife: knife. 刀子.
+掉|扌 hand + 卓 tall|Something falling from a tall (卓) hand (扌): to drop. 掉了 = dropped, lost.
+第|竹 bamboo + 弟|Bamboo (竹) slips in order, like little brothers (弟) in a row: order. 第一 = first.
+肚|月 body + 土 earth|The round part of the body (月) like a mound of earth (土): belly. 肚子.
+租|禾 grain + 且|Paying grain (禾) to use land: to rent. 房租 = rent.
+份|亻 person + 分 share|Each person's (亻) share (分): a portion. 一份 = one portion/copy.
+付|亻 person + 寸 hand|A hand (寸) giving to a person (亻): to pay. 付錢 = pay.
+乾|倝 + 乙|Sunshine drying things out: dry. 乾淨 = clean.
+淨|氵 water + 爭|Water (氵) fighting (爭) the dirt away: clean. 乾淨.
+敢|a hand holding a weapon|Grabbing a weapon: to dare. 不敢 = don't dare.
+剛|岡 hill + 刂 knife|A knife (刂) as hard as the hill (岡): hard; just now. 剛剛 = just now.
+各|夂 feet + 口 mouth|Feet (夂) going to each door (口): each. 各位 = everyone.
+更|一 + 曰 + 乂|Changing something to make it better: even more. 更好 = even better.
+掛|扌 hand + 卦|A hand (扌) hanging something up: to hang. 掛電話 = hang up.
+罐|缶 jar + 雚|A jar (缶): can. 一罐汽水 = a can of soda.
+故|古 old + 攵|Old (古) things: reason, old times. 故事 = story.
+堡|保 protect + 土 earth|Earth (土) walls that protect (保): fort. 漢堡 = hamburger (Hamburg!).
+碼|石 stone + 馬 horse|Stones (石) used for counting, sounds like 馬: code, number. 號碼 = number.
+盒|合 close + 皿 dish|A dish (皿) with a lid that closes (合): box. 盒子.
+壞|土 earth + 褱|Earth (土) wall that falls apart: bad, broken. 壞了 = broken.
+迎|辶 walk + 卬|Walking (辶) out to meet someone: to welcome. 歡迎 = welcome.
+活|氵 water + 舌 tongue|Water (氵) on the tongue (舌): alive. 活動 = activity; 生活 = life.
+腿|月 body + 退 step back|The body part (月) that steps back (退): leg. 火腿 = ham.
+或|戈 weapon + 口 + 一|Guarding land with a weapon: maybe, or. 或是 = or.
+護|言 words + 蒦|Words (言) of care: to protect. 護士 = nurse.
+油|氵 liquid + 由|A liquid (氵): oil. 加油 = 'add oil' = go for it!
+庭|广 shelter + 廷 court|The courtyard (廷) of a home (广): courtyard, family. 家庭 = family.
+健|亻 person + 建 build|A well-built (建) person (亻): healthy. 健康.
+康|广 + 隶|A peaceful house: healthy. 健康 = health.
+講|言 words + 冓|Words (言) put together: to speak, explain. 講故事 = tell a story.
+交|a person with crossed legs|A person with their legs crossed: to cross, hand over, make (friends). 交朋友.
+餃|飠 food + 交 cross|Food (飠) with edges crossed (交) and pinched: dumpling. 餃子.
+記|言 words + 己 self|Words (言) you keep for yourself (己): to remember, to write down. 記得 = remember.
+接|扌 hand + 妾|A hand (扌) reaching out to receive: to pick up, answer. 接電話 = answer the phone.
+借|亻 person + 昔|A person (亻) giving something for a while: to borrow, lend. 借書.
+緊|臤 + 糸 thread|Thread (糸) pulled hard: tight. 緊張 = nervous.
+驗|馬 horse + 僉|Checking a horse (馬) all over: to test. 經驗 = experience.
+決|冫 + 夬|Water breaking through: to decide. 決定 = decide.
+始|女 woman + 台|A woman (女) giving birth: to begin. 開始 = begin.
+烤|火 fire + 考|Over the fire (火): to roast, bake. 烤肉 = barbecue.
+哭|吅 two eyes + 犬 dog|Two eyes (口口) dripping like a howling dog (犬): to cry.
+苦|艹 plant + 古 old|An old (古) bitter plant (艹): bitter, hard. 辛苦 = hard work.
+拉|扌 hand + 立 stand|A hand (扌) pulling someone to stand (立): to pull. 拉門 = pull the door.
+辣|辛 hot + 束|Bundles (束) of hot (辛) peppers: spicy. 好辣！
+啦|口 mouth + 拉|A mouth (口) sound: 了 + 啊 = 啦. 好啦！
+離|离 + 隹 bird|A bird (隹) flying away: to leave; from (distance). 我家離學校很近.
+臉|月 body + 僉|The front of the head (月): face. 洗臉 = wash your face.
+練|糸 thread + 柬|Boiling silk thread (糸) again and again: to practice. 練習.
+聊|耳 ear + 卯|Ears (耳) open, chatting: to chat. 聊天 = to chat.
+麻|广 + 林|Hemp drying under a shelter: hemp, numb. 麻煩 = trouble.
+煩|火 fire + 頁 head|A head (頁) on fire (火): annoyed. 麻煩 = trouble.
+饅|飠 food + 曼 long, soft|Long, soft (曼) food (飠) from the steamer: 饅頭 = steamed bun.
+努|奴 + 力 strength|Putting in all your strength (力): to strive. 努力 = work hard.
+盤|般 + 皿 dish|A wide, flat dish (皿) that a boat (舟 inside 般) could float on: plate. 盤子 = plate.
+片|half a tree|A slice of a tree trunk: slice, piece. 一片 = a slice.
+奇|大 + 可|Something big (大) and surprising: strange. 奇怪 = strange.
+怪|忄 heart + 圣|Your heart (忄) feels something's odd: strange. 奇怪.
+其|a winnowing basket|A basket shaking out the rice — 'the rest of it': its, other. 其他 = other; 其實 = actually.
+青|生 + 月|The color of new plants: blue-green. 青菜 = green vegetables.
+清|氵 water + 青 clear|Clear (青) water (氵): clear. 清楚 = clear.
+楚|林 trees + 疋|Clearly seen through the trees (林): clear. 清楚.
+全|入 enter + 王|Everything (王) brought inside (入): whole, all. 全部 = all.
+讓|言 words + 襄|Words (言) that give way: to let, to make. 讓我看看 = let me see.
+語|言 words + 吾 I|The words (言) I (吾) speak: language. 日語 = Japanese.
+如|女 woman + 口 mouth|A woman (女) saying (口) 'as you wish': if, like. 如果 = if.
+治|氵 water + 台 a platform|Building a platform (台) to control the flood water (氵): to govern, to treat. 三明治 = sandwich (it sounds like 'sandwich').
+聲|声 + 殳 + 耳 ear|What the ear (耳) hears: sound. 聲音 = sound, voice.
+世|three tens joined|Thirty years (three 十): a generation, world. 世界 = world.
+界|田 field + 介|The line between fields (田): border, world. 世界.
+情|忄 heart + 青|Feelings from the heart (忄): feeling, situation. 事情 = thing, matter.
+叔|尗 + 又 hand|A younger man who lends a hand (又): uncle. 叔叔 = dad's younger brother.
+樹|木 tree + 尌 stand up|A tree (木) standing tall: tree. 一棵樹.
+酸|酉 wine jar + 夋|Wine (酉) left open too long goes sour: sour. 好酸！
+雖|口 + 虫 + 隹 bird|A bird (隹) catching a bug (虫) in its mouth (口) — although it's small: 雖然 = although.
+宿|宀 roof + 佰|A hundred (百) people (亻) under one roof (宀): to stay overnight. 宿舍 = dorm.
+舍|人 roof + 舌|A simple house with a roof: house. 宿舍 = dorm.
+匙|是 + 匕 spoon|匕 is a spoon: spoon. 湯匙 = soup spoon.
+糖|米 rice + 唐|Made from rice (米): sugar, candy. 吃糖.
+特|牛 cow + 寺 temple|A special cow (牛) at the temple (寺): special. 特別 = special.
+替|two people + 曰|One person taking another's place: instead of. 替你 = for you.
+髮|髟 long hair + 犮|髟 is long hair blowing in the wind: hair. 頭髮 = hair (on your head).
+脫|月 body + 兌|Taking it off the body (月): to take off. 脫衣服.
+往|彳 step + 主|Stepping (彳) toward the master (主): toward. 往前走 = walk forward.
+忘|亡 lost + 心 heart|Lost (亡) from the heart (心): to forget. 忘了 = forgot.
+喂|口 mouth + 畏|A mouth (口) calling out: hello? (on the phone). 喂？
+味|口 mouth + 未|What the mouth (口) tastes: taste. 味道 = taste, smell.
+化|亻 person + 匕 upside-down person|A person standing and one upside down: to change. 文化 = culture.
+屋|尸 + 至 arrive|The place you arrive (至) and lie down (尸): house, room. 屋子.
+希|爻 + 巾 cloth|Rare embroidered cloth (巾): rare, to hope. 希望 = to hope.
+望|亡 + 月 moon + 王|Looking up at the moon (月): to look far, hope. 希望 = hope.
+慣|忄 heart + 貫 string through|Something strung (貫) through your heart (忄): habit. 習慣 = habit.
+雪|雨 rain + 彐 hand|Rain (雨) you can hold in your hand (彐): snow. 下雪 = it's snowing.
+鹹|鹵 salt + 咸 all|All (咸) salt (鹵), nothing else: salty. 好鹹！
+相|木 tree + 目 eye|An eye (目) looking at a tree (木): each other, to look. 相信 = believe.
+向|a window in a house|A window facing one way: toward. 向右 = to the right.
+笑|竹 bamboo + 夭 bending person|A person bending (夭) like bamboo (竹) in the wind with laughter: to laugh.
+辛|a sharp tool|A sharp, painful tool: hard, spicy. 辛苦 = hard work.
+卡|上 + 下|Stuck between up (上) and down (下): card, stuck. 信用卡 = credit card.
+需|雨 rain + 而|Waiting for rain (雨): to need. 需要 = need.
+呀|口 mouth + 牙 tooth|A mouth (口) showing teeth (牙): ah! 呀 = 啊.
+爺|父 father + 耶|The father (父) of your father: grandpa. 爺爺 = grandpa (on dad's side).
+野|里 village + 予|Out past the village (里): wild, open fields. 野餐 = picnic.
+直|十 + 目 eye + 𠃊|Ten (十) eyes (目) looking straight ahead: straight. 一直 = all the way, always.
+已|a half-coiled rope|A rope half open: already. 已經 = already. (己 is closed, 已 half open.)
+銀|金 metal + 艮|The shining white metal (金) next to gold: silver. 銀行 = 'silver shop' = bank.
+願|原 + 頁 head|What your head (頁) truly wants: wish. 願意 = willing.
+言|a mouth with words coming out|Lines of words coming from a mouth (口): speech. 語言 = language.
+炸|火 fire + 乍 sudden|Sudden (乍) fire (火): to explode, to deep-fry. 炸雞 = fried chicken.
+重|千 + 里|A load as heavy as a thousand (千) villages (里): heavy. 很重.
+祝|礻 altar + 兄|An older brother (兄) praying at the altar (礻): to wish. 祝你生日快樂！
+注|氵 water + 主|Pouring water (氵) on the main (主) spot: to pour, focus. 注意 = pay attention.
+轉|車 cart + 專|A cart (車) turning around: to turn. 右轉 = turn right.
+準|氵 water + 隼|Level as water (氵): accurate. 準備 = prepare.
+備|亻 person + 𤰇|A person (亻) with everything ready: prepared. 準備.
+典|冊 book + 丌 stand|A book (冊) on a stand (丌): classic book. 字典 = dictionary.
+總|糸 thread + 悤|All the threads (糸) gathered: total, always. 總是 = always.
+業|a musical instrument stand|A rack: business, studies. 作業 = homework.
+李|木 tree + 子 child|A tree (木) with fruit like children (子): plum; the surname Li. 李先生.
+員|口 + 貝 money|A person who handles money (貝): member, staff. 店員 = shop clerk.
+造|辶 walk + 告|Walking (辶) to tell (告) people what you built: to make. 造句 = make a sentence.
+臥|臣 + 人 person|A person (人) lying down: to lie down. 臥室 = bedroom.
+約|糸 thread + 勺 ladle|Tying (糸) things together: agreement, about. 大約 = about.
+正|一 + 止 stop|Stopping (止) right at the line (一): correct, just. 正在 = right now (doing).
+內|冂 + 入 enter|Entering (入) the space (冂): inside. 內衣 = underwear.
+桃|木 tree + 兆|A fruit tree (木): peach. 桃園 = Taoyuan.
