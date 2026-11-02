@@ -16,6 +16,7 @@ HERE = os.path.join(ROOT, "content")
 sys.path.insert(0, HERE)
 import content2  # adds Lessons 4–6 to the shared lists
 import content4  # adds Lesson 7
+import content5  # adds Lesson 8
 import content3
 from content import LESSONS, PEOPLE, GRAMMAR, DRILLS, READING, ROUTINE
 MNEMO = content2.MNEMO  # a string: content2's `MNEMO += ...` makes a new one, so take it from there (not from content)
@@ -64,6 +65,8 @@ EMOJI = dict(桌子="🪵", 椅子="🪑", 書="📖", 課本="📘", 紙="📄"
 
 EMOJI.update(捷運="🚇", 地鐵="🚇", 高鐵="🚄", 船="🚢", 機車="🛵", 摩托車="🏍️", 飯店="🏨", 機場="🧳✈️", 飛機場="🧳✈️", 起飛="🛫", 超級市場="🛒", 超市="🛒",
  市場="🧺", 寄="📮", 時鐘="🕰️", 錶="⌚", 開車="🚘", 車站="🚉", 站="🚏", 飛="🕊️", 走路="🚶", 街="🏙️", 路="🛣️")  # Lesson 7
+EMOJI.update(裙子="👗", 褲子="👖", 長褲="👖", 短褲="🩳", 襯衫="👔", 外套="🧥", 毛衣="🧶", 運動衣="🎽", 襪子="🧦", 手套="🧤", 拖鞋="🩴", 涼鞋="👡", 球鞋="👟",
+ 雨傘="☂️", 太陽眼鏡="🕶️", 包包="👜", 雜誌="📔", 百貨公司="🏬", 牌子="🏷️", 公斤="⚖️", 胖="🐷", 瘦="🦴", 怕="😨", 年輕="🧑", 老="👴", 電梯="🛗", 樓梯="🪜", 開燈="💡", 對不起="🙇")  # Lesson 8
 
 def disp(k):
     return re.sub(r"\d$", "", k)
@@ -347,7 +350,7 @@ def bank_set(st):
     return {"id": st["id"], "sec": st.get("sec", ""), "kind": st.get("kind", "conv"), "L": st.get("L", ""), "bank": st["bank"], "lines": lines, "ans": ans}
 def order_item(o):
     for a in o["a"]: assert sorted(a) == sorted("".join(o["t"])), ("order mismatch", o)
-    return {"t": o["t"], "a": o["a"], "en": o["en"], "note": o.get("note", ""), "end": o.get("end", "")}
+    return {"t": o["t"], "a": o["a"], "en": o["en"], "note": o.get("note", ""), "end": o.get("end", ""), "L": o.get("L", "")}
 for ps in content3.LAST_PICS + content3.NEW_PICS + content3.MID_PICS:
     for it in ps["items"]:
         assert it in ps["bank"] and it in content3.PIC, ("pic", ps["id"], it)
@@ -364,7 +367,7 @@ def known(h):
     k = h if h in D else H2K.get(h)
     assert k, ("midterm-style word missing from the vocabulary", h)
     return k
-LORD = ["L0", "L1", "L2", "L3", "L4", "L5", "L6", "L7"]
+LORD = ["L0", "L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8"]
 def first_lesson(h):
     ls = [l for l in D[known(h)]["ls"] if l in LORD]
     return min(ls, key=LORD.index) if ls else None

@@ -9,7 +9,7 @@ const ranked = (a, f) => a.map(x => [x, f(x) + Math.random()]).sort((x, y) => y[
 /* ---- a reading passage with a word bank: 13–14 of its marked words become blanks */
 function genPassage(o = {}) {
   const weak = o.weak || weakKeys(), maxL = o.L ? LIDX[o.L] : LMAX, recent = S.ui.seenP || [];
-  const pool = ST.passages.filter(p => LIDX[p.L] <= maxL && !(o.not || []).includes(p.id));
+  const pool = ST.passages.filter(p => LIDX[p.L] <= maxL && !(o.not || []).includes(p.id) && (!o.only || o.only.includes(p.L)));
   if (!pool.length) return null;
   // passages you haven't had lately come first, then the ones with more of your weak words
   const p = ranked(pool, p => p.parts.filter(x => x[0] === 'b' && weakHas(x[1], weak)).length * .5 - (recent.includes(p.id) ? 8 - recent.indexOf(p.id) : 0))[0];
@@ -38,7 +38,7 @@ function genPassage(o = {}) {
 /* ---- choose the second half of each sentence: one shared list, one half per sentence */
 function genHalves(n = 8, o = {}) {
   const chosen = o.with ? [o.with] : [], skip = o.used || new Set();
-  for (const h of shuffle(ST.halves)) { if (!skip.has(h[1]) && !chosen.some(c => c[2] === h[2])) chosen.push(h); if (chosen.length >= n) break; }
+  for (const h of shuffle(ST.halves)) { if (o.groups && !o.groups.includes(h[2])) continue; if (!skip.has(h[1]) && !chosen.some(c => c[2] === h[2])) chosen.push(h); if (chosen.length >= n) break; }
   chosen.forEach(c => skip.add(c[1]));
   const st = { sec: 'Choose the correct second half of the sentence', opts: shuffle(chosen.map(c => c[1])) };
   return chosen.map(c => Object.assign(qChoice(st, [c[0], st.opts.indexOf(c[1])]), { qt: 'half' }));
@@ -46,7 +46,7 @@ function genHalves(n = 8, o = {}) {
 /* ---- complete each dialogue: five dialogues of different kinds, plus two replies that fit none of them */
 function genDialogs(n = 5, extra = 2, o = {}) {
   const chosen = o.with ? [o.with] : [], skip = o.used || new Set();
-  for (const d of shuffle(ST.dialogs)) { if (!skip.has(d[0]) && !chosen.some(c => c[2] === d[2])) chosen.push(d); if (chosen.length >= n + extra) break; }
+  for (const d of shuffle(ST.dialogs)) { if (o.groups && !o.groups.includes(d[2])) continue; if (!skip.has(d[0]) && !chosen.some(c => c[2] === d[2])) chosen.push(d); if (chosen.length >= n + extra) break; }
   chosen.slice(0, n).forEach(c => skip.add(c[0]));
   const st = { sec: 'Choose an appropriate sentence to complete each dialogue', opts: shuffle(chosen.map(c => c[1])) };
   return chosen.slice(0, n).map(c => Object.assign(qChoice(st, [`A：${c[0]}　B：＿＿`, st.opts.indexOf(c[1])]), { qt: 'dialog',
@@ -62,10 +62,10 @@ function genMwBank(n = 12, o = {}) {
       if (rows.length >= n) break;
       const bank = rows.map(r => r.m).concat(m);
       if ((MW_TWIN[m] && bank.includes(MW_TWIN[m])) || rows.some(r => r.ok.includes(m) || r.noun.includes(m))) continue;
-      const fit = ST.mw.filter(([noun, ok]) => ok.includes(m) && ok.every(x => x === m || !bank.includes(x)) && !bank.some(x => noun.includes(x)) && !rows.some(r => r.noun === noun));
+      const fit = ST.mw.filter(([noun, ok]) => ok.includes(m) && ok.every(x => x === m || !bank.includes(x)) && !bank.some(x => noun.includes(x)) && !rows.some(r => r.noun === noun) && (!o.nouns || o.nouns.includes(noun)));
       if (fit.length) { const [noun, ok] = pick(fit); rows.push({ m, noun, ok }); }
     }
-    if (rows.length < Math.min(n, 8)) continue;
+    if (rows.length < Math.min(n, o.nouns ? 6 : 8)) continue;
     const bank = shuffle(rows.map(r => r.m));
     const lines = rows.map((r, i) => [String(i + 1), [[0, tokenizeLoose(pick(['一', '兩', '三', '四', '五', '六', '八', '十', '幾', '這', '那']))], [1, i], [0, tokenizeLoose(r.noun)]]]);
     return { kind: 'bank', cat: 'money', label: o.label || 'Choose the measure word, each measure word can only be used once', bank, lines, ans: rows.map(r => r.ok.filter(x => bank.includes(x))), prompt: '' };
@@ -100,6 +100,35 @@ function midStyleTest(o = {}) {
   qs.push(genMwBank(short ? 8 : 12));
   qs.push(...genHalves(8, { used: hUsed }));
   if (!short) qs.push(...genHalves(10, { used: hUsed }));
+  return qs.filter(Boolean);
+}
+
+/* ---- a test on chosen lessons only, in the teacher's format (the Lessons 7–8 test) */
+const UNIT = { // what belongs to each lesson in the pools that have no lesson tag
+  L7: { halves: ['far', 'change', 'dir', 'go'], dialogs: ['go', 'far', 'purpose', 'dur', 'where'], pics: ['pt', 'pl7'],
+    opp: [['遠', '近'], ['上車', '下車'], ['快', '慢'], ['前面', '後面']], mw: ['路', '街', '線', '飛機', '信', '地圖', '飯店', '郵局', '計程車', '公車'] },
+  L8: { halves: ['because', 'about', 'try', 'before'], dialogs: ['why', 'sorry', 'guess', 'floor', 'really', 'opinion'], pics: ['pc8', 'pa8'],
+    opp: [['胖', '瘦'], ['高', '矮'], ['長', '短'], ['新', '舊'], ['年輕', '老'], ['難', '容易'], ['開', '關'], ['樓上', '樓下'], ['男生', '女生'], ['以前', '以後'], ['好吃', '難吃'], ['真', '假']],
+    mw: ['裙子', '褲子', '襪子', '手套', '鞋子', '雜誌', '毛衣', '襯衫', '衣服', '筷子'] } };
+function unitTest(ls = ['L7', 'L8'], o = {}) {
+  const short = !!o.short, qs = [], of = k => ls.flatMap(l => (UNIT[l] || {})[k] || []), only = x => ls.includes(x.L), gs = ls.flatMap(l => LMAP[l].grammar);
+  if (ttsOK()) { // listening A/B/C
+    const lg = [...(ls.includes('L7') ? [qListenTrans] : []), ...(ls.includes('L8') ? [qListenCloth] : [])];
+    for (let i = 0; i < (short ? 3 : 6); i++) qs.push((lg.length ? lg[i % lg.length] : qListenPic)());
+  }
+  sampleN(TT.banks.filter(only), short ? 1 : 2).forEach(b => qs.push(qBank(b, { shuffleBank: true }))); // word banks
+  const gb = genBank({ n: short ? 4 : 6, only: ls }); if (gb) qs.push(genBankQ(gb, { num: 'I.' }));
+  sampleN(TT.orders.filter(only), short ? 2 : 4).forEach(x => qs.push(qOrderNum(x))); // sentence order with numbers
+  const go = genOrderQ({ only: ls }); if (go) qs.push(qOrderNum(go));
+  sampleN(DRILLS.filter(d => gs.includes(d.g) && d.k !== 'order'), short ? 6 : 12).forEach(d => qs.push(qFromDrill(d))); // grammar
+  const mw = genMwBank(short ? 6 : 8, { nouns: of('mw'), label: 'III. Choose the correct measure word' }); if (mw) qs.push(mw);
+  const opp = of('opp'); if (opp.length >= 4) qs.push(qOpp(short ? 5 : 7, opp));
+  sampleN(TT.cloze.filter(only), short ? 1 : 2).forEach(c => qs.push(Object.assign(qBank(c, { shuffleBank: true }), { label: 'V. Read the passage and fill in the blanks' })));
+  if (!short) { const pg = genPassage({ only: ls }); if (pg) qs.push(pg); }
+  sampleN(DATA.reading.filter(r => ls.some(l => r.text.startsWith(l + '-'))), short ? 3 : 6).forEach(r => qs.push(qReading(r)));
+  qs.push(...genDialogs(5, 2, { groups: of('dialogs') }));
+  qs.push(...genHalves(short ? 4 : 6, { groups: of('halves') }));
+  sampleN(TT.pics.filter(p => of('pics').includes(p.id)), short ? 1 : 2).forEach(p => qs.push(qPics(p)));
   return qs.filter(Boolean);
 }
 

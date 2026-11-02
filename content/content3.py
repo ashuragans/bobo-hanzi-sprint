@@ -482,11 +482,11 @@ CLOZE += [
   "ans": ["坐", "方便", "遠", "就", "起飛", "先", "寄", "封"]},
 ]
 ORDERS += [
- {"t": ["到", "坐公車", "每天", "來", "學校", "他"], "a": ["他每天坐公車到學校來", "每天他坐公車到學校來"], "en": "He comes to school by bus every day."},
- {"t": ["不要", "那家", "走路", "去", "到", "飯店", "我"], "a": ["我不要走路到那家飯店去"], "en": "I don't want to walk to that hotel."},
- {"t": ["怎麼", "到", "你", "他家", "去"], "a": ["你怎麼到他家去"], "en": "How are you getting to his place?", "end": "？"},
- {"t": ["從", "我家", "到", "學校", "去", "上課", "我"], "a": ["我從我家到學校去上課"], "en": "I go from home to school for class."},
- {"t": ["先", "我們", "上網", "看", "地圖", "可以"], "a": ["我們可以先上網看地圖"], "en": "We can look at the map online first."},
+ {"L": "L7", "t": ["到", "坐公車", "每天", "來", "學校", "他"], "a": ["他每天坐公車到學校來", "每天他坐公車到學校來"], "en": "He comes to school by bus every day."},
+ {"L": "L7", "t": ["不要", "那家", "走路", "去", "到", "飯店", "我"], "a": ["我不要走路到那家飯店去"], "en": "I don't want to walk to that hotel."},
+ {"L": "L7", "t": ["怎麼", "到", "你", "他家", "去"], "a": ["你怎麼到他家去"], "en": "How are you getting to his place?", "end": "？"},
+ {"L": "L7", "t": ["從", "我家", "到", "學校", "去", "上課", "我"], "a": ["我從我家到學校去上課"], "en": "I go from home to school for class."},
+ {"L": "L7", "t": ["先", "我們", "上網", "看", "地圖", "可以"], "a": ["我們可以先上網看地圖"], "en": "We can look at the map online first."},
 ]
 OPPOSITES += [["遠", "近"], ["上車", "下車"]]
 PIC.update({"捷運": "🚇", "高鐵": "🚄", "船": "🚢", "機車": "🛵", "計程車": "🚕", "公車": "🚌", "火車": "🚆", "飛機": "✈️", "走路": "🚶", "開車": "🚘",
@@ -527,3 +527,70 @@ STYLE_DIALOGS += [
 STYLE_MW += [["路", "條"], ["街", "條"], ["線", "條"], ["飛機", "架"], ["信", "封"], ["地圖", "張"], ["飯店", "家/間"], ["旅館", "家/間"], ["郵局", "家/間"],
              ["計程車", "輛/台/部"], ["公車", "輛/台/部"]]
 STYLE_PICS += [{"title": "Getting around", "words": "公車 捷運 計程車 火車 高鐵 飛機 船 腳踏車 機車 走路 開車 郵局 超級市場 機場 車站 飯店 地圖 手錶 信 時鐘".split()}]
+
+# ------------------------------------------------ Lesson 8 這條裙子真好看 in the teacher's test formats (written for this site)
+BANKS += [
+ {"id": "n19", "L": "L8", "sec": "Choose the correct word for each sentence", "bank": ["因為", "所以", "最近", "怕", "有名", "流行", "難", "吧", "雙"], "lines": [
+   ["1", "＿＿天氣太冷了，＿＿大家都穿很多衣服。"], ["2", "我＿＿胖了三公斤。"], ["3", "弟弟不喜歡唱歌，他＿＿唱得不好。"], ["4", "這家餐廳很＿＿，我們常常來這裡吃飯。"],
+   ["5", "藍色是今年很＿＿的顏色。"], ["6", "我覺得英文很＿＿學。"], ["7", "你要買鞋子＿＿？"], ["8", "我想買一＿＿黑色的襪子。"]],
+  "ans": ["因為", "所以", "最近", "怕", "有名", "流行", "難", "吧", "雙"]},
+ {"id": "n20", "L": "L8", "sec": "Choose the correct word for each sentence", "bank": ["沒關係", "樓", "電梯", "快要", "關", "穿穿看", "對了", "年輕", "舊", "真"], "lines": [
+   ["1", "A：對不起。　B：＿＿。"], ["2", "鞋子在一＿＿，我們坐＿＿下去吧。"], ["3", "火車＿＿開了，我們快上車吧。"], ["4", "外面很冷，請＿＿窗戶。"],
+   ["5", "這件衣服很漂亮，你＿＿。"], ["6", "＿＿，你明天有空嗎？"], ["7", "很多＿＿人喜歡聽流行音樂。"], ["8", "這本雜誌有點兒＿＿，我幫你買一本新的吧。"], ["9", "這條裙子＿＿好看啊！"]],
+  "ans": ["沒關係", "樓", "電梯", "快要", "關", "穿穿看", "對了", "年輕", "舊", "真"]},
+]
+CLOZE += [
+ {"id": "c8", "L": "L8", "bank": ["怕", "難", "流行", "穿穿看", "小", "沒關係", "樓", "快要", "坐", "雙"], "lines": [
+   ["", "宜文最近胖了五公斤，她＿＿衣服不好買。元真說：「百貨公司的衣服很多，一定不＿＿找。」她們一起到百貨公司去。這裡的衣服都是今年最＿＿的。"
+        "宜文看見一條黃色的裙子，她說：「我＿＿。」可是裙子太＿＿了。元真說：「＿＿，我們去二＿＿看看褲子吧！」九點五十分了，百貨公司＿＿關了，她們＿＿電梯下去。"]],
+  "ans": ["怕", "難", "流行", "穿穿看", "小", "沒關係", "樓", "快要", "坐"]},
+]
+ORDERS += [
+ {"L": "L8", "t": ["因為", "很遠", "學校", "所以", "我", "不想", "走路去"], "a": ["因為學校很遠所以我不想走路去"], "en": "Because school is far, I don't want to walk."},
+ {"L": "L8", "t": ["這兩條", "我", "都", "去", "穿穿看"], "a": ["這兩條我都去穿穿看"], "en": "I'll go and try both of these on."},
+ {"L": "L8", "t": ["百貨公司", "快要", "了", "關"], "a": ["百貨公司快要關了"], "en": "The department store is about to close."},
+ {"L": "L8", "t": ["你", "要", "買", "鞋子", "吧"], "a": ["你要買鞋子吧"], "en": "You want to buy shoes, don't you?", "end": "？"},
+ {"L": "L8", "t": ["我", "最近", "胖", "了", "五公斤"], "a": ["我最近胖了五公斤"], "en": "I've put on five kilos lately."},
+ {"L": "L8", "t": ["很", "這首", "好唱", "中文歌"], "a": ["這首中文歌很好唱"], "en": "This Chinese song is easy to sing."},
+]
+OPPOSITES += [["年輕", "老"], ["難", "容易"], ["開", "關"], ["樓上", "樓下"], ["男生", "女生"], ["以前", "以後"], ["好吃", "難吃"], ["好看", "難看"], ["真", "假"]]
+PIC.update({"裙子": "👗", "褲子": "👖", "短褲": "🩳", "襯衫": "👔", "運動衣": "🎽", "鞋子": "👟", "襪子": "🧦", "帽子": "🧢", "手套": "🧤", "拖鞋": "🩴", "涼鞋": "👡",
+            "雨傘": "☂️", "太陽眼鏡": "🕶️", "皮包": "👜", "電梯": "🛗", "樓梯": "🪜", "百貨公司": "🏬", "雜誌": "📔", "毛衣": "🧶", "外套": "🧥"})
+NEW_PICS += [
+ {"id": "pc8", "title": "Clothes (Lesson 8)", "bank": ["裙子", "褲子", "短褲", "襯衫", "大衣", "毛衣", "運動衣", "鞋子", "襪子", "帽子"],
+  "items": ["毛衣", "裙子", "襪子", "短褲", "帽子", "襯衫", "鞋子", "大衣", "運動衣", "褲子"]},
+ {"id": "pa8", "title": "Shopping (Lesson 8)", "bank": ["拖鞋", "涼鞋", "手套", "雨傘", "太陽眼鏡", "皮包", "電梯", "樓梯", "百貨公司", "雜誌"],
+  "items": ["電梯", "雨傘", "皮包", "拖鞋", "雜誌", "樓梯", "手套", "百貨公司", "涼鞋", "太陽眼鏡"]},
+]
+STYLE_PASSAGES += [
+ {"id": "sp15", "title": "買新衣服",
+  "text": "{F}[最近]瘦了三[公斤]，她想去買新衣服。她跟{F2}一起去[百貨公司]。{F2}說：「這個[牌子]很[有名]，衣服又好看又便宜。」{F}看見一條[黃色]的[裙子|褲子]，"
+          "她說：「真漂亮，我穿穿看。」可是太[短]了。{F2}說：「[沒關係|對了]，這條[褲子|裙子]也很好看，藍色是今年很[流行]的顏色。」{F}很喜歡，[因為]不貴，[所以]她買了。"
+          "[對了]，她還想買一[雙]鞋子。可是九點了，那裡[快要]關了，她們下個週末再來。",
+  "en": "{F} has lost three kilos lately and wants to buy new clothes. She goes to the department store with {F2}. {F2} says: 'This brand is famous; its clothes look good and they're cheap.' {F} sees a yellow skirt "
+        "and says: 'So pretty — I'll try it on.' But it's too short. {F2} says: 'Never mind, these pants look great too, and blue is a really popular color this year.' {F} loves them, and because they aren't expensive, she buys them. "
+        "Oh, and she also wants a pair of shoes. But it's nine o'clock and the store is about to close, so they'll come back next weekend."},
+ {"id": "sp16", "title": "我的弟弟",
+  "text": "我弟弟[以前]很[胖]，因為他很喜歡吃甜點，也[怕]運動。[去年]開始，他每天早上都去跑步，[所以]現在[瘦]了十公斤。他說跑步不[難]，很容易學，大家都可以試試看。"
+          "現在他也很喜歡打籃球，他的球鞋都[舊]了，他想買一雙新的。今天[晚上]我們一起去[百貨公司]，球鞋在三[樓]，我們坐[電梯]上去。他看見一雙很[流行]的球鞋，可是太[貴]了，他說：「我下個月再來買吧！」",
+  "en": "My younger brother used to be fat, because he loved desserts and was afraid of exercise. Starting last year he went running every morning, so now he's ten kilos thinner. He says running isn't hard — it's easy to learn and anyone can give it a try. "
+        "Now he loves basketball too. His sneakers are all worn out and he wants a new pair. Tonight we went to the department store together; sneakers are on the third floor, so we took the elevator up. He saw a really trendy pair, but they were too expensive. He said: 'I'll come back and buy them next month!'"},
+]
+STYLE_HALVES += [
+ ["因為天氣太冷了，＿＿。", "所以大家都穿很多衣服", "because"], ["我昨天沒去上課，＿＿。", "因為我生病了", "because"], ["因為這個牌子很有名，＿＿。", "所以很多人買", "because"],
+ ["這件衣服太貴了，＿＿。", "所以我沒買", "shop"],
+ ["火車快要開了，＿＿！", "我們快上車吧", "about"], ["九點了，百貨公司快要關了，＿＿。", "我們下個週末再來吧", "about"],
+ ["這雙鞋子很好看，＿＿。", "你穿穿看", "try"], ["聽說這裡的咖啡很好喝，＿＿。", "我想喝喝看", "try"],
+ ["他以前很胖，＿＿。", "現在很瘦", "before"], ["吃飯以前，＿＿。", "要先洗手", "before"],
+ ["外面很冷，＿＿。", "請關窗戶", "weather"],
+]
+STYLE_DIALOGS += [
+ ["你為什麼不吃冰淇淋？", "因為天氣有點兒冷。", "why"], ["為什麼你的朋友不跟你來？", "因為他很累，要在家休息。", "why"],
+ ["對不起！", "沒關係。", "sorry"], ["對不起，我來晚了。", "沒關係，我們也剛到。", "sorry"],
+ ["你要買鞋子吧？", "是啊，我想買一雙黑色的。", "guess"], ["你會唱中文歌吧？", "會，可是我只會唱三首。", "guess"],
+ ["鞋子在幾樓？", "在一樓，我們坐電梯下去吧。", "floor"], ["你家在幾樓？", "我家在七樓。", "floor"],
+ ["這件衣服怎麼樣？", "很好看，你穿穿看。", "opinion"], ["中文難不難？", "我覺得不難，很容易學。", "opinion"],
+ ["聽說你要去日本？", "真的！我下個月要去。", "really"], ["小明買了一輛新車。", "真的嗎？多少錢？", "really"],
+]
+STYLE_MW += [["裙子", "條"], ["襪子", "雙"], ["手套", "雙"], ["筷子", "雙"], ["雜誌", "本"], ["毛衣", "件"], ["襯衫", "件"]]
+STYLE_PICS += [{"title": "Clothes & shopping", "words": "裙子 褲子 短褲 襯衫 大衣 毛衣 運動衣 鞋子 襪子 帽子 手套 拖鞋 涼鞋 雨傘 太陽眼鏡 皮包 電梯 樓梯 百貨公司 雜誌".split()}]
