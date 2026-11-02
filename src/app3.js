@@ -252,7 +252,8 @@ function exampleFor(w) {
 }
 function mnemoHTML(h) {
   const cs = uniq([...h].filter(c => HAN.test(c)));
-  const rows = cs.map(c => MN[c] ? `<div class="mn"><span class="c">${c}</span><span class="s"><b>${esc(MN[c][0])}</b><br>${esc(MN[c][1])}</span></div>` : '').join('');
+  // your own story (記憶法, S.myMn) comes first: the pictures you make up yourself stick best
+  const rows = cs.map(c => MN[c] || (S.myMn || {})[c] ? `<div class="mn"><span class="c">${c}</span><span class="s">${(S.myMn || {})[c] ? `<b>Your story:</b> ${esc(S.myMn[c])}<br>` : ''}${MN[c] ? `<b>${esc(MN[c][0])}</b><br>${esc(MN[c][1])}` : ''}</span></div>` : '').join('');
   return rows ? `<div class="minis"><span class="eyebrow">Memory trick</span>${rows}</div>` : '';
 }
 function flipSession(body, words, info, deck) {

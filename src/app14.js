@@ -184,6 +184,10 @@ function coachInsights() {
     tip: 'You know these words by sound but can\'t read the characters yet. Read them out loud without pinyin — this session asks you to read exactly those words.', label: 'Read them without pinyin', act: () => focusWords(ws, '拼 · Read without pinyin', back) }); }
   if (mn >= 6) { const ws = top(1); add(.5 + Math.min(1, mn / 30), { zh: '意', title: 'You often peek at the meaning', why: `${mn} meaning peeks in the last two weeks, most on ${ws.slice(0, 4).map(w => w.h).join('、')}`,
     tip: 'These words are not stuck yet. Make a tiny story for each one (the memory tips in Cards) and use it in a sentence of your own.', label: 'Practice these words', act: () => focusWords(ws, '意 · Words you peek at', back) }); }
+  // 3b. words that don't stick: memory tricks
+  const hw = hardWords(6);
+  if (hw.length >= 2) add(.65 + Math.min(1, hw.length / 6), { zh: '記', title: `${hw.length} words don't stick yet`, why: hw.slice(0, 5).map(w => w.h).join('、') + ' — you keep peeking at them or getting them wrong',
+    tip: 'Give each one a picture: what its parts are doing together. A silly picture you make up yourself sticks best, then say the word out loud.', label: 'Memory tricks', act: () => startTricks(hw, back) });
   // 4. mix-ups
   const pairs = confPairs(20), nm = pairs.length + mixCount();
   if (nm >= 2) add(.5 + Math.min(1, nm / 6), { zh: '混', title: 'You mix up look-alike words', why: (pairs.slice(0, 3).map(([a, b]) => `${a.h}/${b.h}`).concat(Object.keys(S.cc).slice(0, 3).map(k => [...k].join('/')))).slice(0, 4).join(' · '),

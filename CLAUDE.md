@@ -27,7 +27,7 @@ python scripts/assemble.py                      # src/ + generated/data.js -> pu
 python scripts/assemble.py --artifact           # dist/artifact.html: single-file version for a claude.ai artifact
 
 pip install -r tests/requirements.txt && python -m playwright install chromium   # once, for tests
-python tests/run_all.py --quick                 # game flow + peeking + memory + learner record, phone and desktop (~20 min)
+python tests/run_all.py --quick                 # game flow + peeking + memory + learner record + memory tricks, phone and desktop (~20 min)
 python tests/run_all.py                         # everything, including the layout sweep at 7 widths (~20 min)
 
 python -m http.server -d public 8765            # preview at http://localhost:8765
@@ -47,7 +47,7 @@ tests will serve the local copy. Tests exit non-zero on any page error, console 
 
 ```
 public/              what Vercel serves: index.html (generated), strokes.json (generated), icons, manifest
-src/                 app code, concatenated in numeric order (app1 … app14) into one script — order matters
+src/                 app code, concatenated in numeric order (app1 … app15) into one script — order matters
   shell.html         page skeleton (header, nav, containers); /*CSS*/ /*DATA*/ /*APP*/ are filled by assemble.py
   style.css          all styles; tokens in :root, dark mode under prefers-color-scheme and [data-theme]
   app1.js            data indexes (W words, H2W), state S (defState/normalize/save), cloud sync, spaced repetition (learning steps, then the FSRS-4.5
@@ -74,6 +74,11 @@ src/                 app code, concatenated in numeric order (app1 … app14) in
                      grammar point (S.ga); sentence questions feed their least-known words to the word model; the 錯題本 mistake
                      notebook (S.miss, rebuilt by missQ from q.sig); peeking at answer choices (拼 → 意) and at any Chinese prompt
                      (tokPrompt); weakTypes() for Smart review; the coach (coachInsights: where to improve + a button to act on it)
+  app15.js           記憶法 memory tricks: hardScore()/hardWords() pick the words you peek at, miss or mix up; trickCard() shows each
+                     character's parts, picture story (MN), tone and your own story (S.myMn); startTricks() = card → check → check again
+                     at the end. Shown after a wrong answer (trickMiniHTML), inside adaptive practice / Smart review (wordGen), on the
+                     results screen, Practice (記憶法 tile), Stats, the coach and the word pop-up. S.mt[k] = [times shown, last, misses
+                     then]: a word rests 20 h after its trick unless you miss it or peek at it again
 content/
   content.py         Lessons 1–3 (from the class slides), GRAMMAR, DRILLS, READING, ROUTINE, MNEMO
   content2.py        Lessons 4–6 (book word lists; L4–5 practice dialogues written for this site; L6 dialogues, words and exercises from the class slides), more grammar and drills
@@ -85,6 +90,8 @@ content/
                      STYLE_* = pools for the midterm-style generator (passages, second halves, dialogues, measure words, picture themes)
   vocab_tocfl.txt    the teacher's vocab table, `key|alts|pinyin|english`, exactly 804 lines of entries
   vocab_extra.txt    words from slides/book that are not in the table (same format)
+  mnemonics.txt      `char|parts|story` memory stories, read before the MNEMO in content*.py so its story wins: picture stories that
+                     replace the definition-only ones, and a story for every other character on the site (build.py fails if one is missing)
   book1_raw.txt      lesson word lists from the book: `L#|word|pinyin|POS|english`
 generated/data.js    window.DATA, built from content/ (committed so a src-only change needs no Python packages)
 scripts/             build.py, assemble.py, make_icons.py (optional, redraws icons from the mascot)
@@ -101,6 +108,9 @@ tests/               Playwright tests + run_all.py
 - **New question type:** write a generator that returns the same shape as its neighbours (`mcq(...)` in app4, or the session item kinds in app7). Register it where it should appear: `LADDER`/`qFor` in app9 for adaptive practice, or a node in `NODES` (app8) for the learning path. Give it a `qt` (or `cat`) that `qtypeOf()` maps to an entry in `QTI` (app14) so its answers are recorded and the coach can advise on it; add a `TYPE_Q` generator so Smart review can practise it. If it comes from a fixed pool, set `q.sig` and teach `missQ()` to rebuild it, so misses go into the mistake notebook. Set `noPeek: true` where peeking would give the answer away (choices are already not peekable for listening and pinyin questions).
 - **Change difficulty or adaptivity:** see `learn()`, `dialStep()`, `qFor()`, `wordPriority()` in app9. Peeking at pinyin or meaning counts as half-knowing a word and fades over about 3 days (`peekScore`). Smart review (`startSmart`) mixes in due mistakes (`missDue`), mix-ups, weak grammar (`weakGrammar`, by S.ga accuracy) and the weakest question types (`weakTypes`) every 2nd–3rd question.
 - **Review timing:** `schedule()` in app1 (learning steps `IV`, FSRS weights `FSW`, test-date cap). `wordPriority()` adds the predicted forgetting (`recallNow`).
+- **Memory stories:** every character needs one in `content/mnemonics.txt` or a `MNEMO` block (first one wins, mnemonics.txt is read first).
+  A good story is a picture that ties the parts to the meaning ("a hungry beggar (乞) opens his mouth (口) wide: eat"), not a definition.
+  Tune who gets a trick in `hardScore()` (app15) and the `hardScore(w.k) >= 2.5` line in `wordGen` (app9).
 - **Look-alikes:** build.py computes `DATA.look` from strokes.json (shape + shared components); app12 adds the student's own mix-ups (`S.cc`, recorded by `noteWordMix`) and the hand-picked `LOOK` sets in app4. Multiple-choice options keep their word keys in `optK`; `mcq()` shuffles both together.
 - **Styling:** add classes in `style.css`, reuse tokens, and check 320 px phones (`tests/test_adaptive.py` sweeps 7 widths).
 

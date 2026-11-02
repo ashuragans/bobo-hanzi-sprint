@@ -134,7 +134,7 @@ function wordPop(text, anchor, quiet) {
     pop.innerHTML = `<div class="row" style="justify-content:space-between"><span class="ph">${esc(w.h)}</span>${w.em ? `<span style="font-size:1.8rem">${w.em}</span>` : ''}</div>
       <div class="bigpy" style="font-size:1.1rem">${esc(phon(w.p))}</div><div>${esc(w.e)}</div>
       <div class="row">${tagsFor(w)}</div>
-      <div class="row"><button class="btn sm" data-say="${esc(w.h)}">${IC.sound}Listen</button>${RUN ? `<span class="tiny faint">${STG[stageOf(w.k)][1]} · counts as a hint</span>` : `<button class="btn sm" data-go="write" data-p='${JSON.stringify({ c: [...w.h].find(c => HAN.test(c)) })}'>${IC.write}Write it</button>`}</div>`;
+      <div class="row"><button class="btn sm" data-say="${esc(w.h)}">${IC.sound}Listen</button>${!RUN && HAN.test(w.h) ? `<button class="btn sm" data-trickpop="${esc(w.k)}">🧠 Trick</button>` : ''}${RUN ? `<span class="tiny faint">${STG[stageOf(w.k)][1]} · counts as a hint</span>` : `<button class="btn sm" data-go="write" data-p='${JSON.stringify({ c: [...w.h].find(c => HAN.test(c)) })}'>${IC.write}Write it</button>`}</div>`;
   } else if (PHRASE[text]) {
     pop.innerHTML = `<span class="ph">${esc(text)}</span><div class="bigpy" style="font-size:1.05rem">${esc(phon(PHRASE[text][0]))}</div><div>${esc(PHRASE[text][1])}</div>${parts.map(p => `<div class="small"><b class="han" style="font-size:1.1rem">${esc(p.h)}</b> ${esc(phon(p.p))} — ${esc(p.e)}</div>`).join('')}<div class="row"><button class="btn sm" data-say="${esc(text)}">${IC.sound}Listen</button></div>`;
   } else if (name) {
@@ -143,6 +143,7 @@ function wordPop(text, anchor, quiet) {
     pop.innerHTML = `<span class="ph">${esc(text)}</span>${parts.map(p => `<div class="small"><b class="han" style="font-size:1.15rem">${esc(p.h)}</b> ${esc(phon(p.p))} — ${esc(p.e)}</div>`).join('') || '<div class="small muted">Name or phrase</div>'}<div class="row"><button class="btn sm" data-say="${esc(text)}">${IC.sound}Listen</button></div>`;
   }
   pop.insertAdjacentHTML('afterbegin', `<button class="popx" aria-label="Close">${IC.x}</button>`);
+  const tp = pop.querySelector('[data-trickpop]'); if (tp) tp.onclick = e => { e.stopPropagation(); showTrick(W[tp.dataset.trickpop]); };
   pop.querySelector('.popx').onclick = e => { e.stopPropagation(); closePop(); };
   document.body.appendChild(pop);
   const r = anchor.getBoundingClientRect(), pr = pop.getBoundingClientRect();

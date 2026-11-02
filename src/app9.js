@@ -232,7 +232,12 @@ function wordGen(words, o = {}) {
     const w = list[0][1];
     st.asked[w.k] = (st.asked[w.k] || 0) + 1; st.last.push(w.k);
     if (peekScore(w.k) >= 2 && stageOf(w.k) <= 3 && !st.re) { st.re = {}; }
-    if (st.re && peekScore(w.k) >= 2 && stageOf(w.k) <= 3 && !st.re[w.k]) { st.re[w.k] = 1; st.next.push(qFor(w, { pool, L: o.L })); const t = teachWord(w); t.label = '複習 · You peeked at this one — look again'; return t; }
+    // a word you keep peeking at, or that keeps going wrong, gets its memory trick card first (once a session; it then rests a day)
+    st.tk = st.tk || {};
+    if (!st.tk[w.k] && ((st.re && peekScore(w.k) >= 2 && stageOf(w.k) <= 3 && !st.re[w.k]) || hardScore(w.k) >= 2.5)) {
+      st.tk[w.k] = 1; if (st.re) st.re[w.k] = 1; st.next.push(qFor(w, { pool, L: o.L }));
+      const t = trickCard(w); if (peekScore(w.k) >= 2) t.label = '記憶法 · You keep peeking at this one — here\'s a trick'; return t;
+    }
     return qFor(w, { pool, L: o.L });
   };
 }

@@ -19,7 +19,10 @@ import content4  # adds Lesson 7
 import content5  # adds Lesson 8
 import content3
 from content import LESSONS, PEOPLE, GRAMMAR, DRILLS, READING, ROUTINE
-MNEMO = content2.MNEMO  # a string: content2's `MNEMO += ...` makes a new one, so take it from there (not from content)
+# memory stories: each content module's `MNEMO += ...` makes a new string (content2 holds content's too), so join them all;
+# a character keeps its first story. content/mnemonics.txt comes first: it has picture stories that replace the ones in
+# content*.py that were only a definition, and a story for every other character on the site.
+MNEMO = "\n".join([open(os.path.join(HERE, "mnemonics.txt"), encoding="utf-8").read(), content2.MNEMO, content4.MNEMO, content5.MNEMO])
 from pypinyin import pinyin as _py, Style
 
 STROKE_DIR = os.environ.get("HWD_DIR") or os.path.join(ROOT, "node_modules", "hanzi-writer-data")
@@ -252,7 +255,7 @@ for d in DRILLS:
 
 mn = {}
 for line in MNEMO.strip().splitlines():
-    if not line.strip(): continue
+    if not line.strip() or line.startswith("#"): continue
     c, parts, story = line.split("|")
     if c in mn: continue
     mn[c] = [parts, story]
@@ -267,6 +270,8 @@ chars = []
 for k in order:
     for c in disp(k):
         if HAN.match(c) and c not in chars: chars.append(c)
+no_story = [c for c in chars if c not in mn]
+assert not no_story, ("characters with no memory story: add them to content/mnemonics.txt", "".join(no_story))
 for c in mn:
     if c not in chars: chars.append(c)
 strokes = {}

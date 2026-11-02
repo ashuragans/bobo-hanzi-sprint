@@ -846,6 +846,7 @@ body.has-tutor .navbtn.tutor-entry,body.has-tutor .hubtile.tutor-entry{display:f
 .peek svg{width:16px;height:16px}
 .peek:active{transform:translateY(2px);box-shadow:none}
 .newbadge.again{background:var(--flame)}
+.newbadge.trick{background:var(--pink)}
 .qwrap.hidepy rt{visibility:hidden}
 .qsent{font-size:clamp(1.3rem,4.6vw,1.6rem);line-height:2.3;text-align:center}
 .sblank{display:inline-block;min-width:2.4em;border-bottom:3px solid var(--sky);margin:0 .12em;color:transparent;line-height:1.2}
@@ -1034,3 +1035,49 @@ ruby.tok.show{background:var(--sky-soft);border-radius:4px}
 .missit{display:flex;flex-wrap:wrap;gap:4px 8px;align-items:center;min-width:0}
 .missit .han{overflow-wrap:anywhere}
 .fin-focus{display:flex;flex-direction:column;gap:6px;align-items:flex-start}
+
+/* ---------- 記憶法 memory tricks (app15) */
+.trick{display:grid;gap:12px;text-align:left;min-width:0}
+.tk-word{display:flex;gap:14px;align-items:center;flex-wrap:wrap;min-width:0}
+.tk-big{font-size:clamp(2.6rem,12vw,3.6rem);line-height:1;color:var(--ink)}
+.tk-wmeta{display:grid;gap:3px;min-width:0;flex:1 1 160px}
+.tk-en{font-weight:600;color:var(--ink);overflow-wrap:anywhere}
+.tk-em{font-size:1.2em}
+.tk-lit{padding:8px 12px;border-radius:10px;background:var(--pen-soft);color:var(--ink);font-size:.95rem;overflow-wrap:anywhere}
+.tk-lit .han{font-size:1.15em;color:var(--pen)}
+.tk-plus{color:var(--ink-3);margin:0 4px;font-weight:600}
+.tk-chars{display:grid;gap:10px}
+.tk-char{display:grid;grid-template-columns:56px minmax(0,1fr);gap:12px;align-items:start;padding:10px 12px;border-radius:12px;background:var(--page-2);border:1px solid var(--outline)}
+.tk-c{font-size:2.6rem;line-height:1;text-align:center;color:var(--taro);padding-top:2px}
+.tk-body{display:grid;gap:6px;min-width:0}
+.tk-parts{display:flex;flex-wrap:wrap;align-items:center;gap:4px 0}
+.tk-part{display:inline-flex;align-items:baseline;gap:3px;padding:2px 9px;border-radius:999px;background:var(--taro-soft);color:var(--ink);font-size:.85rem;max-width:100%;overflow-wrap:anywhere}
+.tk-part .han{font-size:1.1rem;color:var(--taro)}
+.tk-story{font-size:.95rem;color:var(--ink);line-height:1.45;overflow-wrap:anywhere}
+.tk-story.mine{padding:6px 10px;border-radius:9px;background:var(--jade-soft)}
+.tk-story.mine b{color:var(--jade)}
+.tk-tone{font-size:.84rem;color:var(--ink-2);overflow-wrap:anywhere}
+.tk-tone b{color:var(--ink)}
+.tk-tmark{display:inline-block;min-width:1.4em;text-align:center;font-weight:700;color:var(--seal)}
+.tk-mine{font-size:.88rem;display:grid;justify-items:start;gap:6px}
+.tk-minebtn{background:none;border:0;padding:2px 0;color:var(--pen);font:600 .88rem var(--f-body);cursor:pointer;text-align:left}
+.tk-minebtn:hover{text-decoration:underline}
+.tk-mineed{display:grid;justify-items:start;gap:6px;width:100%}
+.tk-mineed[hidden]{display:none}
+.tk-mine textarea{display:block;width:100%;resize:vertical;font:inherit;min-height:56px}
+.tk-do{padding:9px 12px;border-radius:10px;background:var(--gold-soft);color:var(--ink);font-size:.92rem}
+.tk-do b:first-child{color:var(--gold)}
+.tk-mini{margin-top:8px;padding:8px 10px;border-radius:10px;background:var(--taro-soft);display:grid;gap:5px;text-align:left;max-height:30dvh;overflow-y:auto}
+.tk-mini .eyebrow{color:var(--taro)}
+.tk-mrow{display:grid;grid-template-columns:30px minmax(0,1fr);gap:8px;align-items:start;font-size:.88rem;color:var(--ink)}
+.tk-mrow > .han{font-size:1.5rem;line-height:1.1;text-align:center;color:var(--taro);font-weight:400}
+.tk-mrow > span{overflow-wrap:anywhere}
+.tk-mparts{color:var(--ink-2)}
+.hardlist{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px}
+.hardit{display:grid;gap:2px;justify-items:start;text-align:left;padding:8px 10px;border-radius:11px;border:1px solid var(--outline);background:var(--page-2);color:var(--ink);cursor:pointer;min-width:0}
+.hardit:hover{border-color:var(--taro)}
+.hardit .han{font-size:1.5rem;line-height:1.1}
+.hardit span{max-width:100%;overflow-wrap:anywhere}
+.fin-trick{display:grid;gap:8px;justify-items:start;margin:10px auto 0;background:var(--taro-soft)}
+.fin-trick b{color:var(--taro)}
+.modal.trickm{width:min(560px,calc(100vw - 32px))}

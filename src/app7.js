@@ -157,7 +157,7 @@ function runQuiz(cfg) {
       <div class="sess-top"><button class="sx" id="rquit" aria-label="Quit">${IC.x}</button>
         <div class="pbar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${Math.round(pct)}"><i style="width:${prevPct}%"></i></div>${topRight()}</div>
       <div class="sess-main"><div class="qwrap q-${q.kind} ${q.hidePy ? 'hidepy' : ''}">
-        <div class="qhead"><span class="qlabel">${q.kind === 'teach' ? '<span class="newbadge">NEW</span>' : q.isRetry ? '<span class="newbadge again">AGAIN</span>' : ''}${esc(q.label || '')}</span>${q.hidePy ? `<button class="peek" id="peek" aria-label="Show pinyin">${IC.eye}<span>拼音</span></button>` : ''}</div>
+        <div class="qhead"><span class="qlabel">${q.kind === 'teach' ? (q.trick ? '<span class="newbadge trick">TRICK</span>' : '<span class="newbadge">NEW</span>') : q.isRetry ? '<span class="newbadge again">AGAIN</span>' : ''}${esc(q.label || '')}</span>${q.hidePy ? `<button class="peek" id="peek" aria-label="Show pinyin">${IC.eye}<span>拼音</span></button>` : ''}</div>
         ${q.prompt ? `<div class="qprompt">${q.prompt}</div>` : ''}${q.hidePy && practice ? '<p class="tiny faint hint-line">Tap a word to see its pinyin, tap it again for its meaning.</p>' : ''}<div id="qbody"></div></div></div>
       <div class="sess-foot" id="foot"><div class="foot-in"><div class="foot-msg" id="footMsg"></div>
         <div class="foot-btns">${canLater ? `<button class="btn3d ghost" id="later" title="Move this question to the end">Later</button>` : ''}<button class="btn3d ghost" id="skip" hidden>Skip</button><button class="btn3d big" id="cta" disabled>${cfg.exam ? 'Next' : 'Check'}</button></div></div></div></div>`;
@@ -184,7 +184,7 @@ function runQuiz(cfg) {
     const foot = $('#foot', el); if (!foot) return;
     foot.classList.add(ok ? 'ok' : 'no');
     const [zh, en] = ok ? pick(PRAISE) : pick(OOPS);
-    const extra = (ok ? (SHOW_RIGHT.has(q.cat) ? (q.explain || '') : '') : (q.explain || ''));
+    const extra = (ok ? (SHOW_RIGHT.has(q.cat) ? (q.explain || '') : '') : (q.explain || '') + (q.k && W[q.k] && q.kind !== 'write' ? trickMiniHTML(W[q.k]) : '')); // a wrong answer shows the word's memory trick
     $('#footMsg', el).innerHTML = `<div class="fm-mascot">${mascotSVG({ mood: ok ? 'happy' : 'sad', size: 58 })}</div>
       <div class="fm-text"><b class="fm-title"><span class="han">${zh}</span> ${en}</b>${detail || extra ? `<div class="fm-detail">${detail}${extra}</div>` : ''}</div>`;
     const cta = $('#cta', el); cta.textContent = 'Continue'; cta.disabled = false; cta.classList.toggle('red', !ok); cta.onclick = next;
@@ -383,7 +383,7 @@ function runQuiz(cfg) {
       const pct = right / nB;
       if (right < nB) loseHeart();
       const rev = `<div class="bkrev">${rows.map(([k, ok, aw, f]) => { const x = wordInfo(aw); return `<div class="bkr ${ok ? 'ok' : 'no'}"><span class="bkr-n">${q.layout === 'pics' ? '' : k + 1}</span><b class="han">${esc(aw)}</b><span class="bkr-p">${esc(phon(x.p))}</span><span class="bkr-e">${esc(shortEn(x.e))}</span>${!ok && f >= 0 ? `<span class="bkr-y">not <b class="han">${esc(q.bank[f])}</b></span>` : ''}<button class="playbtn sm" data-say="${esc(aw)}" aria-label="Play">${IC.sound}</button></div>`; }).join('')}</div>`;
-      sheet(pct >= .8, q, `<div><b class="nums">${right} / ${nB}</b> right.${right < nB ? ' Missed words will come back in your reviews.' : ''}</div>${rev}`);
+      sheet(pct >= .8, q, `<div><b class="nums">${right} / ${nB}</b> right.${right < nB ? ' Missed words will come back in your reviews.' : ''}</div>${rev}${rows.filter(r => !r[1]).map(r => H2W[r[2]]).filter(Boolean).slice(0, 2).map(trickMiniHTML).join('')}`);
       if (pct === 1) stamp('優');
     };
     ctaEl().onclick = check;
@@ -467,6 +467,8 @@ function runQuiz(cfg) {
     addPearls(pearls, false);
     save(); RUN = null;
     const wrong = R.log.filter(l => !l.ok);
+    // words from this session that you missed or peeked at and that are hard for you overall: offer their memory tricks
+    R.trickWs = cfg.title === '記憶法' ? [] : uniq(R.log.filter(l => l.q.k && (!l.ok || (R.peeks || {})[l.q.k])).map(l => l.q.k).concat(Object.keys(R.peeks || {}))).filter(k => W[k] && hardScore(k) >= 1.2).map(k => W[k]).slice(0, 6);
     const title = cfg.exam || cfg.mock ? `${pct >= 90 ? '優' : pct >= 80 ? '甲' : pct >= 70 ? '乙' : pct >= 60 ? '丙' : '加油'}` : '';
     const head = perfect ? ['完美！', 'Perfect lesson!'] : pct >= 80 ? ['做得好！', 'Lesson complete!'] : pct >= 50 ? ['完成了！', 'Lesson complete'] : ['加油！', 'Keep practicing'];
     const d = dialLv();
@@ -485,6 +487,7 @@ function runQuiz(cfg) {
       ${sessionNoteHTML(R)}
       ${cfg.exam || cfg.mock ? `<div class="catrows" style="max-width:520px">${Object.entries(cats).map(([c, [a, b]]) => `<div class="catrow"><span>${esc(CAT[c] || c)}</span><div class="bar ${a / b < .6 ? 'seal' : a / b < .8 ? 'gold' : ''}"><i style="width:${a / b * 100}%"></i></div><span class="nums small" style="text-align:right">${a}/${b}</span></div>`).join('')}</div>` : ''}
       <p class="tiny faint">${IC.check.replace('<svg', '<svg style="width:12px;height:12px;vertical-align:-1px"')} Progress saved${CLOUD.state === 'on' ? ' to your account' : ' on this device'}</p>
+      ${!cfg.exam && R.trickWs && R.trickWs.length ? `<div class="note fin-trick" style="max-width:520px"><div>🧠 <b>${R.trickWs.length} word${R.trickWs.length > 1 ? 's' : ''} didn't stick yet:</b> <span class="han">${R.trickWs.map(w => esc(w.h)).join('、')}</span></div><button class="btn3d sm" id="fin-trick">${R.trickWs.length > 1 ? 'Learn them with memory tricks' : 'Learn it with a memory trick'}</button></div>` : ''}
       <div class="fin-btns"><button class="btn3d big" id="fin-go">Continue</button>${wrong.length ? `<button class="btn3d ghost" id="fin-rev">Practice ${wrong.length} mistake${wrong.length > 1 ? 's' : ''}</button>` : ''}${!cfg.smart && smartCounts().weak >= 3 ? '<button class="btn3d ghost" id="fin-smart">Smart review</button>' : ''}</div>
       ${(cfg.exam || cfg.mock) && wrong.length ? `<div class="review"><h3>Review</h3>${wrong.map(l => `<div class="rv">${l.q.prompt && !/passage|class="clock|data-say/.test(l.q.prompt) ? `<div class="small muted">${esc(l.q.label)}</div><div class="rv-p">${l.q.prompt}</div>` : `<div class="small muted">${esc(l.q.label)}</div>`}
         <div class="small">Your answer: <span class="yours han" style="font-size:1.1rem">${esc(l.yours)}</span></div><div class="small">Right answer: <span class="right han" style="font-size:1.1rem">${esc(l.q.kind === 'mc' ? l.q.ans.map(a => l.q.opts[a]).join(' / ') : l.q.kind === 'order' ? (l.q.sep ? l.q.tiles.join(l.q.sep) : l.q.answers[0]) : l.q.char || '')}</span></div>
@@ -496,6 +499,7 @@ function runQuiz(cfg) {
     $('#fin-go', el).onclick = exitTo;
     if ($('#fin-rev', el)) $('#fin-rev', el).onclick = () => runQuiz({ title: 'Mistakes', adaptive: true, qs: wrong.map(l => Object.assign({}, l.q, { isRetry: false })).filter(q => q.kind !== 'bank'), back: cfg.back });
     if ($('#fin-smart', el)) $('#fin-smart', el).onclick = () => startSmart();
+    if ($('#fin-trick', el)) $('#fin-trick', el).onclick = () => startTricks(R.trickWs, cfg.back);
     if ($('#fin-focus', el)) $('#fin-focus', el).onclick = () => actFor(QTI[R.focus][2], cfg.back)();
     setTimeout(() => afterRewards(after, lvl0), 1500);
   }
