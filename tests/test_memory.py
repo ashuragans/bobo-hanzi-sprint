@@ -97,6 +97,14 @@ async def main():
             notes.append(f'{tag} midterm-style result {m}')
             if not m or m['type'] != 'midstyle' or m['pct'] != 100 or m['n'] < 80: errors.append(f'{tag} midterm-style score wrong: {m}')
             if await p.locator('#fin-go').count(): await p.locator('#fin-go').click(); await p.wait_for_timeout(300)
+            # 5c) the Lessons 7–8 test (short version), all answers right -> 100% recorded as u78
+            await p.evaluate("go('test')"); await p.wait_for_timeout(400)
+            await p.locator('#u78_short').check(); await p.locator('#u78_prac').click(); await p.wait_for_timeout(400)
+            if not await run_through(p, f'{tag} lessons 7-8 test', n=60): errors.append(f'{tag} lessons 7-8 test did not finish')
+            m = await p.evaluate("S.mocks[S.mocks.length - 1]")
+            notes.append(f'{tag} lessons 7-8 test result {m}')
+            if not m or m['type'] != 'u78' or m['pct'] != 100: errors.append(f'{tag} lessons 7-8 test score wrong: {m}')
+            if await p.locator('#fin-go').count(): await p.locator('#fin-go').click(); await p.wait_for_timeout(300)
             # 6) a timed test that runs out of time counts the unanswered questions as wrong
             await p.evaluate("runQuiz({ title: 'Mock test', exam: true, mock: true, type: 'mock', minutes: 30, qs: mockQuiz(true), back: () => go('test') })"); await p.wait_for_timeout(300)
             await tg['drive'](p, True, n=2)

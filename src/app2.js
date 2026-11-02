@@ -41,7 +41,7 @@ function shell() {
   $('#rail').innerHTML = VIEWS.map(v => `<button class="navbtn" data-go="${v.id}">${IC[v.id]}<span><span class="nz">${v.zh}</span><span class="ne">${v.en}</span></span></button>`).join('') +
     `<div class="rail-sub">${SUBVIEWS.map(v => `<button class="navbtn sub" data-go="${v.id}">${IC[v.id]}<span><span class="nz">${v.zh}</span><span class="ne">${v.en}</span></span></button>`).join('')}</div>` +
     `<button class="navbtn sub tutor-entry" data-tutor>${IC.chat}<span><span class="nz">問老師</span><span class="ne">Ask the tutor</span></span></button>` +
-    `<div class="rail-foot"><span class="rail-m">${mascotSVG({ mood: 'happy', size: 44 })}</span><span><b class="han" style="font-size:1.05rem">加油！</b><br>Lessons 1–7 of 時代華語 1 + the full vocab table.</span></div>`;
+    `<div class="rail-foot"><span class="rail-m">${mascotSVG({ mood: 'happy', size: 44 })}</span><span><b class="han" style="font-size:1.05rem">加油！</b><br>Lessons 1–8 of 時代華語 1 + the full vocab table.</span></div>`;
   $('#tabbar').innerHTML = VIEWS.map(v => `<button data-go="${v.id}" aria-label="${v.en}">${IC[v.id]}<span>${v.zh}</span></button>`).join('');
   $('#brandM').innerHTML = mascotSVG({ mood: 'happy', size: 30 });
   $('#streakIc').innerHTML = FLAME; $('#pearlIc').innerHTML = PEARL;
@@ -228,6 +228,9 @@ const PLAN = [
   { day: 3, id: 'd3b', t: 'Grammar for 第六課: 會, V得, 吧, 覺得, 有一點…', d: 'The newest points — practice each one twice.', go: ['grammar', { g: 'g_hui' }], m: () => fracDone(gramOf(['L6']), g => (S.gd[g] || 0) >= 2) },
   { day: 3, id: 'd3h', t: '第七課 怎麼到飯店去？: words + texts', d: 'Getting around: MRT, bus, taxi, train, plane; the post office, the supermarket.', go: ['cards', { deck: 'L7' }], m: () => fracDone(deckWords('L7'), w => seen(w.k)) },
   { day: 3, id: 'd3i', t: 'Grammar for 第七課: 從/到, 怎麼去, 了, 又…又…, 先…再…, 一定', d: 'The newest points — practice each one twice.', go: ['grammar', { g: 'g_cong_dao' }], m: () => fracDone(gramOf(['L7']), g => (S.gd[g] || 0) >= 2) },
+  { day: 3, id: 'd3j', t: '第八課 這條裙子真好看: words + texts', d: 'Clothes, shopping, 高矮胖瘦, the department store.', go: ['cards', { deck: 'L8' }], m: () => fracDone(deckWords('L8'), w => seen(w.k)) },
+  { day: 3, id: 'd3k', t: 'Grammar for 第八課: 好/難+V, 因為…所以…, 吧, VV看, 快要…了, 怕, 以前/以後', d: 'The newest points — practice each one twice.', go: ['grammar', { g: 'g_hao_nan' }], m: () => fracDone(gramOf(['L8']), g => (S.gd[g] || 0) >= 2) },
+  { day: 3, id: 'd3l', t: 'Take the Lessons 7–8 test (第七、八課考試)', d: 'Your teacher\'s format, only Lessons 7 and 8. Aim for 80%+, then redo your mistakes.', go: ['test', {}], m: () => [Math.min(1, S.mocks.filter(m => m.type === 'u78' && m.pct >= 80).length), 1] },
   { day: 3, id: 'd3c', t: 'Clear your weak words', d: 'Every word you missed comes back until you get it right.', go: ['cards', { deck: 'weak' }], m: () => { const n = deckWords('weak').length; return [n ? 0 : 1, 1]; } },
   { day: 3, id: 'd3d', t: 'Speed-sweep the vocab table, Level 1', d: 'Quick 4-choice rounds through the 401 words your teacher gave you.', go: ['cards', { deck: 'T1', mode: 'speed' }], m: () => fracDone(deckWords('T1'), w => seen(w.k)) },
   { day: 3, id: 'd3e', t: 'Look-alike characters and radicals', d: '買/賣, 午/牛, 未/末, 已/己… the classic test traps.', go: ['drills', {}], m: () => [Math.min(20, catTotal(['chars', 'radical'])), 20] },

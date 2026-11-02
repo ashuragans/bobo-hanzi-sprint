@@ -1,7 +1,7 @@
 # CLAUDE.md — Bobo Hanzi Sprint
 
 A game-style website (Duolingo-like, with 波波 the bubble-tea mascot) for one student learning **Traditional Chinese**
-for a class test. It covers 時代華語 1 (Modern Chinese 1, Taiwan) **Lessons 1–7**, the class slides, the teacher's
+for a class test. It covers 時代華語 1 (Modern Chinese 1, Taiwan) **Lessons 1–8**, the class slides, the teacher's
 **TOCFL vocabulary table (804 words, Level 1 = 1–401, Level 2 = 402–804)** and the teacher's test style: word banks,
 put-in-order, measure words, opposites, cloze, picture matching and listening A/B/C.
 
@@ -67,7 +67,9 @@ src/                 app code, concatenated in numeric order (app1 … app14) in
                      questions, the midterm redo, the memory forecast on Stats
   app13.js           midterm-style tests: a NEW test in the midterm's format every time (midStyleTest: pictures, two passages with a word
                      bank, dialogues, measure-word bank, second halves), built from the STYLE_* pools; weak words are blanked first.
-                     Also the 短文填空 / 後半句 / 量詞填空 drills; teacherTest uses a generated passage or measure-word bank half the time
+                     Also the 短文填空 / 後半句 / 量詞填空 drills; teacherTest uses a generated passage or measure-word bank half the time.
+                     unitTest(['L7','L8']): the teacher's format on chosen lessons only (Tests page "第七、八課考試", FIN node); `UNIT` maps each
+                     lesson to its halves/dialogue groups, picture sets, opposites and measure-word nouns — extend it for a new lesson
   app14.js           learner record: trackAnswer() records EVERY answer by question type (S.qs: right, total, peeked, time, last 20) and
                      grammar point (S.ga); sentence questions feed their least-known words to the word model; the 錯題本 mistake
                      notebook (S.miss, rebuilt by missQ from q.sig); peeking at answer choices (拼 → 意) and at any Chinese prompt
@@ -77,6 +79,8 @@ content/
   content2.py        Lessons 4–6 (book word lists; L4–5 practice dialogues written for this site; L6 dialogues, words and exercises from the class slides), more grammar and drills
   content4.py        Lesson 7 怎麼到飯店去？: the book's two dialogues + reading, practice dialogues from the class slides, 8 grammar points
                      (從/到, 怎麼去 + 坐/搭/騎/開車/走路, 了 new situation, V-O topic, 又…又…, 先…再…, 一定, 怎麼了), drills incl. the slides' fill-ins
+  content5.py        Lesson 8 這條裙子真好看: the book's two dialogues + reading, practice texts from the slides and the book's classroom activities,
+                     11 grammar points (好/難+V, 因為…所以…, 吧?, VV看, 快要…了, 真/真的, 怕, 以前/以後, 開/關, 時間, 對了/沒關係), the slides' clothes words
   content3.py        teacher-style tests: LAST_* = the earlier class test and MID_* = the midterm (do not change), BANKS, CLOZE, OPPOSITES, ORDERS, NEW_PICS, PIC,
                      STYLE_* = pools for the midterm-style generator (passages, second halves, dialogues, measure words, picture themes)
   vocab_tocfl.txt    the teacher's vocab table, `key|alts|pinyin|english`, exactly 804 lines of entries

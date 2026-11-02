@@ -412,3 +412,57 @@ L7|飛機|fēijī|N|airplane; aircraft; M: 架
 L7|架|jià|M|measure word for airplanes
 L7|飛|fēi|Vi|to fly
 L7|起飛|qǐfēi|Vp|to take off (an airplane)
+L8|裙子|qúnzi|N|skirt; M: 條
+L8|去年|qùnián|N|last year
+L8|年|nián|N/M|year
+L8|今年|jīnnián|N|this year
+L8|明年|míngnián|N|next year
+L8|牌子|páizi|N|brand
+L8|因為|yīnwèi|Conj|because
+L8|有名|yǒumíng|Vs|famous
+L8|褲子|kùzi|N|pants; M: 條
+L8|所以|suǒyǐ|Conj|therefore; so
+L8|為什麼|wèishénme|Adv|why
+L8|百貨公司|bǎihuògōngsī|N|department store
+L8|難|nán|Vs|difficult; hard
+L8|容易|róngyì|Vs|easy
+L8|最近|zuìjìn|Adv|recently; lately
+L8|胖|pàng|Vs|fat
+L8|瘦|shòu|Vs|thin
+L8|高|gāo|Vs|tall
+L8|矮|ǎi|Vs|short (height)
+L8|公斤|gōngjīn|M|kilogram
+L8|斤|jīn|M|catty (0.6 kilogram in Taiwan)
+L8|怕|pà|Vst|to be scared of; to be afraid of
+L8|跟|gēn|Prep|with
+L8|時間|shíjiān|N|time
+L8|黃色|huángsè|N|yellow color
+L8|黃|huáng|Vs|yellow
+L8|吧|ba|Ptc|final particle for questions (supposition)
+L8|流行|liúxíng|Vs|popular; fashionable; trendy
+L8|短|duǎn|Vs|short (in length)
+L8|長|cháng|Vs|long
+L8|鞋子|xiézi|N|shoes; M: 雙
+L8|襪子|wàzi|N|socks; M: 雙
+L8|雙|shuāng|M|pair (shoes, socks)
+L8|黑色|hēisè|N|black color
+L8|黑|hēi|Vs|black
+L8|樓|lóu|M|floor
+L8|樓下|lóuxià|N|downstairs
+L8|樓上|lóushàng|N|upstairs
+L8|快要|kuàiyào|Adv|to be about to
+L8|快|kuài|Adv|to be about to
+L8|關|guān|V|to close
+L8|開|kāi|V|to open
+L8|電梯|diàntī|N|elevator; lift
+L8|樓梯|lóutī|N|stairs
+L8|沒關係|méiguānxi||it's OK
+L8|對不起|duìbùqǐ||sorry
+L8|對了|duìle||by the way
+L8|年輕|niánqīng|Vs|young
+L8|老|lǎo|Vs|old
+L8|皮包|píbāo|N|wallet; purse; M: 個
+L8|女生|nǚshēng|N|girl
+L8|男生|nánshēng|N|boy
+L8|雜誌|zázhì|N|magazine; M: 本
+L8|舊|jiù|Vs|old; used

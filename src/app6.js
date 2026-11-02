@@ -27,9 +27,10 @@ function qBank(set, opt = {}) {
     explainFor: k => '', after: null };
 }
 function wTok(w) { const x = H2W[w]; return [[w, x ? x.p : '']]; }
-function qOpp(n = 7) {
-  const pool = shuffle(TT.opp), chosen = [], seenW = new Set();
-  for (const [a, b] of pool) { if (seenW.has(a) || seenW.has(b)) continue; seenW.add(a); seenW.add(b); chosen.push(Math.random() < .5 ? [a, b] : [b, a]); if (chosen.length >= n) break; }
+function qOpp(n = 7, from = TT.opp) {
+  const pool = shuffle(from), chosen = [], seenW = new Set();
+  // no giveaways: a word may not show up inside another one in the set (難 and 難吃, 好看 and 不好看)
+  for (const [a, b] of pool) { if ([...seenW].some(x => [a, b].some(y => x.includes(y) || y.includes(x)))) continue; seenW.add(a); seenW.add(b); chosen.push(Math.random() < .5 ? [a, b] : [b, a]); if (chosen.length >= n) break; }
   const bank = shuffle(chosen.map(c => c[1]));
   const lines = chosen.map(([l], k) => [String(k + 1), [[0, wTok(l)], [0, [[' ↔ ', '']]], [1, k]]]);
   return { kind: 'bank', cat: 'opp', label: 'IV. Choose the opposite word', bank, lines, ans: chosen.map(c => [c[1]]), prompt: '' };
@@ -114,6 +115,20 @@ function qListenTrans() {
   return lq(say, [[pic(a), a[0]], [pic(b), b[0]], [pic(c), c[0]]]);
 }
 LGEN.push(qListenTrans);
+/* Lesson 8: clothes and the department store (the clothes charts from the class slides) */
+LD.cloth = [['裙子', '👗', '條'], ['褲子', '👖', '條'], ['短褲', '🩳', '條'], ['襯衫', '👔', '件'], ['大衣', '🧥', '件'], ['毛衣', '🧶', '件'], ['鞋子', '👟', '雙'], ['襪子', '🧦', '雙'], ['手套', '🧤', '雙'], ['拖鞋', '🩴', '雙'], ['涼鞋', '👡', '雙']];
+function qListenCloth() {
+  if (Math.random() < .35) { // which floor?
+    const [a, b, c] = sampleN([1, 2, 3, 4, 5, 6, 7, 8, 9], 3), what = pick(['鞋子', '裙子', '咖啡廳', '洗手間', '書店', '電梯']);
+    const fl = n => `<span style="display:inline-grid;place-items:center;min-width:64px;height:64px;border-radius:12px;border:2px solid var(--ink);background:var(--page);font:800 1.4rem var(--f-disp)">${n}F</span>`;
+    return lq(`${what}在${numZh(a)}樓。`, [[fl(a), a + 'F'], [fl(b), b + 'F'], [fl(c), c + 'F']]);
+  }
+  const [a, b, c] = sampleN(LD.cloth, 3), col = pick(['黑色的', '白色的', '黃色的', '藍色的', '']);
+  const say = pick([`我想買一${a[2]}${col}${a[0]}。`, `這${a[2]}${a[0]}真好看，我想穿穿看。`, `百貨公司快要關了，我們快去買${a[0]}吧！`]);
+  const pic = x => `<span style="font-size:2.4rem">${x[1]}</span>`;
+  return lq(say, [[pic(a), a[0]], [pic(b), b[0]], [pic(c), c[0]]]);
+}
+LGEN.push(qListenCloth);
 function qListenPic() { return pick(LGEN)(); }
 
 /* ---- full tests */
@@ -124,7 +139,7 @@ function teacherTest() {
   const weak = new Set(WL.filter(w => S.cards[w.k] && stageOf(w.k) <= 3).map(w => w.k));
   const score = b => b.bank.filter(h => H2W[h] && weak.has(H2W[h].k)).length + Math.random() * 2;
   const best = a => a.slice().sort((x, y) => score(y) - score(x));
-  const early = best(conv.filter(b => ['L1', 'L2', 'L3'].includes(b.L))), late = best(conv.filter(b => ['L4', 'L5', 'L6', 'L7'].includes(b.L)));
+  const early = best(conv.filter(b => ['L1', 'L2', 'L3'].includes(b.L))), late = best(conv.filter(b => ['L4', 'L5', 'L6', 'L7', 'L8'].includes(b.L)));
   const gb = genBank({ n: 6, prefer: [...weak] });
   [early[0], late[0], gb ? null : late[1]].filter(Boolean).forEach(b => qs.push(qBank(b, { shuffleBank: true })));
   if (gb) qs.push(genBankQ(gb, { num: 'I.' }));
@@ -158,12 +173,18 @@ function lastTest() {
 }
 function vTest(el) {
   const ms = S.mocks.slice().reverse();
-  const typeName = { teacher: '老師式考卷', last: '上次的考卷', mock: '模擬考', mid: '期中考', midstyle: '期中考式' };
+  const typeName = { teacher: '老師式考卷', last: '上次的考卷', mock: '模擬考', mid: '期中考', midstyle: '期中考式', u78: '第七、八課考試' };
   el.innerHTML = `<div class="stack"><div class="sec-head"><div><span class="eyebrow">考試 · Practice tests</span><h1>Practice the way your teacher tests</h1></div></div>
     <div class="grid2">
       <div class="page pad stack">
+        <div class="row" style="justify-content:space-between"><div class="han" style="font-size:2.4rem;line-height:1">第七、八課考試</div><span class="tag bonus">Test prep</span></div>
+        <p class="muted">Only Lessons 7 and 8, in your teacher's format: listening A/B/C, word banks, sentence order with numbers, grammar fill-ins, measure words, opposites, reading passages, dialogues, second halves and pictures. New questions every time.</p>
+        <label class="row small"><input type="checkbox" id="u78_short"> Short version (20 min)</label>
+        <div class="row"><button class="btn primary big" id="u78_prac">${IC.play}Practice</button><button class="btn big" id="u78_exam">${IC.test}Exam mode</button><button class="btn" data-go="cards" data-p='{"deck":"L78"}'>${IC.cards}Words</button></div>
+      </div>
+      <div class="page pad stack">
         <div class="row" style="justify-content:space-between"><div class="han" style="font-size:2.4rem;line-height:1">老師式考卷</div><span class="tag bonus">Recommended</span></div>
-        <p class="muted">A new test in your teacher's exact format, covering Lessons 1–7: listening (choose A, B or C), word-bank conversations, sentence order with numbers, measure words, opposites, a reading passage, and picture matching. Different questions every time.</p>
+        <p class="muted">A new test in your teacher's exact format, covering Lessons 1–8: listening (choose A, B or C), word-bank conversations, sentence order with numbers, measure words, opposites, a reading passage, and picture matching. Different questions every time.</p>
         ${ttsOK() ? '' : '<p class="note">No Chinese voice on this device, so the listening part is skipped.</p>'}
         <div class="row"><button class="btn primary big" id="tt_prac">${IC.play}Practice</button><button class="btn big" id="tt_exam">${IC.test}Exam mode</button></div>
         <p class="tiny faint">Practice checks each part as you go. Exam mode shows the answers only at the end.</p>
@@ -199,6 +220,8 @@ function vTest(el) {
   $('#tt_prac', el).onclick = () => runQuiz({ title: 'Teacher-style test', mock: true, type: 'teacher', qs: teacherTest(), back: () => go('test') });
   $('#tt_exam', el).onclick = () => runQuiz({ title: 'Teacher-style test (exam)', exam: true, mock: true, type: 'teacher', qs: teacherTest(), back: () => go('test') });
   $('#lt_go', el).onclick = () => runQuiz({ title: 'Your last test', mock: true, type: 'last', qs: lastTest(), back: () => go('test') });
+  const u78Go = exam => runQuiz({ title: exam ? '第七、八課考試 (exam)' : '第七、八課考試', exam, mock: true, type: 'u78', qs: unitTest(['L7', 'L8'], { short: $('#u78_short', el).checked }), back: () => go('test') });
+  $('#u78_prac', el).onclick = () => u78Go(false); $('#u78_exam', el).onclick = () => u78Go(true);
   const msGo = exam => runQuiz({ title: exam ? '期中考式考卷 (exam)' : '期中考式考卷', exam, mock: true, type: 'midstyle', qs: midStyleTest({ short: $('#ms_short', el).checked }), back: () => go('test') });
   $('#ms_prac', el).onclick = () => msGo(false); $('#ms_exam', el).onclick = () => msGo(true);
   $('#mid_go', el).onclick = () => runQuiz({ title: '期中考', mock: true, type: 'mid', qs: midTest(), back: () => go('test') });

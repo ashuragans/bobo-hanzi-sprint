@@ -156,8 +156,34 @@ const YY = [ // 又…又…: two qualities that point the same way
   { h: ['這', '杯', '咖啡'], en: 'this coffee', a: ['香', 'fragrant'], b: ['好喝', 'tasty'] }, { h: ['我'], en: 'I', be: 'am', a: ['餓', 'hungry'], b: ['渴', 'thirsty'] },
   { h: ['這', '張', '床'], en: 'this bed', a: ['大', 'big'], b: ['舒服', 'comfortable'] }, { h: ['這裡', '的', '夏天'], en: 'summer here', a: ['熱', 'hot'], b: ['不舒服', 'uncomfortable'] }];
 const CHG = [{ h: ['餓'], en: 'hungry' }, { h: ['渴'], en: 'thirsty' }, { h: ['累'], en: 'tired' }];
+/* Lesson 8: 好/難 + verb (perception verbs: nice/bad to…, action verbs: easy/hard to…), cause → result, about to happen, try it, I suppose, afraid of, open/close */
+const HN = [{ h: ['這', '首', '歌'], en: 'this song', v: '唱', g: 'easy to sing', b: 'hard to sing' }, { h: ['中文'], en: 'Chinese', v: '學', g: 'easy to learn', b: 'hard to learn' },
+  { h: ['這', '家', '店'], en: 'this shop', v: '找', g: 'easy to find', b: 'hard to find' }, { h: ['這', '輛', '腳踏車'], en: 'this bike', v: '騎', g: 'easy to ride', b: 'hard to ride' },
+  { h: ['這', '家', '的', '牛肉麵'], en: "this place's beef noodles", v: '吃', g: 'delicious', b: 'not tasty' }, { h: ['這', '杯', '茶'], en: 'this tea', v: '喝', g: 'nice to drink', b: 'not nice to drink' },
+  { h: ['這', '件', '衣服'], en: 'this shirt', v: '看', g: 'good-looking', b: 'ugly' }, { h: ['他', '唱', '的', '歌'], en: 'the songs he sings', v: '聽', g: 'nice to listen to', b: 'unpleasant to listen to', pl: 1 }];
+const HN2 = [{ h: ['好'], good: 1 }, { h: ['難'], good: 0 }];
+const CAUSE = [ // reason → result
+  { c: ['天氣', '太', '冷', '了'], e: ['大家', '都', '穿', '很', '多', '衣服'], en: "Because the weather is too cold, everyone is wearing lots of clothes." },
+  { c: ['學校', '很', '遠'], e: ['我', '不', '想', '走路', '去'], en: "Because school is far, I don't want to walk." }, { c: ['他', '很', '累'], e: ['他', '要', '在', '家', '休息'], en: 'Because he is tired, he wants to rest at home.' },
+  { c: ['這', '件', '衣服', '太', '貴', '了'], e: ['我', '沒', '買'], en: "Because this shirt was too expensive, I didn't buy it." },
+  { c: ['這', '個', '牌子', '很', '有名'], e: ['很', '多', '人', '買'], en: 'Because this brand is famous, lots of people buy it.' },
+  { c: ['明天', '是', '弟弟', '的', '生日'], e: ['我', '要', '去', '買', '禮物'], en: "Because tomorrow is my brother's birthday, I'm going to buy a present." },
+  { c: ['我', '生病', '了'], e: ['今天', '沒', '去', '上課'], en: "Because I was sick, I didn't go to class today." }, { c: ['他', '每天', '都', '跑步'], e: ['他', '瘦', '了'], en: 'Because he runs every day, he has got thinner.' },
+  { c: ['這', '家', '餐廳', '的', '東西', '很', '好吃'], e: ['我們', '常常', '來'], en: "Because this restaurant's food is delicious, we come often." },
+  { c: ['我', '的', '錢', '不', '多'], e: ['我', '不', '常', '買', '新', '衣服'], en: "Because I don't have much money, I don't often buy new clothes." }];
+const KY = [{ h: ['火車'], v: ['來'], en: 'The train is about to come.' }, { h: ['百貨公司'], v: ['關', '門'], en: 'The department store is about to close.' }, { h: ['冬天'], v: ['到'], en: 'Winter is almost here.' },
+  { h: ['我', '的', '生日'], v: ['到'], en: 'My birthday is coming soon.' }, { h: ['我們'], v: ['上課'], en: 'Class is about to start.' }, { h: ['飛機'], v: ['起飛'], en: 'The plane is about to take off.' },
+  { h: ['老師'], v: ['來'], en: 'The teacher is about to come.' }, { h: ['圖書館'], v: ['開', '門'], en: 'The library is about to open.' }, { h: ['我們'], v: ['下課'], en: 'Class is almost over.' }];
+const VV = [{ h: ['這', '件', '衣服', '很', '漂亮'], v: '穿', en: 'This shirt is pretty — try it on.' }, { h: ['這', '雙', '鞋子', '很', '好看'], v: '穿', en: 'These shoes look good — try them on.' },
+  { h: ['這', '種', '甜點', '很', '好吃'], v: '吃', en: 'This dessert is delicious — have a taste.' }, { h: ['這裡', '的', '咖啡', '很', '好喝'], v: '喝', en: 'The coffee here is good — try it.' },
+  { h: ['這', '首', '歌', '很', '好', '聽'], v: '聽', en: 'This song is nice — have a listen.' }, { h: ['這', '輛', '腳踏車', '很', '好', '騎'], v: '騎', en: 'This bike is easy to ride — try riding it.' },
+  { h: ['坐', '捷運', '很', '方便'], v: '坐', en: 'Taking the MRT is convenient — give it a try.' }];
+const PA = [{ h: ['坐', '飛機'], en: 'flying' }, { h: ['狗'], en: 'dogs' }, { h: ['看', '醫生'], en: 'going to the doctor' }, { h: ['游泳'], en: 'swimming' }, { h: ['老鼠'], en: 'mice' }, { h: ['黑'], en: 'the dark' }];
+const KG = [{ h: ['門'], on: 'open the door', off: 'close the door' }, { h: ['窗戶'], on: 'open the window', off: 'close the window' }, { h: ['燈'], on: 'turn on the light', off: 'turn off the light' },
+  { h: ['電視'], on: 'turn on the TV', off: 'turn off the TV' }];
+const OC = [{ h: ['開'], on: 1 }, { h: ['關'], on: 0 }];
 const POOLS = { s: SUBJ, a: ACTS, pl: PLACE, t: TIME, adj: ADJP, it: ITEM, num: NUM, too: TOO, d: DRINK, d2: DRINK, lc: LOCN, sp: SPOT, to: GIFT_TO, r: ROUT, r2: ROUT, top: TOPIC, op: OPINION, open: ORDER_OPEN, adv: ADV,
-  tr: TRANS, ds: DEST, fr: FROMP, ta: VOADJ, yy: YY, chg: CHG };
+  tr: TRANS, ds: DEST, fr: FROMP, ta: VOADJ, yy: YY, chg: CHG, hn: HN, hn2: HN2, cz: CAUSE, ky: KY, vv: VV, pa: PA, kg: KG, oc: OC };
 const MWPOOL = MWS_ALL.map(m => ({ h: [m], mw: m }));
 
 /* ---- templates: slots, validity, Chinese chunks, English, typical mistakes */
@@ -257,6 +283,21 @@ const TPL = [
     en: v => `${cap(v.s.en)} ${vOf(v.s, v.r)} first, then ${vOf(v.s, v.r2)}.`, bad: [v => [v.s.h, ['再'], v.r.h, ['先'], v.r2.h], v => [v.s.h, v.r.h, ['先'], ['再'], v.r2.h]] },
   { id: 'yiding', bk: [['fw', '一定', ['一定'], ['一起', '一共', '一點']]], L: 'L7', g: 'g_yiding', sl: ['s', 't', 'pl'], float: 1, ok: () => true,
     zh: v => [v.s.h, v.t.h, ['一定', '會'], ['去'], v.pl.h], end: '。', en: v => `${cap(v.s.en)} will definitely go ${v.pl.to} ${v.t.en}.`, bad: [v => [v.s.h, v.t.h, ['會', '一定'], ['去'], v.pl.h]] },
+  // ---- Lesson 8: clothes and shopping
+  { id: 'haonan', L: 'L8', g: 'g_hao_nan', sl: ['hn', 'hn2'], ok: () => true, zh: v => { const hv = v.hn2.h[0] + v.hn.v; return [v.hn.h, ['很'], H2W[hv] ? [hv] : [v.hn2.h[0], v.hn.v]]; }, end: '。', // 好吃 is a word, 好唱 two
+    en: v => `${cap(v.hn.en)} ${v.hn.pl ? 'are' : 'is'} ${v.hn2.good ? v.hn.g : v.hn.b}.`, bad: [v => [v.hn.h, ['很'], [v.hn.v, v.hn2.h[0]]]] },
+  { id: 'yinwei', bk: [['fw', '所以', ['所以'], ['因為', '可是', '還是']]], L: 'L8', g: 'g_yinwei', sl: ['cz'], ok: () => true, zh: v => [['因為'], v.cz.c.concat(['，']), ['所以'], v.cz.e], end: '。',
+    en: v => v.cz.en, bad: [v => [['所以'], v.cz.c.concat(['，']), ['因為'], v.cz.e]] },
+  { id: 'kuaiyao', bk: [['fw', '快要', ['快要'], ['最', '太', '還']]], L: 'L8', g: 'g_kuaiyao', sl: ['ky'], ok: () => true, zh: v => [v.ky.h, ['快要'], v.ky.v, ['了']], end: '。',
+    en: v => v.ky.en, bad: [v => [v.ky.h, ['快要'], v.ky.v], v => [v.ky.h, v.ky.v, ['快要'], ['了']]] },
+  { id: 'vvkan', L: 'L8', g: 'g_vv_kan', sl: ['vv'], ok: () => true, zh: v => [v.vv.h.concat(['，']), ['你'], [v.vv.v, v.vv.v, '看']], end: '。',
+    en: v => v.vv.en, bad: [v => [v.vv.h.concat(['，']), ['你'], [v.vv.v, '看', v.vv.v]], v => [v.vv.h.concat(['，']), ['你'], ['看', v.vv.v, v.vv.v]]] },
+  { id: 'baguess', bk: [['fw', '吧', ['吧'], ['呢', '了', '的']]], L: 'L8', g: 'g_ba_guess', sl: ['s', 'a'], ok: v => v.s.en !== 'I' && !v.a.noLike, zh: v => [v.s.h, ['喜歡'], v.a.h, ['吧']], end: '？',
+    en: v => `${cap(v.s.en)} ${v.s.p3 ? 'likes' : 'like'} ${v.a.vg} ${v.a.o}, right?`, bad: [v => [v.s.h, ['吧'], ['喜歡'], v.a.h]] },
+  { id: 'pa', L: 'L8', g: 'g_pa', sl: ['s', 'pa'], ok: () => true, zh: v => [v.s.h, ['怕'], v.pa.h], end: '。',
+    en: v => `${cap(v.s.en)} ${beOf(v.s)} afraid of ${v.pa.en}.`, bad: [v => [['怕'], v.s.h, v.pa.h], v => [v.s.h, v.pa.h, ['怕']]] },
+  { id: 'kaiguan', L: 'L8', g: 'g_kai_guan', sl: ['oc', 'kg'], ok: () => true, zh: v => [['請'], v.oc.h, v.kg.h], end: '。',
+    en: v => `Please ${v.oc.on ? v.kg.on : v.kg.off}.`, bad: [v => [['請'], v.kg.h, v.oc.h]] },
 ];
 const TMAP = Object.fromEntries(TPL.map(t => [t.id, t]));
 /* measure words that also fit a noun (一瓶果汁 as well as 一杯果汁) are never shown as mistakes */
@@ -273,7 +314,7 @@ const MNP = [{ h: ['好'] }, { h: ['快'] }, { h: ['慢'] }, { h: ['漂亮'] }, 
 const poolOf = (name) => name === 'hr' ? HOURS : name === 'pr' ? PR : name === 'mn' ? MNP : POOLS[name];
 
 /* ---- lesson level of a word: words a learner has met are always allowed */
-const LIDX = { L0: 0, L1: 1, L2: 2, L3: 3, L4: 4, L5: 5, L6: 6, L7: 7 }, LMAX = Math.max(...Object.values(LIDX));
+const LIDX = { L0: 0, L1: 1, L2: 2, L3: 3, L4: 4, L5: 5, L6: 6, L7: 7, L8: 8 }, LMAX = Math.max(...Object.values(LIDX));
 const wordLevel = h => { const w = H2W[h]; if (!w) return 0; const ls = w.ls.filter(l => l in LIDX).map(l => LIDX[l]); return ls.length ? Math.min(...ls) : (w.lv === 1 ? 3 : w.lv === 2 ? 5 : 0); };
 const entryWords = e => [].concat(e.h || [], e.mw ? [e.mw] : []).filter(x => typeof x === 'string' && HAN.test(x));
 function entryOK(e, maxL) {
@@ -317,6 +358,7 @@ function genAny(o = {}) {
   let ts = TPL;
   if (o.L) ts = ts.filter(t => LIDX[t.L] <= LIDX[o.L]);
   if (o.onlyL) ts = ts.filter(t => t.L === o.onlyL);
+  if (o.only) ts = ts.filter(t => o.only.includes(t.L));
   if (o.g) ts = ts.filter(t => t.g === o.g);
   if (o.need) ts = ts.filter(t => (t[o.need] || []).length);
   if (!ts.length) return null;
@@ -328,7 +370,7 @@ const SLOT_IDX = {};
 TPL.forEach(t => t.sl.forEach(sl => (poolOf(sl) || []).forEach(e => entryWords(e).forEach(h => (SLOT_IDX[h] = SLOT_IDX[h] || []).push([t.id, sl, e])))));
 ['本', '枝', '件', '朵', '台', '張', '個', '雙', '杯', '瓶', '碗', '隻'].forEach(m => ITEM.filter(it => it.mw === m).forEach(it => ['buy', 'price', 'song', 'order', 'you', 'tai'].forEach(tid => { if (TMAP[tid].sl.includes('it')) (SLOT_IDX[m] = SLOT_IDX[m] || []).push([tid, 'it', it]); })));
 const FW = ['想', '喜歡', '也', '都', '很', '會', '去', '最', '在', '有', '送', '覺得', '太', '了', '還是', '要', '每天', '買', '請', '給', '多少', '錢', '這', '有一點', '塊', '吧', '嗎', '不', '得', '每', '應該', '只', '常常',
-  '從', '到', '怎麼', '又', '先', '再', '一定', '坐', '騎'];
+  '從', '到', '怎麼', '又', '先', '再', '一定', '坐', '騎', '因為', '所以', '快要', '怕', '真'];
 TPL.forEach(t => { const v = fillTpl(t); if (!v) return; const words = new Set(t.zh(v).flat()); FW.forEach(h => { if (words.has(h)) (SLOT_IDX[h] = SLOT_IDX[h] || []).push([t.id, null, null]); }); });
 function genFor(h, o = {}) {
   const opts = shuffle(SLOT_IDX[h] || []);
@@ -482,7 +524,7 @@ function qSentCloze(s, h, o = {}) {
 function genBank(o = {}) {
   const n = o.n || 6;
   for (let attempt = 0; attempt < 14; attempt++) {
-    const ts = shuffle(TPL.filter(t => (t.bk || []).length && (!o.L || LIDX[t.L] <= LIDX[o.L])));
+    const ts = shuffle(TPL.filter(t => (t.bk || []).length && (!o.L || LIDX[t.L] <= LIDX[o.L]) && (!o.only || o.only.includes(t.L))));
     const rows = [], usedAns = new Set(), cnt = { mw: 0, it: 0, adj: 0, fw: 0 };
     const visOf = (s, h) => { const at = s.toks.findIndex(x => x[0] === h); return s.toks.filter((x, i) => i !== at).map(x => x[0]).join(''); };
     const cap = { mw: 2, it: 1, adj: 1, fw: 4 };

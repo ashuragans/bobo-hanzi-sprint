@@ -202,7 +202,7 @@ const UNITS = [
   { id: 'FIN', idx: LES.length, zh: '衝刺', name: '考前衝刺', en: 'Final sprint before the test', color: 'seal',
     nodes: [{ t: 'test', which: 'last', title: '上次的考卷', en: 'Your last test' }, { t: 'lmix', title: '聽力 A/B/C', en: 'Listening mix' }, { t: 'sweep', deck: 'T1', title: '詞表 1', en: 'Vocab table 1' },
       { t: 'test', which: 'teacher', title: '老師式考卷', en: 'Teacher-style test' }, { t: 'sweep', deck: 'T2', title: '詞表 2', en: 'Vocab table 2' }, { t: 'test', which: 'mock', title: '模擬考', en: 'Mixed mock test' },
-      { t: 'test', which: 'mid', title: '期中考', en: 'Your midterm' }, { t: 'test', which: 'midstyle', title: '期中考式', en: 'New midterm-style test' }]
+      { t: 'test', which: 'mid', title: '期中考', en: 'Your midterm' }, { t: 'test', which: 'midstyle', title: '期中考式', en: 'New midterm-style test' }, { t: 'test', which: 'u78', title: '第七、八課', en: 'Lessons 7–8 test' }]
       .map((n, j) => Object.assign(n, { id: 'FIN-' + j, unit: 'FIN' })) }];
 const NODES = UNITS.flatMap(u => u.nodes);
 const nodeCount = id => S.path[id] || 0;
@@ -216,7 +216,7 @@ function nodeDesc(nd) {
     listen: 'Hear a sentence, pick the picture A, B or C — like your teacher\'s listening test.',
     write: 'Watch the stroke order, trace it, then write characters from memory.',
     check: 'Mixed questions in your teacher\'s style. Score 60% to pass and open the chest.',
-    test: { last: 'Every question from the test your teacher gave you.', teacher: 'A full new test in your teacher\'s format.', mock: '40 mixed questions with a 30-minute timer.', mid: 'The reading part of your midterm, exactly as on the paper.', midstyle: 'A new test in your midterm\'s format, different every time.' }[nd.which],
+    test: { last: 'Every question from the test your teacher gave you.', teacher: 'A full new test in your teacher\'s format.', mock: '40 mixed questions with a 30-minute timer.', mid: 'The reading part of your midterm, exactly as on the paper.', midstyle: 'A new test in your midterm\'s format, different every time.', u78: 'Only Lessons 7 and 8, in your teacher\'s format.' }[nd.which],
     lmix: '10 listening questions: times, prices, food, places and more.',
     sweep: `Fast 4-choice round through ${nd.deck === 'T1' ? 'Level 1' : 'Level 2'} of the vocab table.` })[nd.t];
 }
@@ -307,7 +307,7 @@ function sessCheck(L) {
   sampleN(LL.grammar.filter(g => G[g]), 3).forEach(g => { const q = qGrammarFor(g, { L }); if (q) qs.push(withRetry(q, g)); });
   const go_ = genOrderQ({ L, prefSeen: true });
   if (go_) qs.push(qOrderNum(go_)); else sampleN(DRILLS.filter(d => d.k === 'order' && LL.grammar.includes(d.g)), 1).forEach(d => qs.push(qOrderNum({ t: d.t, a: d.a, en: d.en })));
-  const sp = { L0: [qLook], L1: [qLook, () => qReading(pick(DATA.reading.filter(r => r.text.startsWith('L1'))))], L2: [qClock, qDate], L3: [qMW, qPrice], L4: [qBigNum, qMW], L5: [qLocation, qLocation], L6: [qListenPic, () => qReading(pick(DATA.reading.filter(r => r.text.startsWith('L6'))))], L7: [qListenTrans, () => qReading(pick(DATA.reading.filter(r => r.text.startsWith('L7'))))] }[L] || [];
+  const sp = { L0: [qLook], L1: [qLook, () => qReading(pick(DATA.reading.filter(r => r.text.startsWith('L1'))))], L2: [qClock, qDate], L3: [qMW, qPrice], L4: [qBigNum, qMW], L5: [qLocation, qLocation], L6: [qListenPic, () => qReading(pick(DATA.reading.filter(r => r.text.startsWith('L6'))))], L7: [qListenTrans, () => qReading(pick(DATA.reading.filter(r => r.text.startsWith('L7'))))], L8: [qListenCloth, () => qReading(pick(DATA.reading.filter(r => r.text.startsWith('L8'))))] }[L] || [];
   sp.forEach(f => { const q = f(); if (q && !(q.cat === 'listen' && !ttsOK())) qs.push(q); });
   qs.push(genFrame({ L }));
   const met = all.filter(w => seen(w.k));
@@ -332,7 +332,7 @@ function startNode(nd) {
   else if (nd.t === 'lmix') { cfg.hearts = 0; cfg.qs = ttsOK() ? shuffle([...Array.from({ length: 6 }, qListenPic), ...Array.from({ length: 4 }, () => { const x = genAny({ prefSeen: true }); return x ? qSentHear(x, {}) : qListenPic(); })]) : shuffle(DATA.reading).slice(0, 8).map(r => qReading(r)); }
   else if (nd.t === 'sweep') { cfg.hearts = 0; const ws = deckWords(nd.deck); cfg.len = 15; cfg.gen = wordGen(buildQueue(ws, 24, 24), { teach: 0, pool: ws }); }
   else if (nd.t === 'test') { cfg.hearts = 0; cfg.adaptive = false; cfg.mock = true; cfg.type = nd.which; cfg.title = nd.title;
-    if (nd.which === 'last') cfg.qs = lastTest(); else if (nd.which === 'mid') cfg.qs = midTest(); else if (nd.which === 'midstyle') cfg.qs = midStyleTest(); else if (nd.which === 'teacher') cfg.qs = teacherTest(); else { cfg.qs = mockQuiz(true); cfg.exam = true; cfg.minutes = 30; } }
+    if (nd.which === 'last') cfg.qs = lastTest(); else if (nd.which === 'mid') cfg.qs = midTest(); else if (nd.which === 'midstyle') cfg.qs = midStyleTest(); else if (nd.which === 'u78') cfg.qs = unitTest(['L7', 'L8']); else if (nd.which === 'teacher') cfg.qs = teacherTest(); else { cfg.qs = mockQuiz(true); cfg.exam = true; cfg.minutes = 30; } }
   cfg.onDone = res => {
     const first = !nodeCount(nd.id);
     const need = nd.t === 'check' ? 60 : 0;
@@ -384,7 +384,7 @@ function sideHTML() {
   return `<div class="card side-streak"><div class="row" style="gap:12px;flex-wrap:nowrap"><span class="big-flame ${S.streak.last === today() ? 'lit' : ''}">${FLAME}</span><div><b class="nums" style="font:800 1.6rem var(--f-disp)">${hudStreak()}</b><div class="small muted">day streak${S.freeze ? ` · ${S.freeze} freeze` : ''}</div></div></div>${streakWeek()}</div>
     <div class="card"><div class="row" style="justify-content:space-between;margin-bottom:8px"><h3>Daily quests</h3><span class="small faint nums">${qd}/3</span></div><div id="sideQuests">${questsHTML()}</div></div>
     <div class="card side-test"><div class="row" style="gap:14px;flex-wrap:nowrap"><div class="ring" style="width:84px;height:84px">${ringSVG(R0.pct, 84, 9)}<div class="val nums" style="font-size:1.2rem">${R0.pct}%<small>ready</small></div></div>
-      <div><b style="font:800 1.25rem var(--f-disp)">${d < 0 ? 'Test done' : d === 0 ? 'Test today!' : d + ' day' + (d > 1 ? 's' : '') + ' to go'}</b><div class="small muted">Lessons 1–7 · 時代華語 1</div><button class="btn3d sm" data-go="test" style="margin-top:8px">Practice tests</button></div></div></div>
+      <div><b style="font:800 1.25rem var(--f-disp)">${d < 0 ? 'Test done' : d === 0 ? 'Test today!' : d + ' day' + (d > 1 ? 's' : '') + ' to go'}</b><div class="small muted">Lessons 1–8 · 時代華語 1</div><button class="btn3d sm" data-go="test" style="margin-top:8px">Practice tests</button></div></div></div>
     <div class="card side-tip"><div class="row" style="gap:10px;flex-wrap:nowrap;align-items:flex-end">${mascotSVG({ mood: 'happy', size: 58 })}<div class="bubble"><b class="han">${tip[0]}</b><br><span class="small">${esc(tip[1])}</span></div></div></div>`;
 }
 const hudStreak = () => S.streak.last === today() || S.streak.last === ymd(new Date(Date.now() - 86400000)) ? S.streak.n : 0;
