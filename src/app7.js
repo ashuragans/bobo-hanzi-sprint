@@ -98,7 +98,8 @@ function runQuiz(cfg) {
     if (q.after) q.after(ok, yours);
     if (q.cat) catAnswer(q.cat, ok);
     const ms = o.ms ?? (R.qt0 ? performance.now() - R.qt0 : null);
-    const ad = adaptRecord(q, ok, ms, !!(o.assist ?? R.assist), o.conf);
+    // a typed answer with the right letters but a wrong tone (o.half) counts as "hard" for the memory model, but as wrong in the session
+    const ad = adaptRecord(q, ok || !!o.half, ms, o.half ? true : !!(o.assist ?? R.assist), o.conf);
     trackAnswer(q, ok, { ms, assist: !!(o.assist ?? R.assist), yours, blank: o.blank });
     if (ok) { R.right++; R.combo++; R.best = Math.max(R.best, R.combo); questEvent('combo', R.combo, true); if (q.cat === 'listen') questEvent('listen'); }
     else {
@@ -153,7 +154,7 @@ function runQuiz(cfg) {
     const tot = Math.max(R.total, qs.length);
     const pct = R.i / tot * 100;
     const canLater = (cfg.mock || cfg.allowLater) && !q.laterUsed && R.i < qs.length - 1 && q.kind !== 'teach';
-    el.innerHTML = `<div class="sess ${cfg.exam ? 'exam' : ''}">
+    el.innerHTML = `<div class="sess ${cfg.exam ? 'exam' : ''} ${q.kind === 'type' ? 'vvfit' : ''}">
       <div class="sess-top"><button class="sx" id="rquit" aria-label="Quit">${IC.x}</button>
         <div class="pbar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${Math.round(pct)}"><i style="width:${prevPct}%"></i></div>${topRight()}</div>
       <div class="sess-main"><div class="qwrap q-${q.kind} ${q.hidePy ? 'hidepy' : ''}">
@@ -169,7 +170,7 @@ function runQuiz(cfg) {
     // every Chinese word in the question can be tapped in practice: pinyin first, then the meaning (both count as a peek)
     if (practice && canTokPrompt(q)) { const n0 = $$('.tok', el).length; tokPrompt($('.qprompt', el)); if (!q.hidePy && $$('.tok', el).length > n0) $('.qprompt', el).insertAdjacentHTML('afterend', '<p class="tiny faint hint-line">Tap a word for its pinyin, tap again for its meaning.</p>'); }
     R.qt0 = performance.now() + (q.say ? 1200 : 0);
-    ({ mc: renderMC, order: renderOrder, bank: renderBank, teach: renderTeach, write: renderWrite })[q.kind](q);
+    ({ mc: renderMC, order: renderOrder, bank: renderBank, teach: renderTeach, write: renderWrite, type: renderType })[q.kind](q);
   }
   function quit() {
     if (!R.log.length) return exitTo();
@@ -180,11 +181,11 @@ function runQuiz(cfg) {
     if (cfg.hearts && !cfg.exam && R.hearts <= 0) return outOfHearts();
     R.i++; render();
   }
-  function sheet(ok, q, detail = '') {
+  function sheet(ok, q, detail = '', title = null) {
     const foot = $('#foot', el); if (!foot) return;
     foot.classList.add(ok ? 'ok' : 'no');
-    const [zh, en] = ok ? pick(PRAISE) : pick(OOPS);
-    const extra = (ok ? (SHOW_RIGHT.has(q.cat) ? (q.explain || '') : '') : (q.explain || '') + (q.k && W[q.k] && q.kind !== 'write' ? trickMiniHTML(W[q.k]) : '')); // a wrong answer shows the word's memory trick
+    const [zh, en] = title || (ok ? pick(PRAISE) : pick(OOPS));
+    const extra = (ok ? (SHOW_RIGHT.has(q.cat) ? (q.explain || '') : '') : (q.explain || '') + (q.k && W[q.k] && q.kind !== 'write' && q.kind !== 'type' ? trickMiniHTML(W[q.k]) : '')); // a wrong answer shows the word's memory trick
     $('#footMsg', el).innerHTML = `<div class="fm-mascot">${mascotSVG({ mood: ok ? 'happy' : 'sad', size: 58 })}</div>
       <div class="fm-text"><b class="fm-title"><span class="han">${zh}</span> ${en}</b>${detail || extra ? `<div class="fm-detail">${detail}${extra}</div>` : ''}</div>`;
     const cta = $('#cta', el); cta.textContent = 'Continue'; cta.disabled = false; cta.classList.toggle('red', !ok); cta.onclick = next;
@@ -390,6 +391,8 @@ function runQuiz(cfg) {
     KEYH = e => { if (e.target.closest('input,textarea')) return; const i = LT.toLowerCase().indexOf(e.key.toLowerCase()); if (!answered && e.key.length === 1 && i >= 0 && i < q.bank.length) { e.preventDefault(); put(i); } else if (e.key === 'Enter' && !answered) { e.preventDefault(); check(); } };
     paint();
   }
+  /* 打字: type the pinyin (the card is built in app16.js) */
+  function renderType(q) { typeCard($('#qbody', el), q, { R, cfg, practice, el, record, sheet, next, loseHeart, cta: ctaEl }); }
   function renderTeach(q) {
     const body = $('#qbody', el);
     body.innerHTML = q.html;

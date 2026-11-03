@@ -70,6 +70,7 @@ EMOJI.update(捷運="🚇", 地鐵="🚇", 高鐵="🚄", 船="🚢", 機車="�
  市場="🧺", 寄="📮", 時鐘="🕰️", 錶="⌚", 開車="🚘", 車站="🚉", 站="🚏", 飛="🕊️", 走路="🚶", 街="🏙️", 路="🛣️")  # Lesson 7
 EMOJI.update(裙子="👗", 褲子="👖", 長褲="👖", 短褲="🩳", 襯衫="👔", 外套="🧥", 毛衣="🧶", 運動衣="🎽", 襪子="🧦", 手套="🧤", 拖鞋="🩴", 涼鞋="👡", 球鞋="👟",
  雨傘="☂️", 太陽眼鏡="🕶️", 包包="👜", 雜誌="📔", 百貨公司="🏬", 牌子="🏷️", 公斤="⚖️", 胖="🐷", 瘦="🦴", 怕="😨", 年輕="🧑", 老="👴", 電梯="🛗", 樓梯="🪜", 開燈="💡", 對不起="🙇")  # Lesson 8
+EMOJI.update(校車="🚌", 市中心="🏙️", 交通工具="🚦", 電線="🔌", 抽菸="🚬", 年輕人="🧑", 難吃="🤢", 難喝="🤢", 難看="🙈", 好聽="🎶", 難聽="🙉", 穿穿看="👗", 吃吃看="😋")  # more L7–8 words from the slides
 
 def disp(k):
     return re.sub(r"\d$", "", k)
@@ -98,9 +99,12 @@ for k in order:
 
 # book (時代華語 1) word lists, merged into each lesson
 BOOK = {}
+BOOK_PY = {}  # the book's own pinyin for each word (it sometimes differs from the vocab table: 舒服 shūfu / shūfú)
 for line in open(os.path.join(HERE, 'book1_raw.txt'), encoding='utf-8'):
     Ln, h = line.split('|')[:2]
     BOOK.setdefault('L' + str(int(Ln[1:])), []).append(h)
+    bp = line.rstrip('\n').split('|')[2] if line.count('|') >= 2 else ''
+    if bp: BOOK_PY.setdefault(h, bp)
 for L in LESSONS:
     L['words'] = L['words'] + BOOK.get(L['id'], [])
 # lesson tags
@@ -271,6 +275,14 @@ for k in order:
     for c in disp(k):
         if HAN.match(c) and c not in chars: chars.append(c)
 no_story = [c for c in chars if c not in mn]
+# how each part of a memory story is read: a part that gives the sound becomes the "sound clue" in typing practice (跑 has 包 bāo inside → pǎo)
+part_py = {}
+for c in list(mn):
+    for x in mn[c][0].split("+"):
+        p = x.strip().split(" ")[0]
+        if len(p) == 1 and HAN.match(p) and p not in part_py:
+            r = _py(p, style=Style.TONE, heteronym=False)[0][0]
+            if r and r != p: part_py[p] = r
 assert not no_story, ("characters with no memory story: add them to content/mnemonics.txt", "".join(no_story))
 for c in mn:
     if c not in chars: chars.append(c)
@@ -423,8 +435,11 @@ tests = {"last": {"banks": [bank_set(s) for s in content3.LAST_BANKS], "orders":
          "banks": [bank_set(s) for s in content3.BANKS], "cloze": [bank_set(s) for s in content3.CLOZE], "opp": content3.OPPOSITES,
          "orders": [order_item(o) for o in content3.ORDERS], "pics": content3.NEW_PICS, "pic": content3.PIC,
          "mid": {"pics": content3.MID_PICS, "banks": [bank_set(s) for s in content3.MID_BANKS], "choice": content3.MID_CHOICE, "words": mid_words}, "style": style}
+norm_py = lambda x: unicodedata.normalize("NFC", x.lower()).replace(" ", "").replace("'", "")
+book_py = {h: bp for h, bp in BOOK_PY.items() if h in H2K and norm_py(bp) != norm_py(D[H2K[h]]["p"])}
+print("book pinyin that differs from the vocab table:", len(book_py), "e.g.", list(book_py.items())[:6])
 data = {"altpy": ALT_PY, "tests": tests, "words": words_out, "lessons": lessons_out, "people": PEOPLE, "grammar": g_out, "drills": DRILLS,
-        "reading": READING, "routine": ROUTINE, "mnemo": mn, "charsWithStrokes": "".join(strokes.keys()), "look": look}
+        "reading": READING, "routine": ROUTINE, "mnemo": mn, "partpy": part_py, "bookpy": book_py, "charsWithStrokes": "".join(strokes.keys()), "look": look}
 js = "window.DATA=" + json.dumps(data, ensure_ascii=False, separators=(",", ":")) + ";"
 open(os.path.join(GEN_DIR, "data.js"), "w", encoding="utf-8").write(js)
 open(os.path.join(out_dir, "strokes.json"), "w", encoding="utf-8").write(json.dumps(strokes, ensure_ascii=False, separators=(",", ":")))

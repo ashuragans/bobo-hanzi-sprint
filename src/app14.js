@@ -14,7 +14,7 @@ const QTI = { // type: [zh, en, how to practise it]
   grammar: ['語法', 'Grammar', 'choose'], time: ['時間', 'Time & dates', 'clock'], money: ['錢・量詞', 'Prices & measure words', 'mw'], place: ['位置', 'Where things are', 'loc'],
   reading: ['閱讀', 'Reading the dialogues', 'read'], bank: ['詞庫填空', 'Word-bank dialogues', 'bank'], passage: ['短文填空', 'Passages with a word bank', 'passage'],
   mwbank: ['量詞填空', 'Measure-word bank', 'mwbank'], opp: ['反義詞', 'Opposites', 'opp'], pics: ['看圖', 'Picture matching', 'pics'],
-  dialog: ['選回答', 'Choosing the reply', 'qa'], half: ['後半句', 'Second halves', 'halves'], write: ['寫字', 'Writing characters', 'write'], vocab: ['詞彙', 'Vocabulary', 'smart'] };
+  dialog: ['選回答', 'Choosing the reply', 'qa'], half: ['後半句', 'Second halves', 'halves'], write: ['寫字', 'Writing characters', 'write'], vocab: ['詞彙', 'Vocabulary', 'smart'], type: ['打拼音', 'Typing the pinyin', 'type'] };
 const QT_OF = { mean: 'mean', recall: 'recall', contrast: 'recall', py2h: 'pinyin', h2py: 'pinyin', tone: 'pinyin', hear: 'listen', hearH: 'listen', hearM: 'listen',
   lookc: 'chars', cloze: 'cloze', fix: 'grammar', pick: 'read', read: 'read', frame: 'frame', build: 'build', qa: 'dialog', dialog: 'dialog', half: 'half' };
 function qtypeOf(q) {
@@ -30,6 +30,7 @@ const QTIP = {
   mean: 'Say the word out loud and picture what it means before you look at the choices.',
   recall: 'Cover the choices and remember the characters first, then check. Writing a word once by hand makes it stick.',
   pinyin: 'Say each word with your hand drawing the tone: 1 flat, 2 up, 3 down-and-up, 4 down. Repeat after the voice in Cards.',
+  type: 'Say the word out loud first, then type it one syllable at a time with its tone number (fang1bian4). Look for the sound part inside the character.',
   listen: 'Play it twice and say what you heard before you look at the choices. You can slow the voice down in Settings.',
   lpic: 'Listen for the key word — a number, a time, a place, a food — then look at the pictures.',
   chars: 'The Mix-up clinic shows the strokes that differ in red. Say what each meaning part (radical) is about.',
@@ -136,6 +137,7 @@ const TYPE_Q = {
   lpic: () => ttsOK() ? qListenPic() : null, time: () => pick([qClock, qDate])(), money: () => pick([qPrice, qMW, qErLiang])(), place: () => qLocation(),
   radical: () => qRadical(), chars: () => qLook(), grammar: () => { const g = weakGrammar(1)[0]; return g ? qGrammarFor(g) : null; },
   order: () => qOrderNum(pick(TT.orders)), reading: () => qReading(), half: () => genHalves(4)[0], dialog: () => genDialogs(3, 1)[0], frame: () => genFrame(),
+  type: () => { const w = pick(smartWords(8).filter(tyTypable)); return w ? tyQ(w, tyFace(w)) : null; },
   passage: () => genPassage({ n: 8 }), mwbank: () => genMwBank(6), pics: () => genPicSet({ n: 6 }), opp: () => qOpp(5), bank: () => { const g = genBank({ n: 4 }); return g ? genBankQ(g) : null; } };
 function weakTypes(n = 2) {
   return Object.entries(S.qs).filter(([t, st]) => TYPE_Q[t] && st[1] >= 4).map(([t, st]) => [Math.min(accS(st), recentAcc(st)) - st[2] / st[1] * .3, t])
@@ -158,6 +160,7 @@ function actFor(p, back) {
   if (p === 'clinic') return () => startClinic(back);
   if (p === 'write') return () => go('write');
   if (p === 'mistakes') return () => startMistakes(back);
+  if (p === 'type') return () => startType({ back });
   return () => runDrill(p, back);
 }
 function coachInsights() {

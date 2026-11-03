@@ -248,3 +248,37 @@
 逛||guàng|to stroll; to go window-shopping
 韓文||Hánwén|Korean (language)
 桃園||Táoyuán|Taoyuan
+校車||xiàochē|school bus
+市中心||shìzhōngxīn|city center; downtown
+交通工具||jiāotōng gōngjù|means of transportation
+華語||Huáyǔ|Chinese (language)
+電線||diànxiàn|electric wire
+碰||pèng|to touch; to bump into
+怎麼會||zěnme huì|how come…? (surprised)
+句型||jùxíng|sentence pattern
+主詞||zhǔcí|subject (grammar)
+動詞||dòngcí|verb
+名詞||míngcí|noun
+形容詞||xíngróngcí|adjective
+年輕人||niánqīngrén|young people
+難吃||nánchī|tastes bad (food)
+難喝||nánhē|tastes bad (drinks)
+難看||nánkàn|ugly; not nice to look at
+好聽||hǎotīng|nice to listen to
+難聽||nántīng|unpleasant to listen to
+好唱||hǎochàng|easy to sing
+難唱||nánchàng|hard to sing
+好學||hǎoxué|easy to learn
+難學||nánxué|hard to learn
+好找||hǎozhǎo|easy to find
+難找||nánzhǎo|hard to find
+好騎||hǎoqí|easy to ride
+難騎||nánqí|hard to ride
+穿穿看||chuānchuān kàn|to try on (clothes)
+吃吃看||chīchī kàn|to try tasting
+找時間||zhǎo shíjiān|to find time
+花時間||huā shíjiān|to spend time
+抽菸||chōuyān|to smoke
+之間||zhījiān|between; among
+完成||wánchéng|to complete; to finish
+回答||huídá|to answer

@@ -241,7 +241,7 @@ function openTutor(prefill) {
 function init() {
   shell();
   const h = (location.hash || '').slice(1);
-  go(['learn', 'practice', 'me', 'today', 'lessons', 'cards', 'write', 'grammar', 'drills', 'test'].includes(h) ? h : 'learn');
+  go(['learn', 'practice', 'me', 'today', 'lessons', 'cards', 'write', 'grammar', 'drills', 'test', 'type'].includes(h) ? h : 'learn');
   cloudInit(); tutorInit();
   document.addEventListener('visibilitychange', () => { if (document.hidden && CLOUD.timer) { clearTimeout(CLOUD.timer); doPush(); } });
   if (!S.updatedAt) { S.start = today(); saveLocal(); }

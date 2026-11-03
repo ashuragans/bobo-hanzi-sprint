@@ -48,7 +48,8 @@ function defState() {
     pearls: 0, path: {}, quests: null, ach: {}, ward: { flavor: 'milk', acc: 'band', owned: ['fl:milk', 'ac:none', 'ac:band'] }, totals: { sessions: 0, perfect: 0, chests: 0, night: 0 },
     bestCombo: 0, name: '', freeze: 0, dayLog: {}, lastNode: '', seenIntro: false,
     wm: {}, conf: {}, look: {}, sk: {}, pk: {}, dial: .35, recentS: [], fs: {}, cc: {}, qs: {}, ga: {}, miss: {}, myMn: {}, mt: {},
-    set: { ph: 'py', en: true, rate: 0.85, sfx: true, shadow: false, hint: 'tap', hintV: 2 } };
+    ty: {}, tt: {}, tc: {}, // 打字 typing practice (app16): per word, per tone, tone mix-ups
+    set: { ph: 'py', en: true, rate: 0.85, sfx: true, shadow: false, hint: 'tap', hintV: 2, ty: { deck: 'L78', face: 'mix', n: 15, tones: 'strict', retype: 1 } } };
 }
 function normalize(s) {
   const d = defState();
@@ -56,7 +57,8 @@ function normalize(s) {
   o.set = Object.assign(defState().set, (s && s.set) || {});
   o.ward = Object.assign(defState().ward, (s && s.ward) || {});
   o.totals = Object.assign(defState().totals, (s && s.totals) || {});
-  ['cards', 'plan', 'gd', 'cat', 'written', 'ui', 'path', 'ach', 'dayLog', 'wm', 'conf', 'look', 'sk', 'pk', 'fs', 'cc', 'qs', 'ga', 'miss', 'myMn', 'mt'].forEach(k => { if (!o[k] || typeof o[k] !== 'object') o[k] = {}; });
+  o.set.ty = Object.assign(defState().set.ty, (o.set.ty && typeof o.set.ty === 'object') ? o.set.ty : {});
+  ['cards', 'plan', 'gd', 'cat', 'written', 'ui', 'path', 'ach', 'dayLog', 'wm', 'conf', 'look', 'sk', 'pk', 'fs', 'cc', 'qs', 'ga', 'miss', 'myMn', 'mt', 'ty', 'tt', 'tc'].forEach(k => { if (!o[k] || typeof o[k] !== 'object') o[k] = {}; });
   ['mocks', 'custom', 'recentS'].forEach(k => { if (!Array.isArray(o[k])) o[k] = []; });
   if (typeof o.dial !== 'number') o.dial = .35;
   if (!o.set.hintV) { o.set.hint = 'tap'; o.set.hintV = 2; }

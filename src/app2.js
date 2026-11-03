@@ -30,9 +30,10 @@ const IC = {
 /* ============================================================ shell */
 IC.learn = ic('<path d="M12 21c-3-2.5-7-5.5-7-10a7 7 0 0 1 14 0c0 4.5-4 7.5-7 10z"/><circle cx="12" cy="11" r="2.6"/>');
 IC.practice = ic('<path d="M4 15.5l7.5-7.5M7 18.5l-3.5-3.5M8.5 11l4.5 4.5M13 6.5l4.5 4.5M16 5l3 3M12.5 20l7.5-7.5"/>');
+IC.type = ic('<rect x="2.5" y="6" width="19" height="12.5" rx="2.5"/><path d="M6.5 10h.01M10 10h.01M13.5 10h.01M17 10h.01M8 14.5h8"/>');
 IC.me = ic('<circle cx="12" cy="8.5" r="4"/><path d="M4.5 20.5c1.2-4 4-6 7.5-6s6.3 2 7.5 6"/>');
 const VIEWS = [
-  { id: 'learn', zh: '學習', en: 'Learn' }, { id: 'practice', zh: '練習', en: 'Practice' }, { id: 'write', zh: '寫字', en: 'Write' },
+  { id: 'learn', zh: '學習', en: 'Learn' }, { id: 'type', zh: '打字', en: 'Type pinyin' }, { id: 'practice', zh: '練習', en: 'Practice' }, { id: 'write', zh: '寫字', en: 'Write' },
   { id: 'test', zh: '考試', en: 'Tests' }, { id: 'me', zh: '我的', en: 'Me' }];
 const SUBVIEWS = [{ id: 'lessons', zh: '課文', en: 'Lessons' }, { id: 'cards', zh: '生詞', en: 'Flashcards' }, { id: 'grammar', zh: '語法', en: 'Grammar' }, { id: 'drills', zh: '題型', en: 'Drills' }];
 const NAVOF = { lessons: 'practice', cards: 'practice', grammar: 'practice', drills: 'practice', today: 'me' };
@@ -82,7 +83,7 @@ function hud() {
 function go(id, params = {}) {
   closePop(); stopSpeak(); stopWriter(); closeModal(); KEYH = null; document.body.classList.remove('running');
   if (RUN && RUN.timer) clearInterval(RUN.timer); RUN = null;
-  const map = { learn: vLearn, practice: vPractice, me: vMe, today: vToday, lessons: vLessons, cards: vCards, write: vWrite, grammar: vGrammar, drills: vDrills, test: vTest };
+  const map = { learn: vLearn, practice: vPractice, me: vMe, today: vToday, lessons: vLessons, cards: vCards, write: vWrite, grammar: vGrammar, drills: vDrills, test: vTest, type: vType };
   if (!map[id]) id = 'learn';
   CUR = id; PARAMS = params;
   const nav = NAVOF[id] || id;

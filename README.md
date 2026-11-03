@@ -1,7 +1,11 @@
 # 波波中文 · Bobo Hanzi Sprint
 
-A game for learning Traditional Chinese: 時代華語 1, Lessons 1–6, the teacher's TOCFL vocabulary table (804 words),
+A game for learning Traditional Chinese: 時代華語 1, Lessons 1–8, the teacher's TOCFL vocabulary table (804 words),
 writing practice, listening, and teacher-style tests, with an adaptive Smart review that notices what you still mix up.
+
+**打字 Type the pinyin** (its own tab): flashcards where you type each word's pinyin with its tones (`ma3` turns into `mǎ`,
+or tap a tone key), from the characters, the sound or the meaning. New words are copied once, mistakes are typed again
+and come back until they stick, and every card shows the word in tone colours with a memory story, a sound clue and an example.
 
 It runs in any browser on a phone or a computer. Progress is saved in the browser. To move it to another device, use
 **我的 Me → 存檔 Save → Copy backup code**, then **Restore** on the other device.

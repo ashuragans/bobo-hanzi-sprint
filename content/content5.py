@@ -15,7 +15,10 @@ LESSONS += [
             "最近 胖 瘦 高 矮 長 短 低 公斤 斤 怕 老鼠 跟 時間 黃色 黃 黑色 黑 吧 流行 鞋子 襪子 雙 手套 筷子 樓 樓上 樓下 上樓 下樓 "
             "快要 快 關 開 開燈 關燈 開門 關門 電梯 樓梯 爬 沒關係 對不起 對了 年輕 老 皮包 包包 女生 男生 雜誌 舊 新 真 真的 假 "
             "以前 以後 上衣 襯衫 外套 毛衣 大衣 睡衣 運動衣 雨傘 球鞋 拖鞋 涼鞋 帽子 皮帶 雨衣 雨鞋 太陽眼鏡 試試看 "
-            "歌手 生病 食物 出門 看起來 逛 書店 父母").split(),
+            "歌手 生病 食物 出門 看起來 逛 書店 父母 "
+            # the book's 好/難 + V table, the reading's title and more words the class slides use
+            "年輕人 難吃 難喝 難看 好聽 難聽 好唱 難唱 好學 難學 好找 難找 好騎 難騎 穿穿看 吃吃看 找時間 花時間 "
+            "內衣 抽菸 門口 之間 韓文 回國 記得 忘 帶 冰箱 燈 電 肚子 需要 如果 眼睛 飲料店 辦公室 臥室 完成 回答").split(),
   "texts": [
    {"title": "對話一 · 這條裙子真好看 (This skirt is really beautiful)", "note": "From the book, Lesson 8.", "lines": [
      ["宜文", "元真，妳的這條裙子真好看，我很喜歡。", "Yuanzhen, your skirt is really beautiful. I like it a lot."],

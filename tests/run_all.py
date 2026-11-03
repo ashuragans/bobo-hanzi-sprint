@@ -2,7 +2,7 @@
 """Run the browser tests against public/index.html.
 
     python tests/run_all.py            all tests (game flow, adaptivity + layout sweep at 7 screen widths, peeking, memory)
-    python tests/run_all.py --quick    game flow + peeking + memory + learner record + memory tricks
+    python tests/run_all.py --quick    game flow + peeking + memory + learner record + memory tricks + typing pinyin
 
 Needs:  pip install -r tests/requirements.txt  and  python -m playwright install chromium
 (skip the second command if Chromium for Playwright is already installed).
@@ -29,7 +29,7 @@ def serve():
 
 def main():
     quick = "--quick" in sys.argv
-    tests = ["test_game.py", "test_peek.py", "test_memory.py", "test_record.py", "test_tricks.py"] if quick else ["test_game.py", "test_adaptive.py", "test_peek.py", "test_memory.py", "test_record.py", "test_tricks.py"]
+    tests = ["test_game.py", "test_peek.py", "test_memory.py", "test_record.py", "test_tricks.py", "test_type.py"] if quick else ["test_game.py", "test_adaptive.py", "test_peek.py", "test_memory.py", "test_record.py", "test_tricks.py", "test_type.py"]
     srv = serve()
     env = dict(os.environ, TEST_URL=f"http://127.0.0.1:{PORT}/index.html")
     failed = []

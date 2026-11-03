@@ -27,7 +27,7 @@ python scripts/assemble.py                      # src/ + generated/data.js -> pu
 python scripts/assemble.py --artifact           # dist/artifact.html: single-file version for a claude.ai artifact
 
 pip install -r tests/requirements.txt && python -m playwright install chromium   # once, for tests
-python tests/run_all.py --quick                 # game flow + peeking + memory + learner record + memory tricks, phone and desktop (~20 min)
+python tests/run_all.py --quick                 # game flow + peeking + memory + learner record + memory tricks + typing, phone and desktop (~20 min)
 python tests/run_all.py                         # everything, including the layout sweep at 7 widths (~20 min)
 
 python -m http.server -d public 8765            # preview at http://localhost:8765
@@ -79,6 +79,15 @@ src/                 app code, concatenated in numeric order (app1 … app15) in
                      at the end. Shown after a wrong answer (trickMiniHTML), inside adaptive practice / Smart review (wordGen), on the
                      results screen, Practice (記憶法 tile), Stats, the coach and the word pop-up. S.mt[k] = [times shown, last, misses
                      then]: a word rests 20 h after its trick unless you miss it or peek at it again
+  app16.js           打字 type the pinyin (its own tab, #type): flashcards where you type a word's pinyin with tones, from its characters,
+                     its sound or its meaning. pyUnits() reads a word's pinyin, tyFix() turns tone numbers into marks as you type (ma3 → mǎ,
+                     v → ü), tyGrade() checks an answer (right · almost = right letters, wrong tone · wrong; light tones, 一/不 tone changes,
+                     the book's spelling DATA.bookpy and same-meaning words on meaning cards count). typeCard() is the card inside runQuiz
+                     (kind 'type'); typeGen() = new word copied once, then the words that need it most, wrong ones typed again and brought
+                     back, a trick card for words that keep slipping. tyRevealHTML(): tone colours (1 sky · 2 jade · 3 gold · 4 seal ·
+                     light grey), tone melody, sound clue from the character's parts (DATA.partpy), memory story, example. Lesson decks also
+                     get a card for the book's other spellings (tyVariants: 超級市場, 錶). S.ty[k] = [right in a row, right, answers, last],
+                     S.tt = per-tone [right, total], S.tc['3>2'] = tone mix-ups, S.set.ty = deck, mode, length, tones, retype
 content/
   content.py         Lessons 1–3 (from the class slides), GRAMMAR, DRILLS, READING, ROUTINE, MNEMO
   content2.py        Lessons 4–6 (book word lists; L4–5 practice dialogues written for this site; L6 dialogues, words and exercises from the class slides), more grammar and drills
@@ -92,7 +101,8 @@ content/
   vocab_extra.txt    words from slides/book that are not in the table (same format)
   mnemonics.txt      `char|parts|story` memory stories, read before the MNEMO in content*.py so its story wins: picture stories that
                      replace the definition-only ones, and a story for every other character on the site (build.py fails if one is missing)
-  book1_raw.txt      lesson word lists from the book: `L#|word|pinyin|POS|english`
+  book1_raw.txt      lesson word lists from the book: `L#|word|pinyin|POS|english` (where its pinyin differs from the table it becomes
+                     DATA.bookpy, accepted in typing practice: 舒服 shūfu / shūfú)
 generated/data.js    window.DATA, built from content/ (committed so a src-only change needs no Python packages)
 scripts/             build.py, assemble.py, make_icons.py (optional, redraws icons from the mascot)
 tests/               Playwright tests + run_all.py
@@ -112,6 +122,9 @@ tests/               Playwright tests + run_all.py
   A good story is a picture that ties the parts to the meaning ("a hungry beggar (乞) opens his mouth (口) wide: eat"), not a definition.
   Tune who gets a trick in `hardScore()` (app15) and the `hardScore(w.k) >= 2.5` line in `wordGen` (app9).
 - **Look-alikes:** build.py computes `DATA.look` from strokes.json (shape + shared components); app12 adds the student's own mix-ups (`S.cc`, recorded by `noteWordMix`) and the hand-picked `LOOK` sets in app4. Multiple-choice options keep their word keys in `optK`; `mcq()` shuffles both together.
+- **Typing practice:** a word is typable when all its characters are Han and `pyUnits()` reads its pinyin (test_type.py checks every
+  lesson word). Change what counts as right in `tyGrade()`/`tyGradeUnits()`, the tips in `toneTipsHTML()`/`spellTipsHTML()`, how often
+  a word comes back in `tyPriority()`, how many new words a session teaches in `tyNewN()`, and the decks in `TY_DECKS`/`tyDeckWords()` (app16).
 - **Styling:** add classes in `style.css`, reuse tokens, and check 320 px phones (`tests/test_adaptive.py` sweeps 7 widths).
 
 ## Before you finish a change

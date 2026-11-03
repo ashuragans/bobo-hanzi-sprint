@@ -15,7 +15,9 @@ LESSONS += [
   "words": ("怎麼 到 飯店 旅館 找 找到 找錢 韓國 等 坐 搭 捷運 地鐵 公車 巴士 車子 汽車 計程車 火車 高鐵 船 飛機 腳踏車 機車 摩托車 "
             "上車 下車 遠 近 從 走路 走 先 再 地圖 錶 手錶 時鐘 了 路 馬路 條 街 地方 附近 郵局 寄 信 封 信封 郵票 "
             "超級市場 超市 市場 一定 不一定 又 方便 舒服 線 藍 藍色 機場 飛機場 開車 司機 車站 站 架 飛 起飛 "
-            "聽說 上學 上班 上樓 廁所 怎麼了 為什麼 住 懂 下雨 台北 台中 高雄 天空").split(),
+            "聽說 上學 上班 上樓 廁所 怎麼了 為什麼 住 懂 下雨 台北 台中 高雄 天空 "
+            # more words the class slides use (pictures, examples and instructions)
+            "校車 市中心 交通工具 華語 電線 碰 怎麼會 這麼 那麼 句型 主詞 動詞 名詞 形容詞 綠 便利商店 公園 宿舍 開始 香 自行車").split(),
   "texts": [
    {"title": "對話一 · 學校的下課休息時間 (Break time at school)", "note": "From the book, Lesson 7.", "lines": [
      ["友美", "元真，我們明天幾點去找妳的韓國朋友？", "Yuanzhen, what time are we going to meet up with your Korean friend tomorrow?"],
