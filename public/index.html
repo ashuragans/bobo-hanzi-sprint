@@ -1245,6 +1245,25 @@ body.kbd .sess.vvfit .ty-copyhead .tzg span{--s:48px}
 .modal.tym{width:min(560px,calc(100vw - 32px))}
 @media (max-width:380px){ .tykey{min-height:44px} .tykey b{font-size:1.05rem} .ty-in{font-size:1.35rem} .ty-trow{grid-template-columns:28px 48px minmax(0,1fr) 36px} }
 @media (max-width:560px){ .ty-faces{grid-template-columns:repeat(2,minmax(0,1fr))} .ty-grid{grid-template-columns:repeat(auto-fill,minmax(68px,1fr))} .ty-face .tiny{font-size:.74rem} }
+
+/* 打字 settings */
+.ty-keys.only-u{grid-template-columns:minmax(0,72px);justify-content:center}
+.ty-gear{min-width:40px;padding:0 10px}
+.ty-timer{height:6px;border-radius:99px;background:var(--line);overflow:hidden}
+.ty-timer i{display:block;height:100%;width:100%;background:var(--gold);transform-origin:left;animation:tytime linear forwards}
+.ty-timer.stop i{animation-play-state:paused}
+@keyframes tytime{from{transform:scaleX(1)}to{transform:scaleX(0);background:var(--seal)}}
+.ty-optset .btn{min-height:34px}
+.ty-tonenote{margin-top:-4px}
+.ty-custom{display:flex;flex-wrap:wrap;gap:6px}
+.ty-cchip{padding:3px 10px;border-radius:999px;background:var(--sky-soft);color:var(--ink);font-size:.8rem;max-width:100%;overflow-wrap:anywhere}
+.ty-drawer .drawer-b{gap:18px}
+.ty-sgroup{display:grid;gap:12px;padding-bottom:14px;border-bottom:1px dashed var(--outline)}
+.ty-sgroup:last-child{border-bottom:0}
+.ty-sgroup .eyebrow{color:var(--sky)}
+.ty-sseg{flex-wrap:wrap}
+.ty-sseg button{flex:1 1 auto;min-width:64px;font-size:.84rem}
+@media (max-width:380px){ .ty-go .btn3d.big{padding:0 12px;font-size:.98rem} }
 </style>
 </head>
 <body>
@@ -1319,7 +1338,8 @@ function defState() {
     bestCombo: 0, name: '', freeze: 0, dayLog: {}, lastNode: '', seenIntro: false,
     wm: {}, conf: {}, look: {}, sk: {}, pk: {}, dial: .35, recentS: [], fs: {}, cc: {}, qs: {}, ga: {}, miss: {}, myMn: {}, mt: {},
     ty: {}, tt: {}, tc: {}, // 打字 typing practice (app16): per word, per tone, tone mix-ups
-    set: { ph: 'py', en: true, rate: 0.85, sfx: true, shadow: false, hint: 'tap', hintV: 2, ty: { deck: 'L78', face: 'mix', n: 15, tones: 'strict', retype: 1 } } };
+    set: { ph: 'py', en: true, rate: 0.85, sfx: true, shadow: false, hint: 'tap', hintV: 2, ty: { deck: 'L78', face: 'mix', n: 15, tones: 'strict', retype: 1,
+      live: 1, keys: 1, prev: 1, uu: 0, typo: 0, hints: 1, say: 1, auto: 0, detail: 'full', timer: 0, hearts: 0, newN: -1 } } };
 }
 function normalize(s) {
   const d = defState();
@@ -6067,7 +6087,7 @@ ACH.push(['tricks', '🧠', 'Memory master', 'Lock in 10 hard words with memory 
    answer shows the word in tone colours, its tone melody, the memory story, a sound clue from the character's parts
    (跑 has 包 bāo inside → pǎo) and an example sentence.
    S.ty[k] = [right in a row, right, answers, last typed] · S.tt[tone] = [right, total] · S.tc['3>2'] = tone 3 typed as 2
-   S.set.ty = { deck, face, n, tones: 'strict' | 'loose', retype } */
+   S.set.ty = { deck, face, n, tones: 'strict' | 'loose' | 'none', and the settings in TY_SET } (defaults in defState, app1) */
 
 /* ---- reading pinyin */
 const PY_LET = 'a-zāáǎàēéěèīíǐìōóǒòūúǔùǖǘǚǜü';
@@ -6170,8 +6190,10 @@ function tyCands(w, face) {
   if (face === 'e') WL.forEach(o => { if (o !== w && o.lv !== 9 && HAN.test(o.h) && (isSyn(o.h, w.h) || sameMeaning(o, w))) add(o, o.p); });
   return out;
 }
-function tyGradeUnits(str, units, w) {
-  const T = typedOf(str), tp = normJ(units.map(u => u.s).join('')), cs = [...w.h], al = units.length === cs.length;
+function tyGradeUnits(str, units, w, o = {}) {
+  const T = typedOf(str), cs = [...w.h], al = units.length === cs.length;
+  let tp = normJ(units.map(u => u.s).join(''));
+  if (o.uu) { T.plain = T.plain.replace(/v/g, 'u'); tp = tp.replace(/v/g, 'u'); } // "u counts for ü": lu4 = lǜ (same length, so tone positions still line up)
   if (T.plain !== tp) {
     // which syllables you still got right: the ones your answer starts or ends with
     let pre = '', suf = '';
@@ -6193,16 +6215,30 @@ function tyGradeUnits(str, units, w) {
   });
   return { spell: true, toneOk: syl.every(x => x.ok), syl, plain: T.plain, units };
 }
-function tyGrade(str, w, face, strict = true) {
+/* one wrong, missing, extra or swapped letter */
+function lev1(a, b) {
+  if (a === b || Math.abs(a.length - b.length) > 1) return false;
+  let i = 0; while (i < a.length && i < b.length && a[i] === b[i]) i++;
+  if (a.length === b.length) return a.slice(i + 1) === b.slice(i + 1) || (a[i] === b[i + 1] && a[i + 1] === b[i] && a.slice(i + 2) === b.slice(i + 2));
+  return a.length > b.length ? a.slice(i + 1) === b.slice(i) : a.slice(i) === b.slice(i + 1);
+}
+/* o = { tones: 'strict' (a wrong tone = almost) | 'loose' (only letters count) | 'none' (letters only), uu, typo }; true/false = strict/loose */
+function tyGrade(str, w, face, o = {}) {
+  if (typeof o === 'boolean') o = { tones: o ? 'strict' : 'loose' };
+  const tones = o.tones || 'strict', cands = tyCands(w, face);
   let best = null;
-  for (const c of tyCands(w, face)) {
-    const g = tyGradeUnits(str, c.units, c.w); g.cand = c;
+  for (const c of cands) {
+    const g = tyGradeUnits(str, c.units, c.w, o); g.cand = c;
     g.sc = g.spell ? (g.toneOk ? 3 : 2) : g.syl.filter(x => x.sOk).length / 10;
     if (!best || g.sc > best.sc) best = g;
     if (g.sc === 3) break;
   }
-  best.ok = best.spell && (best.toneOk || !strict);
-  best.half = best.spell && !best.toneOk && strict;
+  best.ok = best.spell && (best.toneOk || tones !== 'strict');
+  best.half = best.spell && !best.toneOk && tones === 'strict';
+  if (!best.spell && o.typo && best.plain) { // a one-letter slip in a word of 5+ letters counts, with a note
+    const c = cands.find(c => { const tp = normJ(c.units.map(u => u.s).join('')); return tp.length >= 5 && lev1(best.plain, o.uu ? tp.replace(/v/g, 'u') : tp); });
+    if (c) { best = Object.assign(tyGradeUnits(str, c.units, c.w, o), { cand: c, ok: true, half: false, typo: true }); }
+  }
   best.other = best.cand.w !== w;
   return best;
 }
@@ -6210,11 +6246,11 @@ function tyGrade(str, w, face, strict = true) {
 const tyTypable = w => w && HAN.test(w.h) && [...w.h].every(c => HAN.test(c)) && !!pyUnits(w.p);
 
 /* ---- learner record for typing */
-function tyNote(w, res, ok, assist) {
+function tyNote(w, res, ok, assist, tones = 'strict') {
   const t = S.ty[w.k] || (S.ty[w.k] = [0, 0, 0, 0]);
   t[2]++; t[3] = Date.now();
   if (ok && !assist) { t[0]++; t[1]++; } else if (ok) t[1]++; else t[0] = res && res.half ? Math.min(t[0], 1) : 0;
-  if (res && res.spell && !res.other) res.syl.forEach(x => {
+  if (res && res.spell && !res.other && tones !== 'none') res.syl.filter(x => tones === 'strict' || x.u || x.t === 5).forEach(x => {
     const a = S.tt[x.t] || (S.tt[x.t] = [0, 0]); a[1]++; if (x.ok) a[0]++;
     if (!x.ok) { const key = x.t + '>' + (x.u || 0); S.tc[key] = Math.min(99, (S.tc[key] || 0) + 1); }
   });
@@ -6280,8 +6316,9 @@ const TONE_PAIR_TIP = {
   '3-4': 'Tone 3 is low and lazy; tone 4 starts high and falls fast.',
   '2-4': 'Tone 2 goes up ↗, tone 4 goes down ↘ — draw the line with your hand while you say it.',
   '1-3': 'Tone 1 is high and flat; tone 3 dips down to the bottom of your voice.' };
-function toneTipsHTML(w, res) {
-  const bad = res.syl.filter(x => !x.ok);
+function toneTipsHTML(w, res, tones = 'strict') {
+  if (tones === 'none') return '';
+  const bad = res.syl.filter(x => !x.ok && (tones === 'strict' || x.u));
   if (!bad.length) return res.syl.some(x => x.note === 'yi' || x.note === 'bu') ? '<p class="small muted ty-tip">一 and 不 change their tone before other syllables (一定 yídìng, 不是 búshì) — both ways count.</p>' : '';
   const lines = bad.map(x => `<li><b class="han">${esc(x.c || '')}</b> <b class="tc${x.t}">${esc(markSyl(x.s, x.t))}</b> is ${TONE_EN[x.t]}${TONE_CUE[x.t] ? ` — ${TONE_CUE[x.t][1]}` : ''}. You typed ${x.u ? `<span class="tc${x.u}">${TONE_EN[x.u]}</span>` : 'no tone'}.</li>`);
   const miss = bad.filter(x => !x.u && x.t !== 5).length;
@@ -6322,7 +6359,7 @@ function tyRevealHTML(w, o = {}) {
         <div class="ty-play"><button class="btn sm" data-say="${esc(w.h)}">${IC.sound}Listen</button><button class="btn sm ghost" data-tyslow="${esc(w.h)}">🐢 Slowly</button>${w.ls.length ? `<span class="tiny faint">${esc(w.ls.filter(l => LNAME[l]).map(l => LNAME[l]).join(' · '))}</span>` : ''}</div>
         ${bu ? `<div class="tiny muted">Your book writes it <b>${tyPyHTML(bu)}</b> — both count.</div>` : ''}</div></div>`}
     ${res && res.other ? `<p class="small ty-also">You typed <b class="han">${esc(res.cand.w.h)}</b> ${esc(res.cand.w.p)} — that means the same, so it counts. This card was <b class="han">${esc(w.h)}</b>.</p>` : ''}
-    ${res && !res.ok && !res.spell ? spellTipsHTML(res, o.typed || '') : ''}${res && res.spell && !res.other ? toneTipsHTML(w, res) : ''}
+    ${res && !res.ok && !res.spell ? spellTipsHTML(res, o.typed || '') : ''}${res && res.spell && !res.other ? toneTipsHTML(w, res, o.tones) : ''}${res && res.typo ? `<p class="small ty-also">Small typo: you typed <b>${esc(o.typed || '')}</b>. It's <b>${tyPyHTML(res.cand.units)}</b> — look at it once more.</p>` : ''}
     ${full ? soundClueHTML(w, units) : ''}
     ${full && cs.length ? `<div class="ty-mn"><span class="eyebrow">🧠 Memory trick</span>${cs.slice(0, 3).map(c => `<div class="tk-mrow"><b class="han">${esc(c)}</b><span>${MN[c] ? `<span class="tk-mparts">${esc(MN[c][0])}</span>` : ''}${myStory(c) ? `<span><b>Your story:</b> ${esc(myStory(c))}</span>` : ''}${MN[c] ? `<span>${esc(MN[c][1])}</span>` : ''}</span></div>`).join('')}
       <button class="btn sm ghost ty-mybtn" data-trickpop="${esc(w.k)}">✏️ Make up your own story</button></div>` : ''}
@@ -6333,6 +6370,47 @@ function bindReveal(root) {
   $$('[data-tyslow]', root).forEach(b => b.onclick = e => { e.stopPropagation(); speak(b.dataset.tyslow, .55); });
   $$('[data-trickpop]', root).forEach(b => b.onclick = e => { e.stopPropagation(); const w = W[b.dataset.trickpop]; if (!w) return;
     const m = modal(trickHTML(w, { edit: true, why: '' }), [['Done', 'primary', () => { closeModal(); const r = $('.ty-rev', root); if (r && RUN) r.outerHTML = tyRevealHTML(w, { full: true }); bindReveal(root); }]], 'trickm'); bindTrick(m); });
+}
+
+/* ---- typing settings: [key, label, [[value, text]], help, group]. On the 打字 page and behind ⚙️ on every card */
+const TY_SET = [
+  ['tones', 'Tones', [['strict', 'Type tones'], ['loose', 'Tones optional'], ['none', 'No tones']], 'Type tones: a wrong tone counts as “almost”. Tones optional: only the letters count, a tone you do type is still checked. No tones: type just the letters (fangbian) — the tone keys go away.', 'Typing'],
+  ['live', 'Tone numbers', [[1, 'Turn into marks'], [0, 'Stay numbers']], 'ma3 becomes mǎ as you type, or stays ma3.', 'Typing'],
+  ['keys', 'Tone keys under the box', [[1, 'Show'], [0, 'Hide']], 'The ā á ǎ à and ü keys.', 'Typing'],
+  ['prev', 'Syllable preview', [[1, 'Show'], [0, 'Hide']], 'How 波波 reads what you typed, syllable by syllable, in tone colours.', 'Typing'],
+  ['uu', 'u for ü', [[0, 'Type v or ü'], [1, 'u counts too']], 'With “u counts too”, lu4 is right for 綠 lǜ.', 'Typing'],
+  ['typo', 'One-letter slips', [[0, 'Count as wrong'], [1, 'Forgive']], 'Forgive: one wrong, missing or swapped letter in a word of 5+ letters still counts (with a note).', 'Typing'],
+  ['hints', 'Hint buttons', [[1, 'Show'], [0, 'Hide']], 'Hear it and 💡 Hint. “I don\'t know” is always there.', 'Help'],
+  ['retype', 'After a mistake', [[1, 'Type it again'], [0, 'Just show it']], 'Typing the right answer once makes it stick.', 'Help'],
+  ['say', 'Say the word after you answer', [[1, 'On'], [0, 'Off']], '', 'Flow'],
+  ['auto', 'After a right answer', [[0, 'Wait for me'], [1, 'Next in 1 s'], [2, 'Next in 2.5 s']], 'Go on to the next card by itself.', 'Flow'],
+  ['detail', 'Answer card when you are right', [['full', 'Everything'], ['short', 'Just the word']], 'Wrong answers always show the memory trick and tips.', 'Flow'],
+  ['timer', 'Time for each card', [[0, 'No limit'], [20, '20 s'], [10, '10 s']], 'When time runs out, the card counts as wrong.', 'Challenge'],
+  ['hearts', 'Hearts', [[0, 'Off'], [5, '5'], [3, '3']], 'Lose one for each mistake; at zero the session ends.', 'Challenge'],
+  ['newN', 'New words in a session', [[-1, 'Auto'], [0, 'None'], [3, '3'], [5, '5'], [10, '10']], 'Auto: about a third of the cards, fewer while you find it hard.', 'Words'],
+  ['n', 'Cards in a session', [[10, '10'], [15, '15'], [25, '25'], [40, '40']], '', 'Words']];
+const tyDef = () => defState().set.ty;
+/* the settings you changed from the defaults, as short words */
+function tyCustomList() {
+  const d = tyDef(), set = S.set.ty;
+  return TY_SET.filter(([k]) => k !== 'n' && k !== 'tones' && String(set[k]) !== String(d[k])).map(([k, l, opts]) => { const o = opts.find(x => String(x[0]) === String(set[k])); return k === 'timer' ? `${set[k]} s a card` : k === 'hearts' ? `${set[k]} hearts` : k === 'newN' ? `${set[k] || 'no'} new words` : `${l}: ${o ? o[1].toLowerCase() : set[k]}`; });
+}
+function tySettings(onChange, inSession) {
+  const set = S.set.ty, groups = uniq(TY_SET.map(x => x[4]));
+  const d = drawer('⚙️ Typing settings', `${inSession ? '<p class="note small">Changes start with the next card (hearts, new words and the number of cards with the next session).</p>' : ''}
+    ${groups.map(g => `<div class="ty-sgroup"><span class="eyebrow">${g}</span>${TY_SET.filter(x => x[4] === g).map(([k, l, opts, help]) => `<div class="field"><label>${esc(l)}</label>
+      <div class="seg ty-sseg" data-tyset="${k}">${opts.map(([v, t]) => `<button data-v="${v}" aria-pressed="${String(set[k]) === String(v)}">${esc(t)}</button>`).join('')}</div>${help ? `<span class="small muted">${esc(help)}</span>` : ''}</div>`).join('')}</div>`).join('')}`,
+    '<button class="btn" id="tyReset">Back to the default settings</button>');
+  d.classList.add('ty-drawer');
+  const bind = () => $$('[data-tyset]', d).forEach(sg => $$('button', sg).forEach(b => b.onclick = () => {
+    const k = sg.dataset.tyset, num = typeof tyDef()[k] === 'number';
+    set[k] = num ? +b.dataset.v : b.dataset.v; save(); sfx('tap');
+    $$('button', sg).forEach(x => x.setAttribute('aria-pressed', x === b));
+    if (onChange) onChange(k);
+  }));
+  bind();
+  $('#tyReset', d).onclick = () => { const keep = { deck: set.deck, face: set.face }; Object.assign(set, tyDef(), keep); save(); closeDrawer(); toast('Typing settings are back to the defaults'); if (onChange) onChange('*'); };
+  return d;
 }
 
 /* ---- one typing question */
@@ -6347,7 +6425,7 @@ function tyQ(w, face, o = {}) {
   if (face === 'a' && !ttsOK()) face = 'h';
   const q = { kind: 'type', qt: 'type', qtype: 'type', face, k: w.k, w, cat: 'pinyin', sk: face === 'a' ? 'l' : face === 'e' ? 'r' : 's', noPeek: true,
     label: `${TY_FACE[face][0]} · ${face === 'copy' ? 'New word — type it once' : face === 'a' ? 'Type what you hear' : face === 'e' ? 'Which word is it? Type its pinyin' : 'Type the pinyin'}`,
-    prompt: face === 'copy' ? '' : tyPromptHTML(w, face), say: face === 'a' ? w.h : null, strict: (o.tones || S.set.ty.tones) !== 'loose' };
+    prompt: face === 'copy' ? '' : tyPromptHTML(w, face), say: face === 'a' ? w.h : null };
   q.retry = () => tyQ(w, face === 'copy' ? 'h' : face, o);
   return q;
 }
@@ -6361,21 +6439,25 @@ function tyFace(w, o = {}) {
   for (const [x, wt] of opts) { r -= wt; if (r <= 0) return x; }
   return 'h';
 }
-const onEnter = f => e => { if (e.key !== 'Enter' || document.querySelector('.modal')) return; e.preventDefault(); f(); };
+const onEnter = f => e => { if (e.key !== 'Enter' || document.querySelector('.modal,.drawer')) return; e.preventDefault(); f(); };
 /* the card itself, run inside runQuiz (app7): api = { R, cfg, practice, el, record, sheet, next, loseHeart, cta } */
 function typeCard(body, q, api) {
   const w = q.w || W[q.k], R = api.R, copy = q.face === 'copy';
-  const units = pyUnits(w.p);
+  const units = pyUnits(w.p), set = S.set.ty, tm = set.tones, noT = tm === 'none';
+  const gopt = { tones: tm, uu: !!set.uu, typo: !!set.typo };
+  const ansTxt = noT ? units.map((u, i) => (u.b && i ? ' ' : '') + u.s.replace(/v/g, 'ü')).join('') : unitsStr(units);
+  const keyList = (set.keys ? (noT ? [] : [[1, 'ā'], [2, 'á'], [3, 'ǎ'], [4, 'à'], [5, 'a·']]) : []);
   body.innerHTML = `${copy ? `<div class="ty-copyhead"><div class="tzg ${units.length > 3 ? 'sm' : units.length > 2 ? 'md' : ''}">${[...w.h].map((c, i) => `<span><i class="${units.length === [...w.h].length ? 'tc' + units[i].t : ''}">${esc(c)}</i></span>`).join('')}</div>
       <div class="ty-pyrow"><span class="ty-py">${tyPyHTML(units)}</span>${toneSVG(units)}<button class="playbtn" style="margin:0" data-say="${esc(w.h)}" aria-label="Listen">${IC.sound}</button></div>
       <div class="ty-en">${w.em ? `<span class="ty-emo">${w.em}</span> ` : ''}${esc(w.e)}</div></div>` : ''}
     <form class="ty-form" id="tyForm" autocomplete="off" novalidate>
       <div class="ty-inwrap"><input id="tyIn" class="ty-in" type="text" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" enterkeyhint="go"
-        aria-label="Type the pinyin" placeholder="${copy ? esc('Type it: ' + unitsStr(units)) : 'Type the pinyin, e.g. ni3hao3'}"><span class="ty-res" id="tyRes" aria-hidden="true"></span></div>
-      <div class="ty-prev" id="tyPrev" aria-live="polite"></div>
-      <div class="ty-keys" role="group" aria-label="Tone keys">${[[1, 'ā'], [2, 'á'], [3, 'ǎ'], [4, 'à'], [5, 'a·']].map(([d, m]) => `<button type="button" class="tykey tk${d}" data-tone="${d}" aria-label="Tone ${d === 5 ? 'light' : d}"><b>${m}</b><span>${d === 5 ? 'light' : d}</span></button>`).join('')}<button type="button" class="tykey" data-ins="ü" aria-label="ü"><b>ü</b><span>v</span></button></div>
-      ${copy ? '' : `<div class="ty-tools" id="tyTools">${q.face !== 'a' ? `<button type="button" class="btn sm ghost" data-tyh="hear">${IC.sound}Hear it</button>` : `<button type="button" class="btn sm ghost" data-tyh="chars">字 Show characters</button>`}
-        <button type="button" class="btn sm ghost" data-tyh="hint">💡 Hint</button><button type="button" class="btn sm ghost" data-tyh="idk">I don't know</button></div>`}
+        aria-label="${noT ? 'Type the pinyin letters' : 'Type the pinyin'}" placeholder="${copy ? esc('Type it: ' + ansTxt) : noT ? 'Type the letters, e.g. nihao' : 'Type the pinyin, e.g. ni3hao3'}"><span class="ty-res" id="tyRes" aria-hidden="true"></span></div>
+      ${set.timer && !copy ? `<div class="ty-timer" id="tyTimer" aria-hidden="true"><i style="animation-duration:${set.timer}s"></i></div>` : ''}
+      <div class="ty-prev" id="tyPrev" aria-live="polite" ${set.prev ? '' : 'hidden'}></div>
+      ${set.keys ? `<div class="ty-keys ${noT ? 'only-u' : ''}" role="group" aria-label="Tone keys">${keyList.map(([d, m]) => `<button type="button" class="tykey tk${d}" data-tone="${d}" aria-label="Tone ${d === 5 ? 'light' : d}"><b>${m}</b><span>${d === 5 ? 'light' : d}</span></button>`).join('')}<button type="button" class="tykey" data-ins="ü" aria-label="ü"><b>ü</b><span>v</span></button></div>` : ''}
+      <div class="ty-tools" id="tyTools">${copy || !set.hints ? '' : `${q.face !== 'a' ? `<button type="button" class="btn sm ghost" data-tyh="hear">${IC.sound}Hear it</button>` : `<button type="button" class="btn sm ghost" data-tyh="chars">字 Show characters</button>`}
+        <button type="button" class="btn sm ghost" data-tyh="hint">💡 Hint</button>`}${copy ? '' : `<button type="button" class="btn sm ghost" data-tyh="idk">I don't know</button>`}<button type="button" class="btn sm ghost ty-gear" id="tyGear" aria-label="Typing settings">⚙️</button></div>
       <div class="ty-hint" id="tyHint" hidden></div>
     </form><div id="tyRev">${copy ? tyRevealHTML(w, { full: true, noHead: true, cls: 'teach' }) : ''}</div>`;
   if (copy) bindReveal(body);
@@ -6387,12 +6469,18 @@ function typeCard(body, q, api) {
   const upd = () => {
     const v = inp.value.trim();
     const sy = typedSyls(v);
-    prev.innerHTML = !v ? '<span class="tiny faint">Tones: add 1–4 after a syllable (ma3 → mǎ) or tap a key</span>'
-      : sy ? sy.map(([s, t]) => `<span class="ty-ps ${t ? 'tc' + t : 'nt'}">${esc(t ? markSyl(s, t) : s.replace(/v/g, 'ü'))}</span>`).join('') + (sy.some(x => !x[1]) && stage !== 'done' ? '<span class="tiny faint ty-nt">· no mark = light tone</span>' : '')
+    prev.innerHTML = !v ? `<span class="tiny faint">${noT ? 'Letters only — no tones needed (fangbian)' : set.live ? 'Tones: add 1–4 after a syllable (ma3 → mǎ)' + (set.keys ? ' or tap a key' : '') : 'Tones: add 1–4 after each syllable (fang1bian4)'}</span>`
+      : sy ? sy.map(([s, t]) => `<span class="ty-ps ${noT ? '' : t ? 'tc' + t : 'nt'}">${esc(t && !noT ? markSyl(s, t) : s.replace(/v/g, 'ü'))}</span>`).join('') + (!noT && tm === 'strict' && sy.some(x => !x[1]) && stage !== 'done' ? '<span class="tiny faint ty-nt">· no mark = light tone</span>' : '')
       : `<span class="small faint">${esc(v)}</span>`;
     if (stage === 'ask') cta.disabled = !v;
   };
-  const fix = () => { const c = inp.selectionStart ?? inp.value.length; const [v, c2] = tyFix(inp.value, c); if (v !== inp.value) { inp.value = v; try { inp.setSelectionRange(c2, c2); } catch (e) {} } upd(); };
+  const fix = () => {
+    let v = inp.value, c = inp.selectionStart ?? v.length;
+    if (noT) { const b = v.slice(0, c).replace(/[0-5]/g, ''); v = b + v.slice(c).replace(/[0-5]/g, ''); c = b.length; } // no tones: numbers are just dropped
+    if (set.live) [v, c] = tyFix(v, c);
+    if (v !== inp.value) { inp.value = v; try { inp.setSelectionRange(c, c); } catch (e) {} }
+    upd();
+  };
   inp.addEventListener('input', e => { if (stage === 'done') { inp.value = typed; return; } if (!e.isComposing) fix(); });
   inp.addEventListener('compositionend', fix);
   const keyAct = b => {
@@ -6401,7 +6489,7 @@ function typeCard(body, q, api) {
     if (b.dataset.ins) { inp.value = inp.value.slice(0, a) + b.dataset.ins + inp.value.slice(z); try { inp.setSelectionRange(a + 1, a + 1); } catch (e) {} upd(); sfx('tap'); return; }
     const before = inp.value.slice(0, a), m = before.match(new RegExp(`[${PY_LET}]+$`, 'i'));
     if (!m || !tySylLen(unmarkSyl(m[0]))) { toast('Type a syllable first, then its tone'); return; }
-    const [v, c2] = tyFix(before + b.dataset.tone + inp.value.slice(z), a + 1);
+    const [v, c2] = set.live ? tyFix(before + b.dataset.tone + inp.value.slice(z), a + 1) : [before + b.dataset.tone + inp.value.slice(z), a + 1];
     inp.value = v; try { inp.setSelectionRange(c2, c2); } catch (e) {} upd(); sfx('tap');
   };
   // tone keys keep the keyboard open: act on pointerdown and don't let the input lose focus
@@ -6413,7 +6501,7 @@ function typeCard(body, q, api) {
   const showHint = () => {
     const h = $('#tyHint', body); h.hidden = false;
     h.innerHTML = hint === 1 ? `<span class="tiny faint">Starts with</span> ${units.map(u => `<b>${esc(u.s[0] === 'v' ? 'ü' : u.s[0])}</b>${'·'.repeat(Math.max(0, u.s.length - 1))}`).join(' ')}`
-      : `<span class="tiny faint">Letters (add the tones)</span> ${units.map(u => `<b>${esc(u.s.replace(/v/g, 'ü'))}</b>`).join(' ')}`;
+      : `<span class="tiny faint">${tm === 'strict' ? 'Letters (add the tones)' : 'Letters'}</span> ${units.map(u => `<b>${esc(u.s.replace(/v/g, 'ü'))}</b>`).join(' ')}`;
   };
   $$('[data-tyh]', body).forEach(b => b.onclick = () => {
     if (stage !== 'ask') return;
@@ -6424,24 +6512,26 @@ function typeCard(body, q, api) {
     else if (t === 'idk') { giveUp(); return; }
     inp.focus({ preventScroll: true });
   });
+  $('#tyGear', body).onclick = () => { const d = tySettings(null, true); const x = $('.drawer-h .iconbtn', d); const back = () => setTimeout(() => { if (inp.isConnected) inp.focus({ preventScroll: true }); }, 30);
+    x.addEventListener('click', back); const sc = $('.scrim'); if (sc) sc.addEventListener('click', back); };
   $$('[data-tyhear]', api.el).forEach(b => b.onclick = () => { speak(w.h, b.dataset.tyhear === 'slow' ? .55 : undefined); inp.focus({ preventScroll: true }); });
-  const lock = () => { $$('.tykey,[data-tyh]', body).forEach(b => b.disabled = true); const t = $('#tyTools', body); if (t) t.hidden = true; };
+  const lock = () => { $$('.tykey,[data-tyh]', body).forEach(b => b.disabled = true); $$('[data-tyh]', body).forEach(b => b.hidden = true); const tb = $('#tyTimer', body); if (tb) tb.classList.add('stop'); };
   const reveal = (o2) => { const r = $('#tyRev', body); r.innerHTML = tyRevealHTML(w, o2); bindReveal(r); };
   const finishCopy = () => {
     stage = 'done'; typed = inp.value; inp.classList.add('ok'); resEl.textContent = '✓'; lock();
     if (!S.cards[w.k]) { S.cards[w.k] = [0, Date.now() + 60000, 0, 0]; questEvent('words'); }
     if (!S.ty[w.k]) S.ty[w.k] = [0, 0, 0, Date.now()];
     learn(w.k, 's', true, { assist: true, w: .5, noSrs: true, noStat: true });
-    save(); sfx('ok'); speak(w.h);
+    save(); sfx('ok'); if (set.say) speak(w.h);
     cta.textContent = 'Continue'; cta.disabled = false; cta.classList.remove('red'); cta.onclick = () => api.next();
     if (sk) sk.hidden = true;
     KEYH = onEnter(api.next);
   };
   // after a mistake: type the right answer once (it fixes the memory right away)
   const startRetype = () => {
-    if (!S.set.ty.retype) return;
+    if (!set.retype) return;
     stage = 'retype'; inp.value = ''; inp.classList.remove('no', 'half'); resEl.textContent = '';
-    inp.placeholder = 'Type it right once: ' + unitsStr(units);
+    inp.placeholder = 'Type it right once: ' + ansTxt;
     $$('.tykey', body).forEach(b => b.disabled = false);
     cta.textContent = 'Type it ↑'; cta.disabled = true;
     if (sk) { sk.hidden = false; sk.textContent = 'Skip'; sk.onclick = () => { stopSpeak(); api.next(); }; }
@@ -6453,42 +6543,46 @@ function typeCard(body, q, api) {
     cta.textContent = 'Continue'; cta.disabled = false; cta.onclick = () => api.next(); if (sk) sk.hidden = true;
     KEYH = onEnter(api.next);
   };
-  const answer = (r, yours) => {
+  const answer = (r, yours, why) => {
     res = r; typed = yours; stage = 'done';
-    const assist = !!R.assist, ok = r.ok;
+    const assist = !!R.assist || !!r.typo, ok = r.ok;
     inp.classList.add(ok ? 'ok' : r.half ? 'half' : 'no'); resEl.textContent = ok ? '✓' : r.half ? '~' : '✗';
     lock();
-    tyNote(w, r, ok, assist);
-    api.record(q, ok, yours || '—', false, { half: r.half });
+    tyNote(w, r, ok, assist, tm);
+    api.record(q, ok, yours || '—', false, { half: r.half, assist });
     if (!ok) api.loseHeart();
-    reveal({ full: !ok || !S.set.ty.compact, res: r, typed: yours });
+    reveal({ full: !ok || r.typo || set.detail !== 'short', res: r, typed: yours, tones: tm });
     const right = `<b class="ty-ans">${tyPyHTML(r.cand && !r.other ? r.cand.units : units)}</b>`;
-    const msg = ok ? (r.other ? 'Also right!' : r.toneOk ? '' : 'Right letters — tones aren\'t counted, but check them below.')
-      : r.half ? `Right letters, ${r.syl.filter(x => !x.ok).length > 1 ? 'some tones are' : 'one tone is'} off: ${right}` : `It's ${right}`;
-    api.sheet(ok, q, msg ? `<div>${msg}</div>` : '', ok ? null : r.half ? ['差一點！', 'Check the tones'] : pick([['沒關係！', 'Here it is'], ['加油！', 'Now you know it']]));
-    speak(w.h);
+    const badT = r.spell ? r.syl.filter(x => !x.ok && x.u).length : 0;
+    const msg = ok ? (r.typo ? `Small typo — it's ${right}` : r.other ? 'Also right!' : r.toneOk || noT ? (noT ? `Tones: ${right}` : '') : badT ? 'Right letters — tones don\'t count, but check them below.' : `Tones: ${right}`)
+      : why === 'time' ? `Time's up — it's ${right}` : r.half ? `Right letters, ${r.syl.filter(x => !x.ok).length > 1 ? 'some tones are' : 'one tone is'} off: ${right}` : `It's ${right}`;
+    api.sheet(ok, q, msg ? `<div>${msg}</div>` : '', ok ? (r.typo ? ['好！', 'Almost perfect'] : null) : why === 'time' ? ['時間到！', 'Out of time'] : r.half ? ['差一點！', 'Check the tones'] : pick([['沒關係！', 'Here it is'], ['加油！', 'Now you know it']]));
+    if (set.say) speak(w.h);
     if (!ok) startRetype(); else setTimeout(() => inp.focus({ preventScroll: true }), 30);
+    if (ok && set.auto) setTimeout(() => { if (RUN === R && R.cur === q && stage === 'done' && !document.querySelector('.modal,.drawer')) api.next(); }, set.auto === 1 ? 1000 : 2500);
     if (ok && !assist && S.ty[w.k] && S.ty[w.k][0] === 3) setTimeout(() => toast(`🔒 ${w.h} — typed right 3 times in a row: mastered!`), 600);
   };
-  const giveUp = () => {
+  const giveUp = why => {
     if (stage !== 'ask') return;
-    peek();
-    const r = tyGrade('', w, q.face, q.strict); r.ok = false; r.half = false; r.spell = false;
-    answer(r, '');
+    if (why !== 'time') peek();
+    const r = tyGrade(why === 'time' ? inp.value.trim() : '', w, q.face, gopt);
+    if (why !== 'time' || !r.ok) { r.ok = false; r.half = false; r.typo = false; if (why !== 'time') r.spell = false; }
+    answer(r, why === 'time' ? inp.value.trim() : '', why);
   };
+  if (set.timer && !copy) setTimeout(() => { if (RUN === R && R.cur === q && stage === 'ask') giveUp('time'); }, set.timer * 1000);
   const act = () => {
-    const now = Date.now(); if (now - lastAct < 250) return; lastAct = now;
+    const now = Date.now(); if (now - lastAct < 60) return; lastAct = now; // the Enter key and the form's submit can both fire for one press
     const v = inp.value.trim();
     if (stage === 'ask') {
       if (!v) return;
-      const r = tyGrade(v, w, q.face, q.strict);
+      const r = tyGrade(v, w, q.face, gopt);
       answer(r, v);
     } else if (stage === 'copy' || stage === 'retype') {
       if (!v) return;
-      const r = tyGrade(v, w, 'h', q.strict);
+      const r = tyGrade(v, w, 'h', { tones: tm, uu: gopt.uu });
       if (r.ok && !r.other) return stage === 'copy' ? finishCopy() : doneRetype();
       inp.classList.remove('shake'); void inp.offsetWidth; inp.classList.add('shake'); sfx('no');
-      const h = $('#tyHint', body); h.hidden = false; h.innerHTML = `<span class="tiny faint">Not yet — it's</span> <b>${tyPyHTML(units)}</b>${!r.spell ? '' : ' <span class="tiny faint">(check the tones)</span>'}`;
+      const h = $('#tyHint', body); h.hidden = false; h.innerHTML = `<span class="tiny faint">Not yet — it's</span> <b>${noT ? esc(ansTxt) : tyPyHTML(units)}</b>${!r.spell ? '' : ' <span class="tiny faint">(check the tones)</span>'}`;
     } else api.next();
   };
   $('#tyForm', body).addEventListener('submit', e => { e.preventDefault(); act(); });
@@ -6496,7 +6590,7 @@ function typeCard(body, q, api) {
   KEYH = onEnter(act);
   upd();
   setTimeout(() => { if (RUN === R && inp.isConnected) inp.focus({ preventScroll: true }); }, copy ? 60 : 30);
-  if (copy) setTimeout(() => { if (RUN === R && R.cur === q) speak(w.h); }, 350);
+  if (copy && set.say) setTimeout(() => { if (RUN === R && R.cur === q) speak(w.h); }, 350);
 }
 
 /* ---- adaptive typing sessions */
@@ -6513,7 +6607,7 @@ function tyPriority(w) {
 const tyNewN = n => clamp(Math.round(n / 3) + (dialLv() - 2), 1, 10); // new words a session teaches
 function typeGen(words, o = {}) {
   const n = o.n || 15;
-  const nNew = o.teach ?? tyNewN(n);
+  const nNew = o.teach ?? (S.set.ty.newN >= 0 ? S.set.ty.newN : tyNewN(n));
   const teachQ = words.filter(w => !S.ty[w.k] && stageOf(w.k) <= 1).slice(0, nNew);
   const st = { asked: {}, last: [], pend: [], wrong: {}, tk: {} };
   const met = () => words.filter(w => S.ty[w.k] || S.cards[w.k]);
@@ -6565,7 +6659,7 @@ function startType(o = {}) {
   const words = (o.words || tyDeckWords(o.deck || set.deck)).filter(tyTypable);
   if (!words.length) return toast(set.deck === 'weak' ? 'No weak words yet — words you miss show up here.' : 'No words in this deck.');
   const n = o.n || set.n, face = o.face || set.face;
-  runQuiz({ title: '打字', adaptive: true, hearts: 0, len: n, gen: typeGen(words, { n, face, teach: o.teach, tones: set.tones }), back: o.back || (() => go('type')),
+  runQuiz({ title: '打字', adaptive: true, hearts: o.hearts ?? set.hearts, len: n, gen: typeGen(words, { n, face, teach: o.teach }), back: o.back || (() => go('type')),
     onDone: () => { const R = RUN; if (!R) return {}; const lk = uniq(R.log.filter(l => l.q.kind === 'type' && S.ty[l.q.k] && S.ty[l.q.k][0] >= 3).map(l => l.q.w.h));
       return lk.length ? { msg: `🔒 Mastered: ${lk.slice(0, 8).join('、')}` } : {}; } });
 }
@@ -6604,10 +6698,12 @@ function vType(el, p = {}) {
         `<button class="ty-face" data-tyface="${v}" aria-pressed="${set.face === v}"><span class="han">${zh}</span><b>${en}${v === 'mix' ? ' <i class="ty-rec">best</i>' : ''}</b><span class="tiny">${d}</span></button>`).join('')}</div>
       ${set.face === 'a' && !ttsOK() ? '<p class="note">This device has no Chinese voice, so 波波 will show the characters instead of playing the sound.</p>' : ''}
       <div class="ty-opts">
-        <div class="ty-opt"><span class="tiny faint">Cards</span><div class="seg sm">${[10, 15, 25].map(x => `<button data-tyn="${x}" aria-pressed="${set.n === x}">${x}</button>`).join('')}</div></div>
-        <div class="ty-opt"><span class="tiny faint">Tones</span><div class="seg sm">${[['strict', 'Tones count'], ['loose', 'Letters only']].map(([v, l]) => `<button data-tyt="${v}" aria-pressed="${set.tones === v}">${l}</button>`).join('')}</div></div>
-        <div class="ty-opt"><span class="tiny faint">After a mistake</span><div class="seg sm">${[[1, 'Type it again'], [0, 'Just show it']].map(([v, l]) => `<button data-tyr="${v}" aria-pressed="${!!set.retype === !!v}">${l}</button>`).join('')}</div></div>
+        <div class="ty-opt"><span class="tiny faint">Cards</span><div class="seg sm">${[10, 15, 25, 40].map(x => `<button data-tyn="${x}" aria-pressed="${set.n === x}">${x}</button>`).join('')}</div></div>
+        <div class="ty-opt"><span class="tiny faint">Tones</span><div class="seg sm">${[['strict', 'Type tones'], ['loose', 'Optional'], ['none', 'No tones']].map(([v, l]) => `<button data-tyt="${v}" aria-pressed="${set.tones === v}">${l}</button>`).join('')}</div></div>
+        <div class="ty-opt ty-optset"><span class="tiny faint">Everything else</span><button class="btn sm" id="tySet">⚙️ All typing settings</button></div>
       </div>
+      <p class="small muted ty-tonenote">${set.tones === 'none' ? 'No tones: just type the letters (fangbian). Cards still show the tones in colour so you see them.' : set.tones === 'loose' ? 'Tones optional: the letters decide if you are right; a tone you type is still checked.' : 'Type tones: 1–4 after each syllable (fang1bian4) — a wrong tone counts as “almost”.'}</p>
+      ${tyCustomList().length ? `<div class="ty-custom">${tyCustomList().map(x => `<span class="ty-cchip">${esc(x)}</span>`).join('')}</div>` : ''}
       <div class="ty-go"><button class="btn3d big" id="tyStart">${IC.play}開始 Start ${set.n} cards</button>
         <span class="small muted">${esc(dname[2])}: ${ds.fresh ? `<b>${Math.min(ds.fresh, tyNewN(set.n))}</b> new words, then ` : ''}${ds.missed ? `<b>${ds.missed}</b> you missed, ` : ''}${ds.due ? `<b>${ds.due}</b> due, ` : ''}the ones you need most first.</span>
         ${ds.missed >= 2 ? `<button class="btn3d sm red" id="tyMissed">🔥 Just the ${ds.missed} I missed</button>` : ''}</div>
@@ -6640,7 +6736,7 @@ function vType(el, p = {}) {
   $$('[data-tyface]', el).forEach(b => b.onclick = () => { set.face = b.dataset.tyface; save(); go('type', { f: filt }); });
   $$('[data-tyn]', el).forEach(b => b.onclick = () => { set.n = +b.dataset.tyn; save(); go('type', { f: filt }); });
   $$('[data-tyt]', el).forEach(b => b.onclick = () => { set.tones = b.dataset.tyt; save(); go('type', { f: filt }); });
-  $$('[data-tyr]', el).forEach(b => b.onclick = () => { set.retype = +b.dataset.tyr; save(); go('type', { f: filt }); });
+  $('#tySet', el).onclick = () => tySettings(() => { const y = scrollY; go('type', { f: filt }); window.scrollTo(0, y); });
   $$('#tyFilt button', el).forEach(b => b.onclick = () => go('type', { f: b.dataset.f }));
   const ab = $('#tyAll', el); if (ab) ab.onclick = () => { const y = scrollY; go('type', { f: filt, all: 1 }); window.scrollTo(0, y); };
   $('#tyStart', el).onclick = () => startType();

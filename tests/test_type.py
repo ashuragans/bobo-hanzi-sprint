@@ -50,7 +50,7 @@ async def main():
             # 0) an old save without the typing fields still loads, and a backup keeps them
             r = await p.evaluate("""(() => { const old = JSON.parse(JSON.stringify(S)); delete old.ty; delete old.tt; delete old.tc; delete old.set.ty; const n = normalize(old);
               const k = normalize(JSON.parse(JSON.stringify(Object.assign({}, S, { ty: { x: [1, 2, 3, 4] }, set: Object.assign({}, S.set, { ty: { deck: 'L7' } }) }))));
-              return { fresh: !!(n.ty && n.tt && n.tc && n.set.ty && n.set.ty.deck === 'L78' && n.set.ty.n === 15), kept: k.ty.x[2] === 3 && k.set.ty.deck === 'L7' && k.set.ty.tones === 'strict' }; })()""")
+              return { fresh: !!(n.ty && n.tt && n.tc && n.set.ty && n.set.ty.deck === 'L78' && n.set.ty.n === 15 && n.set.ty.live === 1 && n.set.ty.keys === 1 && n.set.ty.newN === -1 && n.set.ty.timer === 0), kept: k.ty.x[2] === 3 && k.set.ty.deck === 'L7' && k.set.ty.tones === 'strict' }; })()""")
             if not (r['fresh'] and r['kept']): errors.append(f'{tag} saved progress not repaired/kept: {r}')
             # 1) every word of the lessons can be typed, and the grader reads pinyin the way a learner types it
             r = await p.evaluate("""(() => { const ws = uniq(LES.flatMap(l => l.words)).map(k => W[k]).filter(w => [...w.h].every(c => HAN.test(c)));
@@ -176,7 +176,76 @@ async def main():
                 if f == 'a' and await p.locator('.qprompt .tzg').count(): errors.append(f'{tag} a listening card shows the characters')
                 await check(p, f'{tag} listening card'); await p.screenshot(path=f'{SHOTS}/listen_{w}.png')
                 await p.evaluate("go('type')")
-            # 5) the Practice tile and Smart review can start typing
+            # 5) settings: grading options, then each setting on a real card
+            r = await p.evaluate(r"""(() => { const t = (s, h, o) => { const g = tyGrade(s, H2W[h], 'h', o); return (g.ok ? 'ok' : g.half ? 'half' : 'no') + (g.typo ? '+typo' : ''); };
+              return [t('fangbian', '方便', { tones: 'none' }), t('fang1bian3', '方便', { tones: 'none' }), t('fangbian', '方便', { tones: 'loose' }), t('fang1bian3', '方便', { tones: 'strict' }),
+                t('lu4', '綠', { uu: true }), t('lu4', '綠', {}), t('fang1bain4', '方便', { typo: true }), t('fang1bain4', '方便', {}), t('dou4', '到', { typo: true }), t('fangbiann', '方便', { tones: 'none', typo: true })]; })()""")
+            want = ['ok', 'ok', 'ok', 'half', 'ok', 'no', 'ok+typo', 'no', 'no', 'ok+typo']
+            if r != want: errors.append(f'{tag} grading with settings: {r} != {want}')
+            START = "startType({ words: ['方便', '飯店', '舒服', '捷運', '雜誌', '流行'].map(h => H2W[h]), face: 'h', n: 6, teach: 0 })"
+            async def fresh(setv):
+                await p.evaluate(f"go('type'); Object.assign(S.set.ty, defState().set.ty, {setv}); save()")
+                await p.evaluate(START); await p.wait_for_timeout(350)
+            # no tones: no tone keys, numbers are dropped, letters alone are right, no tone stats
+            await fresh("{ tones: 'none' }")
+            if await p.locator('.tykey[data-tone]').count(): errors.append(f'{tag} no-tones mode still shows tone keys')
+            tt0 = await p.evaluate("JSON.stringify(S.tt)")
+            ans = await answer_of(p)
+            await p.locator('#tyIn').type(ans)
+            v = await p.locator('#tyIn').input_value()
+            if re.search(r'\d', v) or re.search('[āáǎàēéěèīíǐìōóǒòūúǔù]', v): errors.append(f'{tag} no-tones mode kept tones in the box: {v!r}')
+            await p.keyboard.press('Enter'); await p.wait_for_timeout(250)
+            if 'ok' not in await p.evaluate("document.querySelector('.sess-foot').className"): errors.append(f'{tag} letters only were not accepted in no-tones mode')
+            if await p.evaluate("JSON.stringify(S.tt)") != tt0: errors.append(f'{tag} no-tones mode recorded tone stats')
+            await check(p, f'{tag} no-tones card'); await p.screenshot(path=f'{SHOTS}/notones_{w}.png')
+            # numbers stay numbers; tone keys hidden; hint buttons hidden
+            await fresh("{ live: 0, keys: 0, hints: 0 }")
+            ans = await answer_of(p)
+            await p.locator('#tyIn').type(ans)
+            if await p.locator('#tyIn').input_value() != ans: errors.append(f'{tag} "numbers stay" changed the input: {await p.locator("#tyIn").input_value()!r}')
+            if await p.locator('.ty-keys').count(): errors.append(f'{tag} tone keys shown although hidden')
+            if await p.locator('[data-tyh="hint"],[data-tyh="hear"]').count(): errors.append(f'{tag} hint buttons shown although hidden')
+            if not await p.locator('[data-tyh="idk"]').count(): errors.append(f'{tag} "I don\'t know" missing')
+            await p.keyboard.press('Enter'); await p.wait_for_timeout(250)
+            if 'ok' not in await p.evaluate("document.querySelector('.sess-foot').className"): errors.append(f'{tag} answer with tone numbers not accepted')
+            # short answer card; next card by itself after a right answer
+            await fresh("{ detail: 'short', auto: 1 }")
+            i0 = await p.evaluate("RUN.i")
+            await p.locator('#tyIn').type(await answer_of(p)); await p.keyboard.press('Enter'); await p.wait_for_timeout(250)
+            if await p.locator('#tyRev .ty-mn, #tyRev .ty-clues').count(): errors.append(f'{tag} "just the word" still shows the whole card')
+            await p.wait_for_timeout(1200)
+            if await p.evaluate("RUN ? RUN.i : -1") != i0 + 1: errors.append(f'{tag} did not move on by itself after a right answer')
+            # a time limit: the card counts as wrong when time runs out
+            await fresh("{ timer: 1 }")
+            if not await p.locator('#tyTimer').count(): errors.append(f'{tag} no timer bar')
+            await p.wait_for_timeout(1400)
+            foot = await p.evaluate("document.querySelector('.sess-foot').className + ' ' + document.querySelector('#footMsg').textContent")
+            if 'no' not in foot or '時間到' not in foot: errors.append(f'{tag} time limit did not end the card: {foot[:80]}')
+            # hearts
+            await fresh("{ hearts: 3 }")
+            if not await p.locator('#hearts').count(): errors.append(f'{tag} hearts setting shows no hearts')
+            # the ⚙️ button on a card opens the settings; Enter inside it does not skip the card
+            await p.locator('#tyGear').click(); await p.wait_for_timeout(200)
+            if not await p.locator('.drawer.ty-drawer').count(): errors.append(f'{tag} ⚙️ on a card did not open the settings')
+            else:
+                i0 = await p.evaluate("RUN.i"); await p.keyboard.press('Enter'); await p.wait_for_timeout(150)
+                if await p.evaluate("RUN.i") != i0: errors.append(f'{tag} Enter in the settings moved the session on')
+                await check(p, f'{tag} settings in a session'); await p.screenshot(path=f'{SHOTS}/settings_session_{w}.png')
+                await p.locator('.drawer-h .iconbtn').click(); await p.wait_for_timeout(100)
+            # the settings drawer on the page: every setting, saving, reset
+            await p.evaluate("go('type'); Object.assign(S.set.ty, defState().set.ty); save()"); await p.wait_for_timeout(250)
+            await p.locator('#tySet').click(); await p.wait_for_timeout(250)
+            n = await p.locator('.ty-drawer [data-tyset]').count()
+            if n != await p.evaluate("TY_SET.length"): errors.append(f'{tag} settings drawer shows {n} settings')
+            await check(p, f'{tag} settings drawer'); await p.screenshot(path=f'{SHOTS}/settings_{w}.png')
+            await p.locator('.ty-drawer [data-tyset="tones"] button[data-v="none"]').click()
+            await p.locator('.ty-drawer [data-tyset="timer"] button[data-v="10"]').click(); await p.wait_for_timeout(200)
+            r = await p.evaluate("[S.set.ty.tones, S.set.ty.timer, JSON.parse(localStorage.getItem(LS_KEY)).set.ty.timer, !!document.querySelector('.ty-cchip')]")
+            if r != ['none', 10, 10, True]: errors.append(f'{tag} settings not saved or not shown on the page: {r}')
+            await p.locator('#tyReset').click(); await p.wait_for_timeout(200)
+            if await p.evaluate("S.set.ty.tones + S.set.ty.timer") != 'strict0': errors.append(f'{tag} reset did not restore the defaults')
+            await p.evaluate("Object.assign(S.set.ty, defState().set.ty); save()")
+            # 6) the Practice tile and Smart review can start typing
             await p.evaluate("go('practice')"); await p.wait_for_timeout(300)
             if not await p.locator('.hubtile[data-go="type"]').count(): errors.append(f'{tag} no 打字 tile on Practice')
             r = await p.evaluate("(() => { const q = TYPE_Q.type(); return q && q.kind; })()")

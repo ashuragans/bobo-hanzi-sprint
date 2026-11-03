@@ -167,9 +167,15 @@ async def main():
             await p.evaluate("S.seenIntro=true; WL.slice(0,120).forEach((w,i)=>{S.cards[w.k]=[i%5,Date.now()-1000,3,i%3]; S.wm[w.k]=[.6,.4,.3,.3,.2,.1]}); S.conf[WL[3].k]={[WL[5].k]:2}; S.look[WL[7].k]=1; S.path['L0-0']=1; S.path['L0-1']=1; save(); go('learn')")
             await tg['clear_modals'](p); await p.wait_for_timeout(400)
             tag = f'[{vp[0]}]'
-            for v, prm in [('learn', '{}'), ('practice', '{}'), ('write', '{}'), ('test', '{}'), ('me', "{tab:'quests'}"), ('me', "{tab:'badges'}"), ('me', "{tab:'ward'}"), ('me', "{tab:'plan'}"), ('me', "{tab:'stats'}"), ('me', "{tab:'save'}"), ('lessons', '{}'), ('cards', '{}'), ('grammar', '{}'), ('drills', '{}')]:
+            for v, prm in [('learn', '{}'), ('practice', '{}'), ('write', '{}'), ('test', '{}'), ('me', "{tab:'quests'}"), ('me', "{tab:'badges'}"), ('me', "{tab:'ward'}"), ('me', "{tab:'plan'}"), ('me', "{tab:'stats'}"), ('me', "{tab:'save'}"), ('lessons', '{}'), ('cards', '{}'), ('grammar', '{}'), ('drills', '{}'), ('type', '{}')]:
                 await p.evaluate(f"go('{v}',{prm})"); await p.wait_for_timeout(450)
                 await check(p, f'{tag} {v}{prm}')
+            # 打字 with changed settings (chips on the page) and the typing settings drawer
+            await p.evaluate("Object.assign(S.set.ty, { tones: 'none', timer: 10, hearts: 3, live: 0, typo: 1 }); save(); go('type')"); await p.wait_for_timeout(400)
+            await check(p, f'{tag} type with settings')
+            await p.evaluate("tySettings(() => go('type'))"); await p.wait_for_timeout(300)
+            await check(p, f'{tag} typing settings drawer')
+            await p.evaluate("closeDrawer(); Object.assign(S.set.ty, defState().set.ty); save()")
             # node popover open
             await p.evaluate("go('learn')"); await p.wait_for_timeout(400)
             await p.locator('.node.current').click(); await p.wait_for_timeout(300); await check(p, f'{tag} npop')

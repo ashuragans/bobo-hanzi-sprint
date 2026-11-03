@@ -49,7 +49,8 @@ function defState() {
     bestCombo: 0, name: '', freeze: 0, dayLog: {}, lastNode: '', seenIntro: false,
     wm: {}, conf: {}, look: {}, sk: {}, pk: {}, dial: .35, recentS: [], fs: {}, cc: {}, qs: {}, ga: {}, miss: {}, myMn: {}, mt: {},
     ty: {}, tt: {}, tc: {}, // 打字 typing practice (app16): per word, per tone, tone mix-ups
-    set: { ph: 'py', en: true, rate: 0.85, sfx: true, shadow: false, hint: 'tap', hintV: 2, ty: { deck: 'L78', face: 'mix', n: 15, tones: 'strict', retype: 1 } } };
+    set: { ph: 'py', en: true, rate: 0.85, sfx: true, shadow: false, hint: 'tap', hintV: 2, ty: { deck: 'L78', face: 'mix', n: 15, tones: 'strict', retype: 1,
+      live: 1, keys: 1, prev: 1, uu: 0, typo: 0, hints: 1, say: 1, auto: 0, detail: 'full', timer: 0, hearts: 0, newN: -1 } } };
 }
 function normalize(s) {
   const d = defState();

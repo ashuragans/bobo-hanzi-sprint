@@ -87,7 +87,10 @@ src/                 app code, concatenated in numeric order (app1 … app15) in
                      back, a trick card for words that keep slipping. tyRevealHTML(): tone colours (1 sky · 2 jade · 3 gold · 4 seal ·
                      light grey), tone melody, sound clue from the character's parts (DATA.partpy), memory story, example. Lesson decks also
                      get a card for the book's other spellings (tyVariants: 超級市場, 錶). S.ty[k] = [right in a row, right, answers, last],
-                     S.tt = per-tone [right, total], S.tc['3>2'] = tone mix-ups, S.set.ty = deck, mode, length, tones, retype
+                     S.tt = per-tone [right, total], S.tc['3>2'] = tone mix-ups, S.set.ty = the typing settings: deck, mode, cards,
+                     tones (strict · loose · none = letters only), live tone marks, tone keys, preview, u for ü, one-letter slips,
+                     hints, retype, say, auto-next, answer detail, time per card, hearts, new words. TY_SET lists them for the
+                     settings drawer (tySettings, on the page and ⚙️ on every card); their defaults live in defState (app1)
 content/
   content.py         Lessons 1–3 (from the class slides), GRAMMAR, DRILLS, READING, ROUTINE, MNEMO
   content2.py        Lessons 4–6 (book word lists; L4–5 practice dialogues written for this site; L6 dialogues, words and exercises from the class slides), more grammar and drills
@@ -122,6 +125,8 @@ tests/               Playwright tests + run_all.py
   A good story is a picture that ties the parts to the meaning ("a hungry beggar (乞) opens his mouth (口) wide: eat"), not a definition.
   Tune who gets a trick in `hardScore()` (app15) and the `hardScore(w.k) >= 2.5` line in `wordGen` (app9).
 - **Look-alikes:** build.py computes `DATA.look` from strokes.json (shape + shared components); app12 adds the student's own mix-ups (`S.cc`, recorded by `noteWordMix`) and the hand-picked `LOOK` sets in app4. Multiple-choice options keep their word keys in `optK`; `mcq()` shuffles both together.
+- **Typing settings:** add the default to `set.ty` in `defState()` (app1; normalize fills it in for old saves), a row to `TY_SET`
+  (app16) and read it from `S.set.ty` in `typeCard()` when the card is shown, so a change from ⚙️ applies from the next card.
 - **Typing practice:** a word is typable when all its characters are Han and `pyUnits()` reads its pinyin (test_type.py checks every
   lesson word). Change what counts as right in `tyGrade()`/`tyGradeUnits()`, the tips in `toneTipsHTML()`/`spellTipsHTML()`, how often
   a word comes back in `tyPriority()`, how many new words a session teaches in `tyNewN()`, and the decks in `TY_DECKS`/`tyDeckWords()` (app16).

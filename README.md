@@ -6,6 +6,9 @@ writing practice, listening, and teacher-style tests, with an adaptive Smart rev
 **打字 Type the pinyin** (its own tab): flashcards where you type each word's pinyin with its tones (`ma3` turns into `mǎ`,
 or tap a tone key), from the characters, the sound or the meaning. New words are copied once, mistakes are typed again
 and come back until they stick, and every card shows the word in tone colours with a memory story, a sound clue and an example.
+Everything about typing can be changed under ⚙️ (on the page or on any card): type tones, tones optional or no tones at all,
+tone numbers or marks, tone keys, u for ü, forgiving one-letter slips, hints, retyping after a mistake, sound, auto-next,
+a time limit per card, hearts, and how many cards and new words a session has.
 
 It runs in any browser on a phone or a computer. Progress is saved in the browser. To move it to another device, use
 **我的 Me → 存檔 Save → Copy backup code**, then **Restore** on the other device.
